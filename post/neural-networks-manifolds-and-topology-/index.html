@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Deep learning Blog  | Neural Networks, Manifolds, and Topology</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.5" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="https://rroundtable.github.io/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Neural Networks, Manifolds, and Topology" />
+<meta property="og:description" content="Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
+이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
+topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
+도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.
+유사해 보이지만 서로 다른 topology를 가진다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/" />
+
+
+<meta itemprop="name" content="Neural Networks, Manifolds, and Topology">
+<meta itemprop="description" content="Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
+이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
+topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
+도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.
+유사해 보이지만 서로 다른 topology를 가진다.">
+
+
+
+<meta itemprop="wordCount" content="968">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Neural Networks, Manifolds, and Topology"/>
+<meta name="twitter:description" content="Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
+이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
+topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
+도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.
+유사해 보이지만 서로 다른 topology를 가진다."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Deep learning Blog
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/laozhu" title="Works page">
+              Works
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/" title="Tags page">
+              Tags
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="github_username" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Neural Networks, Manifolds, and Topology</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="0001-01-01T00:00:00Z">January 1, 0001</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<h1 id="neural-networks-manifolds-and-topology">Neural Networks, Manifolds, and Topology</h1>
+
+<p>Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.</p>
+
+<p>이런 문제를 해결하고자 이번 글에서는 <a href="https://www.youtube.com/watch?v=C-eJW0gEm5w">topology</a>(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 <a href="Who cares about topology?">Who cares about topology?</a>를 보시는 것을 추천드립니다.</p>
+
+<p>topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/60272355-f3d6d980-992e-11e9-9f89-c78ac15a5b53.png" alt="" /></p>
+
+<p>도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/60272359-f5a09d00-992e-11e9-824e-4e50a1bd8b7c.png" alt="" /></p>
+
+<p>유사해 보이지만 서로 다른 topology를 가진다.</p>
+
+<h2 id="예시1">예시1</h2>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_linear.png" alt="" /></p>
+
+<p>(A) <strong>only input layer - output layer
+- blue line:  class 0 dataset
+- red line: class 1 dataset
+- blue shade: class 0로 판별한 부분
+- red shade: class 1로 판별한 부분</strong></p>
+
+<p>neural network(classifier)가 어떻게 작동하는지 알고 싶다면, 모든 가능한 data point에서 어떻게 판별하는지 관찰하면 된다.  위의 그림은 input layer와 output layer만 존재할 때의 모습이다. 직선으로 나누어지는 이유는 선형적인 판별기이기 때문이다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_0.png" alt="" /></p>
+
+<p>(B) <strong>input layer - output layer with multi hidden layers
+- blue line:  class 0 dataset
+- red line: class 1 dataset
+- blue shade: class 0로 판별한 부분
+- red shade: class 1로 판별한 부분</strong></p>
+
+<p>위의 그림은 multi hidden layer를 삽입하였을 때, neural network가 classify하는 모습이다. 전의 이미지 (A)와 비교해봤을 때, 더 복잡한 곡선의 decision boundary를 가지고 있다. 이는 hidden layer를 거칠때마다 새로운 feautre representation을 하기 때문에 가능해진다. (선형성이 파괴된다)</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_1.png" alt="" /></p>
+
+<p>&copy; hidden layer는 data가 선형적으로 분리되는 방향으로 representation하도록 학습된다.</p>
+
+<p>위의 그림 &copy;는 해당 모델의 첫번째 layer의 representation 모습을 시각화한 것이다. 해당 representaion된 그래프에서 class 0과 class 1은 선형적으로 분리되고 있음을 보여준다. 이를 해석하자면 &copy;에서는 representation된 공간에서는 결국 선형적으로 분리하고 있지만 이를 raw representation (B)에서 보면 비선형적으로 보이는 것이다.</p>
+
+<h2 id="연속적으로-layer-시각화하기">연속적으로 layer 시각화하기</h2>
+
+<p><a href="https://upload.wikimedia.org/wikipedia/commons/c/cb/Geometric_affine_transformation_example.png">affine transformation</a>:  공선점을 보존하는 점대응 변환</p>
+
+<p>monotone activation:  주어진 순서를 보존하는 함수, 줄곧 상승하거나 줄곧 하강한다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/1layer.gif" alt="" /></p>
+
+<ol>
+<li>linear transformation by the weight matrix: affine transforamtion</li>
+<li>translation by the vector b (bias)</li>
+<li>point-wise application of tanh: monotone activation</li>
+</ol>
+
+<p>위의 이미지는 caption의 3가지 과정을 거치는 모습을 보여준다. 이 과정은 affine transformation, add bias, monotone activation(tanh)를 거치는 것이다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/spiral.1-2.2-2-2-2-2-2.gif" alt="" /></p>
+
+<p>(D) 두 클레스를 잘 분리하는 예시</p>
+
+<p>(D)를 보면, raw representation에서 higer representation으로 mapping되는 과정을 볼 수 있다. 마지막 부분을 보면 결과적으로 두 클레스를 잘 분리하고 있다. higher representation space에서 선형적으로 분리할 수 있다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/spiral.2.2-2-2-2-2-2-2.gif" alt="" /></p>
+
+<p>(E) 두 클레스를 잘 분리하지 못하는 예시</p>
+
+<p>(E)를 보면, 두 클레스가 섞여있는 모습을 보여준다. 이는 high representation에서 선형적으로 판별할 수 없음을 보여준다.</p>
+
+<h2 id="topology-of-tanh-layers">Topology of tanh Layers</h2>
+
+<p><img src="https://www.medcalc.org/manual/_help/functions/tanh.png" alt="" /></p>
+
+<p>Tanh 함수</p>
+
+<p>tanh는 연속함수이며 monotone function으로 순서를 보존한다. 이는 기존의 topology를 훼손시키지 않는다고 볼 수 있다.</p>
+
+<p>**[input과 output의 topology가 같아야 하는가?]</p>
+
+<ul>
+<li>topology가 다르다면, 기존 데이터가 훼손되며 복구할 수 없다.**</li>
+</ul>
+
+<h2 id="topology-와-classification">Topology 와 Classification</h2>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/60272363-f802f700-992e-11e9-9d0a-354721062357.png" alt="" /></p>
+
+<p>위의 문제는 3이상의 hidden units이 없다면 적절하게 해결할 수 없다.</p>
+
+<p>softmax layer와 sigmoid layer는 모두 해당 representation space에서 선형적으로 구분할 수 있는 hyperplane을 찾는 역할을 한다.</p>
+
+<p>위의 문제는 3차원이상의 representation space에서 구분할 수 있다. 이는 아래의 과정을 보면 알 수 있다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/topology_2D-2D_train.gif" alt="" /></p>
+
+<p>2차원 공간에서는 해결 할 수 없음을 보여준다.</p>
+
+<p><strong>[증명] : 2차원 공간의 mapping하는 layer를 늘려도 해결되지 않는다.</strong>
+각 layer는 다른 layer와 homeomorphism 이거나 각 layer의 weight matrix는 determinant가 0이다. (inverse matrix가 존재 하지 않는다.)</p>
+
+<p>만약 homeomorphism을 가정한다면, 위의 그림 파란색 부분이 여전히 빨간색 부분을 감싸고 있을 것이다. 하지만<strong>, determinant가 0</strong>이라면 해당 linear transformation은 데이터의 topology를 훼손시킨다. 이는 파란부분과 붉은 부분이 섞여 구분할 수 없음을 의미한다.</p>
+
+<p>따라서 depth를 늘리더라도 2차원 공간에서는 해결할 수 없다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/topology_3d.png" alt="" /></p>
+
+<p>3차원 공간에 mapping하면 쉽게 해결됩니다.</p>
+
+<h2 id="the-manifold-hypothesis">The Manifold Hypothesis</h2>
+
+<p>참고: <a href="http://www.mit.edu/~mitter/publications/121_Testing_Manifold.pdf">MIT paper</a></p>
+
+<p>manifold hypothesis란 real-world의 data가 더 낮은 차원의 embedding 차원에서 manifold로 존재한다는 것이다. 이 가설은 실험적으로 이론적으로 증명되었다. 만약 이 가설을 가정한다면, deep learning의 classification문제는 서로 엉켜있는 manifold를 분리하는 문제로 볼 수 있다.</p>
+
+<h2 id="links-and-homotopy">Links And Homotopy</h2>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/link.png" alt="" /></p>
+
+<p>위의 문제는 N + 1차원의 representation을 사용하지 않으면 해결할 수 없다. ([Topology 와 Classification] 의 증명부분 참고)</p>
+
+<p>Link는 <a href="https://www.youtube.com/watch?v=kxaWqKM5JyQ">Knot theory</a>에서 연구되는 주제이다. 우리가 link를 접할 때 그것이 unlink상태인지 link상태인지 판별하기 힘들다. knot theory는 그것을 도와준다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/unlink-2spiral.png" alt="" /></p>
+
+<p>A relatively simple unlink</p>
+
+<p>만약에 3차원상의 문제를  3차원 공간에 representation하여 풀 수 있다면, 그 문제는 <strong>unlink</strong>인 상태이다.</p>
+
+<p>여기서 질문! 모든 unlink문제는 해당 차원안에서 해결 할 수 있는가?</p>
+
+<p>knot의 관점에서 neural network는 결국 link의 문제를 untangling하려는 것이다. 이것을 topology관점에서는 original link와 분리된 결과 사이의 *ambient isotopy*라고 부른다. 즉, 한 매듭에서 끈을 서로 통과시키지 않으면서 연속적으로 다른 매듭으로 변할 수 있는 상태입니다.</p>
+
+<p>A와 B사이의 ambient isotopy는 연속적인 함수입니다.</p>
+
+<p>$$F:[0, 1] \times X \longrightarrow Y$$</p>
+
+<p>F_t는 X를 homeomorphism하게 변화시키는 함수입니다. F_0은 indentity function이고 F_1은 A 를 B로 mapping시키는 함수입니다. 다시 말해서, F는 연속적으로 A에서 자기자신부터 B로 mapping해나가는 함수입니다. 0일수록 자기자신에 가깝고, 1일 수록 B에 가깝다는 뜻입니다.</p>
+
+<p><strong>[증명]: neural networt에서 input과 representation된 결과는 ambient isotopy의 관계를 가진다.</strong></p>
+
+<ol>
+<li>weight matrix W는 positive determinant를 가진다고 가정
+determinant가 0이 아니다. 또한 음수일 경우에는 hidden nueron의 위치를 바꿔서 양수로 만들 수 있다. 이러한 조건이 필요한 이유는 positive matrix의 공간은 <a href="https://ko.wikipedia.org/wiki/%EC%97%B0%EA%B2%B0_%EA%B3%B5%EA%B0%84">path-connected</a>한 성질을 가진다. 위의 함수 P를 정의하기 위해서 필요한 조건.</li>
+</ol>
+
+<p>$$P(0): [0, 1] \longrightarrow GL_{n}(\mathbb{R})^5$$</p>
+
+<p>$$P(0) = Id \ and \ P(1) = W$$</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Path-connected_space.svg/330px-Path-connected_space.svg.png" alt="" /></p>
+
+<p>path-connected(연결공간)의 예시</p>
+
+<ol>
+<li>연속적으로 transition이 가능하다. ( from identity function to b translation)</li>
+</ol>
+
+<p>$$x \longrightarrow x +tb$$</p>
+
+<ol>
+<li>연속적으로 trainsition이 가능하다. (activation )</li>
+</ol>
+
+<p>$$x \longrightarrow / (1-t)x + t\sigma(x)$$</p>
+
+<p>위의 증명을 바탕으로 알 수 있는 것은 N 차원의 link문제를 해결하기 위해서는 더 높은 차원의 representatnion이 필요하며 이론적으로 n차원의 link문제는 2n + 2의 차원에서 모두 해결가능하다고 한다. <a href="https://en.wikipedia.org/wiki/Whitney_embedding_theorem#Isotopy_versions">[Isotopy versions]</a></p>
+
+<h2 id="manifold를-다루는-더-좋은-layers">Manifold를 다루는 더 좋은 layers</h2>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/grid_vec.png" alt="" /></p>
+
+<p>2차원 공간에 위의 그림과 같이 vector들이 있다고 가정한다. 해당 vector의 방향성은 representation 공간의 변화와 관계가 있다.</p>
+
+<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/grid_bubble.png" alt="" /></p>
+
+<p>위의 그림은 representation space를 나타낸 것이다. 눈금자의 간격이 클 수록 더 멀리 vector를 이동시킬 수 있다.</p>
+
+<p>$$F(x) = \frac{v_0f_0(x) + v_1f_1(x)}{1+f_0(x)+f_1(x)}$$</p>
+
+<p>V_0과 V_1는 vector이며 f_0과 f_1은 n차원의 gaussian이다.</p>
+
+<h2 id="k-nearest-neighbor-layers">K-Nearest Neighbor Layers</h2>
+
+<p><strong>representation space에서 linear하게 판별하는 게 부적절할 수 있다. 그것에 대한 대안으로 K-NN을 실험해보았다.</strong>
+nueral network가 하는 일이 KNN과 하는 일과 비슷할 수 있다. KNN이 잘 작동하기 위해서는 적절한 representation 공간이 필요하다.</p>
+
+<p><img src="https://ds055uzetaobb.cloudfront.net/brioche/uploads/s74o5JiHWP-two-images3.jpg?width=1200" alt="" /></p>
+
+<p>KNN</p>
+
+<p>As a first experiment, I trained some MNIST networks (two-layer convolutional nets, no dropout) that achieved ∼1% test error. I then dropped the final softmax layer and used the k-NN algorithm. I was able to consistently achieve a reduction in test error of 0.1-0.2%.</p>
+
+<p><strong>정리하자면, trained된 모델을 test할 때, softmax layer대신에 K-NN을 사용했더니 test error가 0.1 ~ 0.2까지 개선된 것을 확인 할  수 있었다는 것이다.</strong></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
+    &copy; 2019 Deep learning Blog
+  </a>
+    <div>
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="github_username" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="https://rroundtable.github.io/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
