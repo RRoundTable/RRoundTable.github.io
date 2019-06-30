@@ -32,8 +32,8 @@
 <meta property="og:description" content="Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
 이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
 topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
-도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.
-유사해 보이지만 서로 다른 topology를 가진다." />
+ Fig.1 - same topology  
+도넛과 물컵은 같은 topology를 가진다." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/" />
 
@@ -42,12 +42,12 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
 <meta itemprop="description" content="Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
 이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
 topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
-도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.
-유사해 보이지만 서로 다른 topology를 가진다.">
+ Fig.1 - same topology  
+도넛과 물컵은 같은 topology를 가진다.">
 
 
 
-<meta itemprop="wordCount" content="968">
+<meta itemprop="wordCount" content="995">
 
 
 
@@ -57,8 +57,8 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
 <meta name="twitter:description" content="Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
 이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
 topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
-도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.
-유사해 보이지만 서로 다른 topology를 가진다."/>
+ Fig.1 - same topology  
+도넛과 물컵은 같은 topology를 가진다."/>
 
   </head>
 
@@ -161,7 +161,7 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
     <main class="pb7" role="main">
       
   
-  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+  <article class="flex-l flex-wrap justify-between mw8 center">
 
     <header class="mt4 w-100">
       <p class="f6 b helvetica tracked">
@@ -174,8 +174,7 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
       
       
     </header>
-
-    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
 
 <h1 id="neural-networks-manifolds-and-topology">Neural Networks, Manifolds, and Topology</h1>
 
@@ -185,37 +184,65 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
 
 <p>topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.</p>
 
-<p><img src="https://user-images.githubusercontent.com/27891090/60272355-f3d6d980-992e-11e9-9f89-c78ac15a5b53.png" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://user-images.githubusercontent.com/27891090/60272355-f3d6d980-992e-11e9-9f89-c78ac15a5b53.png" width=350 height=400>
+    <figcaption>Fig.1 - same topology</figcaption>
+</figure>
+</center></p>
 
-<p>도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문에.</p>
-
-<p><img src="https://user-images.githubusercontent.com/27891090/60272359-f5a09d00-992e-11e9-824e-4e50a1bd8b7c.png" alt="" /></p>
+<p>도넛과 물컵은 같은 topology를 가진다. 왜냐하면 구멍이 하나이기 때문입니다..
+<center>
+<figure class="image">
+    <img src="https://user-images.githubusercontent.com/27891090/60272359-f5a09d00-992e-11e9-824e-4e50a1bd8b7c.png" width=350 height=400>
+    <figcaption>Fig.2 - different topology</figcaption>
+</figure>
+</center></p>
 
 <p>유사해 보이지만 서로 다른 topology를 가진다.</p>
 
 <h2 id="예시1">예시1</h2>
 
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_linear.png" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_linear.png" width=350 height=400>
+</center>
+    <figcaption>(A) only input layer - output layer</p>
 
-<p>(A) <strong>only input layer - output layer
-- blue line:  class 0 dataset
-- red line: class 1 dataset
-- blue shade: class 0로 판별한 부분
-- red shade: class 1로 판별한 부분</strong></p>
+<ul>
+<li>blue line:  class 0 dataset</li>
+<li>red line: class 1 dataset</li>
+<li>blue shade: class 0로 판별한 부분</li>
+<li>red shade: class 1로 판별한 부분
+</figcaption>
+</figure></li>
+</ul>
 
 <p>neural network(classifier)가 어떻게 작동하는지 알고 싶다면, 모든 가능한 data point에서 어떻게 판별하는지 관찰하면 된다.  위의 그림은 input layer와 output layer만 존재할 때의 모습이다. 직선으로 나누어지는 이유는 선형적인 판별기이기 때문이다.</p>
 
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_0.png" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_0.png" width=350 height=400>
+</center>
+    <figcaption>(B) input layer - output layer with multi hidden layers</p>
 
-<p>(B) <strong>input layer - output layer with multi hidden layers
-- blue line:  class 0 dataset
-- red line: class 1 dataset
-- blue shade: class 0로 판별한 부분
-- red shade: class 1로 판별한 부분</strong></p>
+<ul>
+<li>blue line:  class 0 dataset</li>
+<li>red line: class 1 dataset</li>
+<li>blue shade: class 0로 판별한 부분</li>
+<li>red shade: class 1로 판별한 부분
+</figcaption>
+</figure></li>
+</ul>
 
-<p>위의 그림은 multi hidden layer를 삽입하였을 때, neural network가 classify하는 모습이다. 전의 이미지 (A)와 비교해봤을 때, 더 복잡한 곡선의 decision boundary를 가지고 있다. 이는 hidden layer를 거칠때마다 새로운 feautre representation을 하기 때문에 가능해진다. (선형성이 파괴된다)</p>
-
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_1.png" alt="" /></p>
+<p>위의 그림은 multi hidden layer를 삽입하였을 때, neural network가 classify하는 모습이다. 전의 이미지 (A)와 비교해봤을 때, 더 복잡한 곡선의 decision boundary를 가지고 있다. 이는 hidden layer를 거칠때마다 새로운 feautre representation을 하기 때문에 가능해진다. (선형성이 파괴된다)
+<center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/simple2_1.png" width=150 height=350>
+</center>
+    <figcaption> &copy;
+</figcaption>
+</figure></p>
 
 <p>&copy; hidden layer는 data가 선형적으로 분리되는 방향으로 representation하도록 학습된다.</p>
 
@@ -225,35 +252,56 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
 
 <p><a href="https://upload.wikimedia.org/wikipedia/commons/c/cb/Geometric_affine_transformation_example.png">affine transformation</a>:  공선점을 보존하는 점대응 변환</p>
 
-<p>monotone activation:  주어진 순서를 보존하는 함수, 줄곧 상승하거나 줄곧 하강한다.</p>
-
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/1layer.gif" alt="" /></p>
+<p>monotone activation:  주어진 순서를 보존하는 함수, 줄곧 상승하거나 줄곧 하강한다.
+<center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/1layer.gif" width=200 height=500>
+</center>
+    <figcaption></p>
 
 <ol>
-<li>linear transformation by the weight matrix: affine transforamtion</li>
-<li>translation by the vector b (bias)</li>
-<li>point-wise application of tanh: monotone activation</li>
+<li><p>linear transformation by the weight matrix: affine transforamtion</p></li>
+
+<li><p>translation by the vector b (bias)</p></li>
+
+<li><p>point-wise application of tanh: monotone activation
+</figcaption>
+</figure></p></li>
 </ol>
 
 <p>위의 이미지는 caption의 3가지 과정을 거치는 모습을 보여준다. 이 과정은 affine transformation, add bias, monotone activation(tanh)를 거치는 것이다.</p>
 
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/spiral.1-2.2-2-2-2-2-2.gif" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/spiral.1-2.2-2-2-2-2-2.gif" width=200 height=500>
+</center>
+    <figcaption>
+(D) 두 클레스를 잘 분리하는 예시
+</figcaption>
+</figure></p>
 
 <p>(D) 두 클레스를 잘 분리하는 예시</p>
 
-<p>(D)를 보면, raw representation에서 higer representation으로 mapping되는 과정을 볼 수 있다. 마지막 부분을 보면 결과적으로 두 클레스를 잘 분리하고 있다. higher representation space에서 선형적으로 분리할 수 있다.</p>
-
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/spiral.2.2-2-2-2-2-2-2.gif" alt="" /></p>
-
-<p>(E) 두 클레스를 잘 분리하지 못하는 예시</p>
+<p>(D)를 보면, raw representation에서 higer representation으로 mapping되는 과정을 볼 수 있다. 마지막 부분을 보면 결과적으로 두 클레스를 잘 분리하고 있다. higher representation space에서 선형적으로 분리할 수 있다.
+<center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/spiral.2.2-2-2-2-2-2-2.gif" width=200 height=500>
+</center>
+    <figcaption>
+(E) 두 클레스를 잘 분리하지 못하는 예시
+</figcaption>
+</figure></p>
 
 <p>(E)를 보면, 두 클레스가 섞여있는 모습을 보여준다. 이는 high representation에서 선형적으로 판별할 수 없음을 보여준다.</p>
 
 <h2 id="topology-of-tanh-layers">Topology of tanh Layers</h2>
 
-<p><img src="https://www.medcalc.org/manual/_help/functions/tanh.png" alt="" /></p>
-
-<p>Tanh 함수</p>
+<p><center>
+<figure class="image">
+    <img src="https://www.medcalc.org/manual/_help/functions/tanh.png" width=200 height=500>
+    <figcaption> Tanh 함수</figcaption>
+</figure>
+</center></p>
 
 <p>tanh는 연속함수이며 monotone function으로 순서를 보존한다. 이는 기존의 topology를 훼손시키지 않는다고 볼 수 있다.</p>
 
@@ -271,9 +319,13 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
 
 <p>softmax layer와 sigmoid layer는 모두 해당 representation space에서 선형적으로 구분할 수 있는 hyperplane을 찾는 역할을 한다.</p>
 
-<p>위의 문제는 3차원이상의 representation space에서 구분할 수 있다. 이는 아래의 과정을 보면 알 수 있다.</p>
-
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/topology_2D-2D_train.gif" alt="" /></p>
+<p>위의 문제는 3차원이상의 representation space에서 구분할 수 있다. 이는 아래의 과정을 보면 알 수 있다.
+<center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/topology_2D-2D_train.gif" width=200 height=500>
+    <figcaption> 2차원공간에서 실패하는 예제</figcaption>
+</figure>
+</center></p>
 
 <p>2차원 공간에서는 해결 할 수 없음을 보여준다.</p>
 
@@ -296,15 +348,22 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
 
 <h2 id="links-and-homotopy">Links And Homotopy</h2>
 
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/link.png" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/link.png" width=200 height=500>
+    <figcaption> 위의 문제는 N + 1차원의 representation을 사용하지 않으면 해결할 수 없다. ([Topology 와 Classification] 의 증명부분 참고)</figcaption>
+</figure>
+</center></p>
 
 <p>위의 문제는 N + 1차원의 representation을 사용하지 않으면 해결할 수 없다. ([Topology 와 Classification] 의 증명부분 참고)</p>
 
-<p>Link는 <a href="https://www.youtube.com/watch?v=kxaWqKM5JyQ">Knot theory</a>에서 연구되는 주제이다. 우리가 link를 접할 때 그것이 unlink상태인지 link상태인지 판별하기 힘들다. knot theory는 그것을 도와준다.</p>
-
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/unlink-2spiral.png" alt="" /></p>
-
-<p>A relatively simple unlink</p>
+<p>Link는 <a href="https://www.youtube.com/watch?v=kxaWqKM5JyQ">Knot theory</a>에서 연구되는 주제이다. 우리가 link를 접할 때 그것이 unlink상태인지 link상태인지 판별하기 힘들다. knot theory는 그것을 도와준다.
+<center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/unlink-2spiral.png" width=200 height=500>
+    <figcaption> A relatively simple unlink</figcaption>
+</figure>
+</center></p>
 
 <p>만약에 3차원상의 문제를  3차원 공간에 representation하여 풀 수 있다면, 그 문제는 <strong>unlink</strong>인 상태이다.</p>
 
@@ -327,11 +386,13 @@ determinant가 0이 아니다. 또한 음수일 경우에는 hidden nueron의 �
 
 <p>$$P(0): [0, 1] \longrightarrow GL_{n}(\mathbb{R})^5$$</p>
 
-<p>$$P(0) = Id \ and \ P(1) = W$$</p>
-
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Path-connected_space.svg/330px-Path-connected_space.svg.png" alt="" /></p>
-
-<p>path-connected(연결공간)의 예시</p>
+<p>$$P(0) = Id \ and \ P(1) = W$$
+<center>
+<figure class="image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Path-connected_space.svg/330px-Path-connected_space.svg.png" width=200 height=200>
+    <figcaption> path-connected(연결공간)의 예시</figcaption>
+</figure>
+</center></p>
 
 <ol>
 <li>연속적으로 transition이 가능하다. ( from identity function to b translation)</li>
@@ -349,11 +410,19 @@ determinant가 0이 아니다. 또한 음수일 경우에는 hidden nueron의 �
 
 <h2 id="manifold를-다루는-더-좋은-layers">Manifold를 다루는 더 좋은 layers</h2>
 
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/grid_vec.png" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/grid_vec.png" width=200 height=400>
+</figure>
+</center></p>
 
 <p>2차원 공간에 위의 그림과 같이 vector들이 있다고 가정한다. 해당 vector의 방향성은 representation 공간의 변화와 관계가 있다.</p>
 
-<p><img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/grid_bubble.png" alt="" /></p>
+<p><center>
+<figure class="image">
+    <img src="https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/img/grid_bubble.png" width=200 height=400>
+</figure>
+</center></p>
 
 <p>위의 그림은 representation space를 나타낸 것이다. 눈금자의 간격이 클 수록 더 멀리 vector를 이동시킬 수 있다.</p>
 
@@ -406,25 +475,6 @@ nueral network가 하는 일이 KNN과 하는 일과 비슷할 수 있다. KNN�
       
       </div>
     </section>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/">What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? </a>
-        </li>
-	    
-    </ul>
-</div>
-
-</aside>
-
   </article>
 
     </main>
