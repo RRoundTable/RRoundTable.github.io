@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Deep learning Blog</title>
-    <link>https://rroundtable.github.io/</link>
-    <description>Recent content on Deep learning Blog</description>
+    <title>deeplearning on Deep learning Blog</title>
+    <link>https://rroundtable.github.io/tags/deeplearning/</link>
+    <description>Recent content in deeplearning on Deep learning Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>�� This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License��please give source if you wish to quote or reproduce.</copyright>
     <lastBuildDate>Sat, 29 Jun 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://rroundtable.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://rroundtable.github.io/tags/deeplearning/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -21,18 +21,6 @@
       <description>이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)
   aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다.  regression task에서 각각의 uncertainty에 대해서 알아보도록 하겠습니다.
 Epistemic uncertainty  Fig.1 - Gaussian Process</description>
-    </item>
-    
-    <item>
-      <title>about me</title>
-      <link>https://rroundtable.github.io/post/aboutme/</link>
-      <pubDate>Fri, 28 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://rroundtable.github.io/post/aboutme/</guid>
-      <description>Ryu Won-Tak PROJECTS Mixup implementation Data augmentation via convex combination.
-Hedged instance embedding implementation Modeled uncertainty by hedging the location of each input in embedding space.
-[low uncertainty in clean image] [high uncertainty in occluded image]
-Error encoding network implementation Visualized that the distance of different latent variables measures the similarity of images. **Mixture density network implementation ** Visualized explainable variance and unexplainable variance. AWARDS AND HONORS  Ocean litter detector</description>
     </item>
     
     <item>
