@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Deep learning Blog  | What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? </title>
+    <title>RoundTable  | What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? </title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -45,7 +45,7 @@ Epistemic uncertainty  Fig.1 - Gaussian Process">
 
 <meta itemprop="datePublished" content="2019-06-29T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2019-06-29T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1514">
+<meta itemprop="wordCount" content="1515">
 
 
 
@@ -71,7 +71,7 @@ Epistemic uncertainty  Fig.1 - Gaussian Process"/>
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
     <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
-      Deep learning Blog
+      RoundTable
     </a>
     <div class="flex-l items-center">
       
@@ -94,6 +94,18 @@ Epistemic uncertainty  Fig.1 - Gaussian Process"/>
           <li class="list f5 f4-ns fw4 dib pr3">
             <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/post/aboutme" title="About me page">
               About me
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/categories/index.html" title="Categories page">
+              Categories
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/index.html" title="Tags page">
+              Tags
             </a>
           </li>
           
@@ -341,13 +353,13 @@ $$</code></p>
 H(p) = -\sum_{c=1}^{C}p_c\log{p_c}
 $$</p>
 
-<p>regression task의 경우 epistemic uncertainty는 predictive variance로 나타낼 수 있으며, 이는 아래의 식과 같습니다. (두번째 term)</p>
+<p>regression task의 경우 epistemic uncertainty는 predictive variance로 나타낼 수 있으며, 이는 아래의 식과 같습니다.</p>
 
 <p><code>$$
 \mathbf{Var}(y) \ \approx \theta^2 + \frac{1}{T}\sum_{t=1}^{T}f^{\hat{W}_{i}}(x_{i})^{T}f^{\hat{W}_{i}}(x_{i}) - \mathbf{E}(y) ^ {T}\mathbf{E}(y)
 $$</code></p>
 
-<p>이 epistemic model은 <code>$\mathbf{E}(y) \approx \frac{1}{T}\sum_{t=1}^{T}f^{\hat{W}_{i}}(x_{i}) $</code> predictive mean과 근사하는 방향으로 학습이 진행됩니다. 첫번째 term $\theta ^ 2$은 data 자체의 noise를 의미합니다. (aleatoric) 이는 뒷부분에서 자세히 다루겠습니다. 두번째 term은 predictive variance로 예측값에 대한 uncertainty를 나타냅니다. (epistemic)</p>
+<p>이 epistemic model은 <code>$\mathbf{E}(y) \approx \frac{1}{T}\sum_{t=1}^{T}f^{\hat{W}_{i}}(x_{i}) $</code> predictive mean과 근사하는 방향으로 학습이 진행됩니다.($E(y)$ 는 predictive mean) 첫번째 term $\theta ^ 2$은 data 자체의 noise를 의미합니다. (aleatoric) 이는 뒷부분에서 자세히 다루겠습니다. 두번째 term은 predictive variance로 예측값에 대한 uncertainty를 나타냅니다. (epistemic)</p>
 
 <p>참고로 aleatoric과 epistemic은 linear regression의 SSR, SSE의 개념과 유사합니다.</p>
 
@@ -521,7 +533,7 @@ $$</code></p>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
-    &copy; 2019 Deep learning Blog
+    &copy; 2019 RoundTable
   </a>
     <div>
 
@@ -595,17 +607,6 @@ $$</code></p>
 
 
 
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/">What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? </a>
-        </li>
-	    
-    </ul>
-</div>
 
 </div>
   </div>

@@ -17,14 +17,31 @@
   </url>
   
   <url>
-    <loc>https://rroundtable.github.io/</loc>
-    <lastmod>2019-06-29T00:00:00+00:00</lastmod>
+    <loc>https://rroundtable.github.io/categories/</loc>
+    <lastmod>2019-07-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/post/</loc>
-    <lastmod>2019-06-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/rkhs/</loc>
+    <lastmod>2019-07-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/</loc>
+    <lastmod>2019-07-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/categories/interview/</loc>
+    <lastmod>2019-07-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -49,11 +66,6 @@
   <url>
     <loc>https://rroundtable.github.io/tags/uncertainty/</loc>
     <lastmod>2019-06-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://rroundtable.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
