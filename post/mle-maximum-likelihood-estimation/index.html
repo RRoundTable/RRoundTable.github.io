@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>RoundTable </title>
+    <title>RoundTable  | MLE 와 MAP에 대하여</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -27,32 +27,42 @@
     
 
     
-      <link href="https://rroundtable.github.io/tags/index.xml" rel="alternate" type="application/rss+xml" title="RoundTable" />
-      <link href="https://rroundtable.github.io/tags/index.xml" rel="feed" type="application/rss+xml" title="RoundTable" />
-    
 
-    <meta property="og:title" content="Tags" />
-<meta property="og:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://rroundtable.github.io/tags/" />
+    <meta property="og:title" content="MLE 와 MAP에 대하여" />
+<meta property="og:description" content="MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
+동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/mle-maximum-likelihood-estimation/" />
+<meta property="article:published_time" content="2019-07-07T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-07-07T00:00:00&#43;00:00"/>
 
-<meta property="og:updated_time" content="2019-07-07T00:00:00&#43;00:00"/>
+<meta itemprop="name" content="MLE 와 MAP에 대하여">
+<meta itemprop="description" content="MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
+동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.">
 
-<meta itemprop="name" content="Tags">
-<meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
 
+<meta itemprop="datePublished" content="2019-07-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-07-07T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="568">
+
+
+
+<meta itemprop="keywords" content="interview,machine learning," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
-<meta name="twitter:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."/>
+<meta name="twitter:title" content="MLE 와 MAP에 대하여"/>
+<meta name="twitter:description" content="MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
+동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다."/>
 
   </head>
 
   <body class="ma0 avenir bg-near-white">
 
     
+   
+  
 
   <header>
-    <div class="pb3-m pb6-l bg-black">
+    <div class="bg-black">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
     <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
@@ -140,194 +150,183 @@
   </div>
 </nav>
 
-      <div class="tc-l pv3 ph3 ph4-ns">
-        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
-          Tags
-        </h1>
-        
-      </div>
     </div>
-    <script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
-</script>
   </header>
+
 
 
     <main class="pb7" role="main">
       
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">MLE 와 MAP에 대하여</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-07-07T00:00:00Z">July 7, 2019</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h1 id="mle-maximum-likelihood-estimation">MLE: Maximum Likelihood Estimation</h1>
+
+<p>*liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를  의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .</p>
+
+<p>동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.</p>
+
+<p>만약 동전을 100번 던졌을 때, 동전의 앞면이 56번 나왔다면 &lsquo;동전의 앞면이 나올 확률&rsquo;은 몇이라고 얘기할 수 있을까?  이 문제의 해답이 <strong>Maximum Likelihood</strong>를 구하는 것이다. 즉, observation이 주어졌을 때, 가장 그럴듯한 가설(혹은 parameter)를 찾는 문제가 <strong>Maximum Likelihood Estimation</strong>이다.</p>
+
+<p>동전 던지기는 이항분포를 따릅니다. x는 100번 던졌을 때 앞면이 나온 횟수를 의미하고 p는 앞면이 나올 확률을 의미합니다.
+<code>$$
+p(x) = \begin{pmatrix} n \\ x \end{pmatrix} p^x(1-p)^{n-x}
+$$</code>
+likelihood는 다음과 같이 정의됩니다. ($X$는 앞면이 나온 횟수, $\theta$는 앞면이 나올 확률)
+$$
+P(X|\theta)
+$$
+아래는 likelihood의 그래프입니다.</p>
+
+<p><img src="https://i.imgur.com/qa6ikOG.png"></p>
+
+<p>앞면이 나올 확률이 0. 56인 지점에서 가장 높은 likelihood를 가지고 있음을 알 수 있습니다.</p>
+
+<p><code>$$
+\hat{\theta} = argmax_{\theta}P(X|\theta)
+$$</code>
+$$
+\hat{\theta} = 0.56
+$$</p>
+
+<h2 id="classification-mle와-kl-divergence-cross-entropy">Classification: MLE와 KL-divergence, Cross Entropy</h2>
+
+<p>KL-divergence는 다음과 같이 정의됩니다.</p>
+
+<p><code>$$
+D_{KL}(P \rVert Q) = -\sum_{x \in X}P(x)\log{\frac{Q(x)}{P(x)}}
+$$</code></p>
+
+<p><code>$$
+D_{KL}(P \rVert Q) = -\sum_{x \in X}P(x)(\log{Q(x)} - \log{P(x)})
+$$</code></p>
+
+<p>즉, Q distribution과 P distribution간의 차이를 나타내주는 역할을 합니다. 만약 두 분포간의 차이를 나타내는데 필요한 정보량이 많다면, 두 분포는 차이가 크다고 할 수 있습니다.</p>
+
+<p>Cross entropy는 다음과 같이 정의 됩니다.
+<code>$$
+H(p, q) = -\sum_{x \in X}p(x)\log{q(x)} = E_p[-\log{q}]
+$$</code>
+실제 분포 $p$에 대해서 $-\log{q}$를 평균내는 것입니다. 만약, $q$가  p와 유사할 수록 cross entropy는 낮게 나올 것입니다.  사실 cross entropy는 kl-divergence에서 출발했다고 해석할 수도 있습니다. 아래 수식을 보면 $\log{P(x)}$는 실제 분포가 주어지면, constant term이 됩니다. 따라서 이를 제외하고 본 것이 cross entropy라고 해석할 수 있습니다.
+<code>$$
+D_{KL}(P \rVert Q) = -\sum_{x \in X}P(x)(\log{Q(x)} - \log{P(x)})
+$$</code></p>
+
+<p>그렇다면, MLE와 KLD, cross entropy는 어떤 관계를 가질까요? 결론부터 말씀드리면, 이들은 본질적으로 같은 일을 합니다. 아래는 수식입니다.
+<code>$$
+\begin{align}
+\theta_{ML} =\arg\max_{\theta}P_{model}(X|\theta) = \arg\max_{\theta}E_{X \sim P_{data}}[\log{P_{model}(x|\theta)}]
+\end{align}
+$$</code></p>
+
+<p><code>$$
+D_{KL}(P \rVert Q) = E_{x \sim P_{data}}[\log{P_{data}(x)} - \log{P_{model}(x)}]
+$$</code>
+<code>$$
+H(p, q) =  E_p[-\log{q}]
+$$</code></p>
+
+<p>KLD를 최소화한다는 것은 결국 cross entropy를 최소화하는 것과 같습니다. 그리고 cross entropy를 최소화 하는 것은 결국 likelihood를 최대화하는 것과 같습니다. 따라서 MLE가 하는 것은 모델이 추정한 데이터의 분포와 실제 데이터의 분포를 가장 유사하게 만들어주는 parameter를 찾는 것이라고 해석할 수 있습니다.</p>
+
+<h2 id="regression-mle와-method-of-least-squares">Regression: MLE와 Method of Least Squares</h2>
+
+<p>regression task에서는 MLE를 다음과 같이 정의할 수 있습니다.</p>
+
+<p><code>$$
+\begin{align}
+\theta_{ML} = \arg\max_{\theta} P_{model}(Y|X;\theta)=\arg\max_{\theta}\sum_{i=1}^{m}\log{P_{model}(y_i|x_i;\theta)}
+\end{align}
+$$</code></p>
+
+<p><code>$P_{model}$</code>이 Gaussian distribution이라고 가정하겠습니다. 위의 log term은 아래와 같이 전개됩니다.
+<code>$$
+\log{P_{model}(y_i|x_i;\theta)} = -m\log{\sigma} - \frac{m}{2}\log{2\pi}-\sum_{i=1}^m\frac{\rVert\hat{y}_i - y_i\rVert^2}{2\sigma^2}
+$$</code></p>
+
+<p>$\sigma^2$(분산)은 고정되어 있다고 가정하면, 결국  <code>$\rVert\hat{y}_i - y_i\rVert^2$</code>를 최소화하는 parameter $\theta$를 찾는 것이 MLE입니다. 이는 아래와 같이 결국 least square와 같은 일을 하게 됩니다.</p>
+
+<p>Least squares는 모델에 input을 넣었을때 나오는 output이 실제 target y와 차이를 나타내는 수식이며 이를 가장 작게하는 파라미터 $\theta$를 찾는 것이 관건입니다.
+<code>$$
+MSE = \frac{1}{m}\sum_{i=1}^m\rVert\hat{y}_i - y_i\rVert ^ 2
+$$</code></p>
+
+<h1 id="map-maximum-a-posterior-estimation">MAP: Maximum a Posterior Estimation</h1>
+
+<p>MAP는 MLE와 다르게, prior라는 assumption을 사용합니다.</p>
+
+<p>posterior $P(w|D)$ 는 아래와 같이 정의됩니다. ($P(w)$는 prior $P(D|W)$는 likelihood)
+$$
+P(w|D) = \frac{P(D|w) P(w)}{P(D)}
+$$
+위의 동전 던지기 예를 다시 살펴보겠습니다.</p>
+
+<p>만약 동전을 던졌을 때, 앞면이 나올확률이 0.5이라는 가정을 했다고 생각해봅시다. 그리고 실제 100번을 던졌을 때, 앞면이 70번이 나온상황을 보면 posterior는 다음과 같습니다.
+<code>$$
+P(T=0.5|E=0.7)=\frac{P(E=0.7|T=0.5)P(T=0.5)}{P(E=0.7)}
+$$</code>
+만약 Maximum a posterior estimation을 한다고 하면, prior를 일종의 variable로 설정하고 구할 수 있습니다.
+<code>$$
+P(T=x|E=0.7)=\frac{P(E=0.7|T=x)P(T=x)}{P(E=0.7)}
+$$</code>
+결국은 가장 데이터에 어울리는 prior를 구하는 과정이 MAP라고 할 수 있습니다.</p>
+
+<p><strong>Reference</strong></p>
+
+<ul>
+<li><a href="https://ratsgo.github.io/statistics/2017/09/23/MLE/">https://ratsgo.github.io/statistics/2017/09/23/MLE/</a></li>
+<li><a href="http://databaser.net/moniwiki/pds/BayesianStatistic/베이즈_정리와_MLE.pdf">http://databaser.net/moniwiki/pds/BayesianStatistic/베이즈_정리와_MLE.pdf</a></li>
+</ul>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="https://rroundtable.github.io/tags/interview" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">interview</a>
+   </li>
+  
+   <li class="list">
+     <a href="https://rroundtable.github.io/tags/machine-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">machine learning</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
     
-  <article class="cf pa3 pa4-m pa4-l">
-    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       
-    </div>
-  </article>
-  <div class="mw8 center">
-    <section class="ph4">
       
-        <h2 class="f1">
-          <a href="https://rroundtable.github.io/tags/deeplearning" class="link blue hover-black">
-            Tag: deeplearning
-          </a>
-        </h2>
-        
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/" class="link black dim">
-        What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? 
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)
-  aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다.  regression task에서 각각의 uncertainty에 대해서 알아보도록 하겠습니다.
-Epistemic uncertainty  Fig.1 - Gaussian Process
-    </div>
-  </div>
-</div>
-
-        
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/" class="link black dim">
-        Neural Networks, Manifolds, and Topology 번역글
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Neural Networks, Manifolds, and Topology Neural network가 실제로 어떻게 작동하는지 파악하는 것은 실제로 어려운 일입니다. 그래서 black-box 모델이라고 종종 말하곤 합니다.
-이런 문제를 해결하고자 이번 글에서는 topology(math with shapes)와 neural network간의 관계를 살펴보고자 합니다. topology를 처음 접하신다면 해당 Who cares about topology?를 보시는 것을 추천드립니다.
-topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
- Fig.1 - same topology  
-도넛과 물컵은 같은 topology를 가진다.
-    </div>
-  </div>
-</div>
-
-        
-      
-        <h2 class="f1">
-          <a href="https://rroundtable.github.io/tags/interview" class="link blue hover-black">
-            Tag: interview
-          </a>
-        </h2>
-        
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/mle-maximum-likelihood-estimation/" class="link black dim">
-        MLE 와 MAP에 대하여
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
-동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.
-    </div>
-  </div>
-</div>
-
-        
-      
-        <h2 class="f1">
-          <a href="https://rroundtable.github.io/tags/machine-learning" class="link blue hover-black">
-            Tag: machine-learning
-          </a>
-        </h2>
-        
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/mle-maximum-likelihood-estimation/" class="link black dim">
-        MLE 와 MAP에 대하여
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
-동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.
-    </div>
-  </div>
-</div>
-
-        
-      
-        <h2 class="f1">
-          <a href="https://rroundtable.github.io/tags/safety" class="link blue hover-black">
-            Tag: safety
-          </a>
-        </h2>
-        
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/" class="link black dim">
-        What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? 
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)
-  aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다.  regression task에서 각각의 uncertainty에 대해서 알아보도록 하겠습니다.
-Epistemic uncertainty  Fig.1 - Gaussian Process
-    </div>
-  </div>
-</div>
-
-        
-      
-        <h2 class="f1">
-          <a href="https://rroundtable.github.io/tags/uncertainty" class="link blue hover-black">
-            Tag: uncertainty
-          </a>
-        </h2>
-        
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/" class="link black dim">
-        What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? 
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)
-  aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다.  regression task에서 각각의 uncertainty에 대해서 알아보도록 하겠습니다.
-Epistemic uncertainty  Fig.1 - Gaussian Process
-    </div>
-  </div>
-</div>
-
-        
-      
+      </div>
     </section>
-  </div>
+  </article>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
