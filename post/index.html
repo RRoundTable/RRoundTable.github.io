@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-07-07T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-07-08T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -247,6 +247,31 @@ Error encoding network implementation Visualized that the distance of different 
 topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
  Fig.1 - same topology  
 도넛과 물컵은 같은 topology를 가진다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 8, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/" class="link black dim">
+        Batch Normalization에 대하여
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem Define 학습하는 과정에서 이전 layer의 parameter가 변하면서, 각 layer의 input들의 distribution이 training과정마다 변하게 된다. 이런 문제는 학습이 불안정하게 하며, 낮은 learning rate를 사용해야 학습이 진행된다. 결론적으로는 saturating non-linearity의 모델을 학습하기 어려워진다. 이런 현상을 internal covariate shift 라고 부른다.
+ saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값이 어떤 범위내에서만 움직이는 것
+ex) sigmoid
+not-saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값도 무한대로 가는 것을 의미
+ex) Relu
+ sigmoid activation에 대해서 생각해보면, 위의 문제가 왜 심각한지 알 수 있다.
     </div>
   </div>
 
