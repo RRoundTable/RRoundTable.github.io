@@ -51,7 +51,7 @@ ex) Relu
 
 <meta itemprop="datePublished" content="2019-07-08T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2019-07-08T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="908">
+<meta itemprop="wordCount" content="1294">
 
 
 
@@ -203,9 +203,10 @@ ex) Relu
 $$
 g(x) = \frac{1}{1 + \exp(-x)}
 $$
-<img src ="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png"></p>
-
-<p>layer의 depth가 깊어질수록 이 문제는 더 커지게 되는데, 이런 문제를 해결하기 위해서 Relu를 많이 사용한다. 하지만,  Batch normalizing을 사용하게 되면 stable한 distribution을 가지게 되어서 이런 문제를 해결할 수 있다.</p>
+<center>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png" style="width:50%;">
+</center>
+layer의 depth가 깊어질수록 이 문제는 더 커지게 되는데, 이런 문제를 해결하기 위해서 Relu를 많이 사용한다. 하지만,  Batch normalizing을 사용하게 되면 stable한 distribution을 가지게 되어서 이런 문제를 해결할 수 있다.</p>
 
 <h2 id="towards-reducing-internal-covariate-shift">Towards Reducing Internal Covariate Shift</h2>
 
@@ -337,14 +338,17 @@ decorrelated feature에도 불구하고 해당 normalization은 convergence 속�
 <p>$$
     \beta^{(k)} = E[x^{(k)}]
    $$
-   일반적으로 Stochastic Gradien Training을 하기 때문에 각 mini-batch activation에 해당하는 variance mean를 사용하게 된다. 이는 normalization이 backpropagation과정에 적절히 관여하게 만든다.</p>
+   일반적으로 Stochastic Gradient Training을 하기 때문에 각 mini-batch activation에 해당하는 variance mean를 사용하게 된다. 이는 normalization이 backpropagation과정에 적절히 관여하게 만든다.</p>
 
-<p>중요한 점은 per-dimension variance를 구하는 것이 computation cost를 낮춘다는 것이다. (Singluar covariance matrices) 아래는 batch normalization alogrithm에 대한 설명이다. 주목할 점은 learned parameter $\gamma, \beta$가 training example 뿐 아니라 mini-batch 안에 있는 다른 training example에 영향을 받는다는 것이다. ($\epsilon$은 stability를 위한 constant term이다.)</p>
-
-<p><img src="https://user-images.githubusercontent.com/27891090/60887317-fe7a6280-a28e-11e9-9c60-9b750b678124.png" alt="algo1" /></p>
+<p>중요한 점은 per-dimension variance를 구하는 것이 computation cost를 낮춘다는 것이다. (Singluar covariance matrices) 아래는 batch normalization algorithm에 대한 설명이다. 주목할 점은 learned parameter $\gamma, \beta$가 training example 뿐 아니라 mini-batch 안에 있는 다른 training example에 영향을 받는다는 것이다. ($\epsilon$은 stability를 위한 constant term이다.)
+<center>
+<img src="https://user-images.githubusercontent.com/27891090/60887317-fe7a6280-a28e-11e9-9c60-9b750b678124.png" style="width:80%;">
+</center></p>
 
 <p>[Backpropagation 전개]
-<img src="https://user-images.githubusercontent.com/27891090/60888587-17d0de00-a292-11e9-946a-1319c42833a8.png" alt="" /></p>
+<center>
+<img src="https://user-images.githubusercontent.com/27891090/60888587-17d0de00-a292-11e9-946a-1319c42833a8.png" style="width:80%;">
+</center></p>
 
 <h3 id="training-and-inference-with-batchnormalized-networks">Training and Inference with BatchNormalized Networks</h3>
 
@@ -356,15 +360,102 @@ $$
 $$
 Var[x] = \frac{m}{m-1}\cdot E_B[\sigma_B^2]
 $$
-training과정에서 moving average를 사용하는 것과 다르게 inference과정에서는 고정된 mean과 variance를 통해서 deterministic한 output을 도출한다. 이는 각 layer마다 linear transformation을 한 것으로 해석할 수 있다. 알고리즘은 아래와 같다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/27891090/60887345-1225c900-a28f-11e9-996f-337201960b26.png" alt="" /></p>
+training과정에서 moving average를 사용하는 것과 다르게 inference과정에서는 고정된 mean과 variance를 통해서 deterministic한 output을 도출한다. 이는 각 layer마다 linear transformation을 한 것으로 해석할 수 있다. 알고리즘은 아래와 같다.
+<center>
+<img src="https://user-images.githubusercontent.com/27891090/60887345-1225c900-a28f-11e9-996f-337201960b26.png" style="width:80%;">
+</center></p>
 
 <h3 id="batch-normalized-convolutional-networks">Batch-Normalized Convolutional Networks</h3>
 
+<p>Affine transformation에 어떻게 적용될 수 있는지 살펴보자.</p>
+
+<blockquote>
+<p>affine transformation</p>
+
+<p>선형변환에 평행이동이 더해진 개념이다.</p>
+</blockquote>
+
+<p>$$
+z = g(Wu + b)
+$$</p>
+
+<p>where $g(\cdot)$ is non-linear such as sigmoid or Relu.</p>
+
+<p>위의 수식은 inputs $u$에 대해서 $x=Wu + b$에 직접 Batch normalization을 적용할 수 있다. 이런 생각을 할 수 있다. input $u$에 batch normalization을 적용 할 수 있지 않을까?  하지만 문제가 있다. $u$는 결국 다른 non-linearity layer의 output이기 때문에 distribution이 training 과정마다 바뀐다. 그리고 첫번째 두번째에 제한을 한다고 해도 결국 covariate shift는 제거할 수 없다.</p>
+
+<p>반면에, $Wu +b$는 symmetric, non-sparse distribution을 가진다. 따라서 이를 normalizing한다면 더 안정적인 결과를 얻을 수 있다.</p>
+
+<p>위에서 언급했듯이 bias $b$는 backpropagation과정에서 무시될 수 있는데 이런 문제를 해결위해서 아래와 같이 위의 수식을 바꿀 수 있다.
+$$
+z=g(BN(Wu))
+$$
+여기서 $BN$은 $Wu$의 각 dimention마다 독립적으로 적용되며, $\gamma^{(k)}, \beta^{(k)}$를 얻을 수  있다. ($k$는 각 dimension index를 의미한다.)</p>
+
+<p>그렇다면, Convolution layer에서는 어떻게 적용될 지 살펴보자. 아래는 Convolution filter의 작동방법이다.</p>
+
+<p><center>
+<img src="https://cdn-media-1.freecodecamp.org/images/gb08-2i83P5wPzs3SL-vosNb6Iur5kb5ZH43
+" style="width:80%;">
+</center></p>
+
+<p>CNN의 특징중 하나는 &lsquo;local connected&rsquo;라는 것이다.</p>
+
+<blockquote>
+<p>local connected</p>
+
+<p>국지적인 정보의 집합을 이용하는 것을 의미한다. 즉 위의 그림처럼 filter안에 있는 정보끼리만 영향을 주며 filter가 이동할 때 이전 filter의 영향을 받지 않는다.</p>
+</blockquote>
+
+<p>Convolution layer에서는 BN transformation이 다음과 같이 적용된다.</p>
+
+<ul>
+<li><p>추가적인 normalization이 필요하다. 이를 통해서 같은 feature map상에서 서로 다른 위치에 있는 구성요소를 공통적으로 normalize할 수 있다.</p></li>
+
+<li><p>이를 위해서 mini-batch상에 모든 activation을 location에 대해서 normalize를 진행한다. (jointly)</p></li>
+
+<li><p>아래의 Alg.1에서 $B$를 한 feature map에서의 각 location에 대한 activation value로 설정한다.(in mini-batch). mini-batch $B$의 크기는 feature map크기가 $p \times q$라고 가정하고 $m\cdot pq$가 된다. 따라서 $\gamma^{(k)}, \beta^{(k)}$는 activation마다가 아니라 feature map마다 구하게 된다.</p></li>
+
+<li><p><center>
+<img src="https://user-images.githubusercontent.com/27891090/60887317-fe7a6280-a28e-11e9-9c60-9b750b678124.png" style="width:50%;">
+</center></p></li>
+</ul>
+
 <h3 id="batch-normalization-enables-higher">Batch Normalization enables higher</h3>
 
-<p>learning rates</p>
+<p>Batch Normalization을 적용하면 더 높은 learning rate를 사용할 수 있으며, 이는 모델의 수렴속도를 높여준다.</p>
+
+<p>일반적으로 parameter scale이 높으면, model explosion현상이 발생한다. 하지만, batch normalization을 사용하면 parameter scale의 영향을 받지 않는다. 또한 큰 parameter scale에도 smaller gradient를 가진다.
+$$
+BN(Wu) = BN((aW)U)
+$$</p>
+
+<p>$$
+\frac{\partial BN((aW)u)}{\partial u} =\frac{\partial BN(Wu)}{\partial u}
+$$</p>
+
+<p>$$
+\frac{\partial BN((aW)u)}{\partial aW} =\frac{1}{a}\cdot\frac{\partial BN(Wu)}{\partial aW}
+$$</p>
+
+<p>또한, 해당논문에서는 BN이 layer jacobians가 1에 가까운 singular value를 가진다는 것을 발견했다. (이는 train할 때 유용한 특성이다.)</p>
+
+<ul>
+<li><p>normalized vector: $\hat{z} =F(\hat{x})$</p></li>
+
+<li><p>가정: $\hat{x}, \hat{z}$는 uncorrelated되어 있으며, gaussian을 따른다. 또한, 함수 $F(\hat{x}) \approx J \hat{x}$는 linear transformation이다.</p></li>
+
+<li><p>$\hat{x}, \hat{z}$은 다음과 같은 covariance를 가진다.
+$$
+I = Cov[\hat{z}] = JCov[\hat{x}]J^T=JJ^T
+$$
+따라서, $JJ =I$이고 singular value는 1이다. 이는 gradient magnitude를 보존하는 역할을 한다.</p></li>
+</ul>
+
+<p>사실 real-world에서는 위의 가정이 사실이라고 하기 힘들지만 그래도 BN의 역할을 알 수 있다.</p>
+
+<h2 id="batch-normalization-regularizes-the-model">Batch Normalization regularizes the model</h2>
+
+<p>batch normalization은 Drop-out처럼 regularization효과가 있다.</p>
 
 <p>Reference</p>
 
