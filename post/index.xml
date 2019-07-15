@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>�� This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License��please give source if you wish to quote or reproduce.</copyright>
-    <lastBuildDate>Mon, 08 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://rroundtable.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How Does Batch Normalization Help Optimization?</title>
+      <link>https://rroundtable.github.io/post/2019-07-11-how-does-batch-normalization-help-optimization/</link>
+      <pubDate>Thu, 11 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/2019-07-11-how-does-batch-normalization-help-optimization/</guid>
+      <description>Main Contribution Batch normalization에 대하여]()에서 BN이 결국 internal covariate shift현상을 해결하여, 모델의 수렴속도를 높인다고 주장하였다. 하지만, 해당 논문에서는 internal covariate shift현상을 감소하여 그러는 것이 아니며, BN이 실제로 감소시키지 않는다고 주장한다.
+이 논문에서는 BN이 optimization problem을 smoother하게 만들어서 성공적이라고 주장한다. 이로 인해서 gradient는 predictive해지고 더 큰 learning rate를 사용할 수 있다.
+ optimization problem이 smoother 해진다는 것은&amp;hellip;
+https://ifm.mathematik.uni-wuerzburg.de/~schmidt/publications.php
+ Batch normalization and internal covariate shift train, test 그래프에서는 batch normalization의 역할을 잘 보여주고 있다.</description>
+    </item>
     
     <item>
       <title>What Uncertainties Do We Need in Bayesian Deep 정리글 Learning for Computer Vision? </title>

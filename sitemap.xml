@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rroundtable.github.io/post/2019-07-11-how-does-batch-normalization-help-optimization/</loc>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/</loc>
     <lastmod>2019-06-29T00:00:00+00:00</lastmod>
   </url>
@@ -17,38 +22,44 @@
   </url>
   
   <url>
-    <loc>https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rroundtable.github.io/categories/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/post/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/tags/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://rroundtable.github.io/tags/deep-learning/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
+    <loc>https://rroundtable.github.io/categories/deeplearning/</loc>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/tags/deeplearning/</loc>
+    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/</loc>
+    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -77,12 +88,6 @@
   <url>
     <loc>https://rroundtable.github.io/post/rkhs/</loc>
     <lastmod>2019-07-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rroundtable.github.io/tags/deeplearning/</loc>
-    <lastmod>2019-06-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
