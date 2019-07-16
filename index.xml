@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>How Does Batch Normalization Help Optimization?</title>
+      <title>How Does Batch Normalization Help Optimization? 정리글</title>
       <link>https://rroundtable.github.io/post/2019-07-11-how-does-batch-normalization-help-optimization/</link>
       <pubDate>Thu, 11 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://rroundtable.github.io/post/2019-07-11-how-does-batch-normalization-help-optimization/</guid>
-      <description>Main Contribution Batch normalization에 대하여]()에서 BN이 결국 internal covariate shift현상을 해결하여, 모델의 수렴속도를 높인다고 주장하였다. 하지만, 해당 논문에서는 internal covariate shift현상을 감소하여 그러는 것이 아니며, BN이 실제로 감소시키지 않는다고 주장한다.
+      <description>Main Contribution Batch normalization에 대하여에서 BN이 결국 internal covariate shift현상을 해결하여, 모델의 수렴속도를 높인다고 주장하였다. 하지만, 해당 논문에서는 internal covariate shift현상을 감소하여 그러는 것이 아니며, BN이 실제로 감소시키지 않는다고 주장한다.
 이 논문에서는 BN이 optimization problem을 smoother하게 만들어서 성공적이라고 주장한다. 이로 인해서 gradient는 predictive해지고 더 큰 learning rate를 사용할 수 있다.
  optimization problem이 smoother 해진다는 것은&amp;hellip;
 https://ifm.mathematik.uni-wuerzburg.de/~schmidt/publications.php
