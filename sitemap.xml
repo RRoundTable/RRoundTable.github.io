@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rroundtable.github.io/post/mixup-467e0a5d-4d28-4e05-a587-9007b9d1b97f/</loc>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rroundtable.github.io/post/2019-07-11-how-does-batch-normalization-help-optimization/</loc>
     <lastmod>2019-07-11T00:00:00+00:00</lastmod>
   </url>
@@ -23,37 +28,49 @@
   
   <url>
     <loc>https://rroundtable.github.io/categories/</loc>
-    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/post/</loc>
-    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/</loc>
-    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/tags/</loc>
-    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://rroundtable.github.io/categories/deeplearning/</loc>
-    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <loc>https://rroundtable.github.io/tags/augmentation/</loc>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/tags/deeplearning/</loc>
-    <lastmod>2019-07-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/categories/deeplearning/</loc>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/tags/safet/</loc>
+    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
