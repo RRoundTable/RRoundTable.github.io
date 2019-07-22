@@ -276,6 +276,24 @@ Epistemic uncertainty  Fig.1 - Gaussian Process
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Post</span>
     <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-21-logsumexp-trick/" class="link black dim">
+        LogSumExp Trick
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      LogSumExp Trick 머신러닝 학습을 진행하다보면, 종종 loss가 제대로 계산되지 않는 현상이 발생한다. 이는 loss를 계산하는 과정에서 불안정한 수식을 계산하기 때문에 발생한다. 특히 cross-entropy와 같이 log함수와 연관있는 수식은 주의가 필요하다.
+아래 이미지는 로그 함수 그래프이다. 이 그래프에서 알 수 있듯이 $x$의 값이 0에 가까워질수록 $\log_2(x)$의 값은 음의 무한대의 값을 가지게 되며, 컴퓨터 연산과정에서 이는 연산이 불가능하다. (overflow)  
+이러한 현상을 방지하기 위해서 사용하는 것이 LogSumExp trick이다.
+ LogSumExp (LSE) function is a smooth maximum – a smooth approximation to the maximum function, mainly used by machine learning algorithms.
+    </div>
+  </div>
+</div>
+
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Post</span>
+    <h1 class="f3 near-black">
       <a href="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/" class="link black dim">
         Neural Networks, Manifolds, and Topology 번역글
       </a>
