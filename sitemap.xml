@@ -33,42 +33,64 @@
   
   <url>
     <loc>https://rroundtable.github.io/categories/</loc>
-    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/</loc>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/</loc>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rroundtable.github.io/post/</loc>
-    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/</loc>
-    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/tags/</loc>
-    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://rroundtable.github.io/tags/augmentation/</loc>
-    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/categories/deeplearning/</loc>
-    <lastmod>2019-07-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/tags/deeplearning/</loc>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/categories/safety/</loc>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/tags/safety/</loc>
+    <lastmod>2019-07-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/tags/augmentation/</loc>
     <lastmod>2019-07-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -110,12 +132,6 @@
   <url>
     <loc>https://rroundtable.github.io/post/rkhs/</loc>
     <lastmod>2019-07-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rroundtable.github.io/tags/safety/</loc>
-    <lastmod>2019-06-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

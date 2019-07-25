@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>�� This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License��please give source if you wish to quote or reproduce.</copyright>
-    <lastBuildDate>Sun, 21 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://rroundtable.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -82,6 +82,30 @@ Error encoding network implementation Visualized that the distance of different 
 topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
  Fig.1 - same topology  
 도넛과 물컵은 같은 topology를 가진다.</description>
+    </item>
+    
+    <item>
+      <title>Faster-RCNN 정리글</title>
+      <link>https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/</link>
+      <pubDate>Thu, 25 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/</guid>
+      <description>Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.</description>
+    </item>
+    
+    <item>
+      <title>Mixture density Network: Uncertainty estimation</title>
+      <link>https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/</link>
+      <pubDate>Thu, 25 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/</guid>
+      <description>Problem 기존의 방법론들은 uncetrainty를 estimate하는데 sampling을 해야하는 한계가 있다. 이 논문에서는 gaussian mixure model을 활용한 sampling-free uncertainty estimation방법론을 제안한다.
+Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
+ $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
+ $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$</description>
     </item>
     
     <item>

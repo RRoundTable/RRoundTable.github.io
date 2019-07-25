@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-07-21T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-07-25T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -326,6 +326,52 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
+        July 25, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        Faster-RCNN 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 25, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/" class="link black dim">
+        Mixture density Network: Uncertainty estimation
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem 기존의 방법론들은 uncetrainty를 estimate하는데 sampling을 해야하는 한계가 있다. 이 논문에서는 gaussian mixure model을 활용한 sampling-free uncertainty estimation방법론을 제안한다.
+Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
+ $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
+ $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
         July 8, 2019
       </div>
     
@@ -367,32 +413,52 @@ ex) Relu
 
         </div>
       
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          
-            <div class="mb3 pa4 mid-gray overflow-hidden">
-    
-      <div class="f6">
-        July 5, 2019
-      </div>
-    
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/rkhs/" class="link black dim">
-        RKHS에 대하여
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Hibert space  A Hilbert space($\mathbf{H}$) is a complete inner product linear space.
-  Linear space  선형공간이라는 것은 임의의 두 원소 $x$,$ y$의 선형결합 또한 원소로 가지고 있어야 하는 조건이다. $$ \alpha x + \beta y \in \mathbf{H}(\alpha, \beta: scalar) $$ 2. Inner product
-힐버트 공간에서는 내적으로 metric을 정의한다.
-내적 $$는 $H \times H$에서 $\mathbb{R}$로의 bilinear positive definite kernel이다.
- bilinear: $x, y$ 둘 중 하나를 고정하면 다른 하나에 대한 linear 함수   positive definite    Complete  힐버트 공간 $\mathcal{H}$내의 어떠한 Cauchy sequence도 $\mathcal{H}$내의 원소로 수렴한다.
-    </div>
-  </div>
-
-        </div>
-      
     </aside>
     
+
+<ul class="pagination">
+    
+    <li class="page-item">
+        <a href="https://rroundtable.github.io/post/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li class="page-item disabled">
+    <a href="" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item active"><a class="page-link" href="https://rroundtable.github.io/post/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="https://rroundtable.github.io/post/page/2/">2</a></li>
+    
+    
+    <li class="page-item">
+    <a href="https://rroundtable.github.io/post/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+        <a href="https://rroundtable.github.io/post/page/2/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
 
   </article>
 

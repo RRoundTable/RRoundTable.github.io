@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>RoundTable  | Faster-RCNN 정리글</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.5" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="https://rroundtable.github.io/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Faster-RCNN 정리글" />
+<meta property="og:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
+<meta property="article:published_time" content="2019-07-25T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-07-25T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Faster-RCNN 정리글">
+<meta itemprop="description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.">
+
+
+<meta itemprop="datePublished" content="2019-07-25T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-07-25T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="951">
+
+
+
+<meta itemprop="keywords" content="deeplearning," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Faster-RCNN 정리글"/>
+<meta name="twitter:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      RoundTable
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/RRoundTable" title="Works page">
+              Works
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/post/aboutme" title="About me page">
+              About me
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/categories/index.html" title="Categories page">
+              Categories
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/index.html" title="Tags page">
+              Tags
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Faster-RCNN 정리글</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-07-25T00:00:00Z">July 25, 2019</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h1 id="problem-bottleneck">Problem: bottleneck</h1>
+
+<p>기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.</p>
+
+<p>이러한 문제를 해결하기 위해서 <strong>Region Proposal Network</strong>를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.</p>
+
+<blockquote>
+<p>Fast-RCNN: region proposal algorithm</p>
+
+<h3 id="selective-search">selective search</h3>
+
+<p>한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
+<img src="https://i.imgur.com/DPEJcwI.png" style="width:50%;"></p>
+
+<ul>
+<li>reference: <a href="https://donghwa-kim.github.io/SelectiveSearch.html">https://donghwa-kim.github.io/SelectiveSearch.html</a></li>
+</ul>
+</blockquote>
+
+<h1 id="faster-rcnn">Faster-RCNN</h1>
+
+<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure2.png"></p>
+
+<p>Faster-RCNN은 두 가지 모듈로 구성된다.</p>
+
+<ol>
+<li>Deep fully convolutional network  that proposes regions</li>
+<li>Fast R-CNN detector(classfier): 1에서 추출된 regioin을 사용한다.</li>
+</ol>
+
+<p>중요한 점은 1, 2가 진행되는 동안 feature를 공유한다는 것이다. (cost-free)</p>
+
+<h2 id="region-proposal-networks">Region Proposal Networks</h2>
+
+<p>어떤 사이즈의 이미지가 들어와도 직사각형의 object proposal을 output으로 가진다.</p>
+
+<blockquote>
+<p>fully convolutioinal network</p>
+
+<p><img src="https://miro.medium.com/max/770/1*BYAi0HtzaJzqAHhAareTNg.png" style="width: 50%;"></p>
+</blockquote>
+
+<p>이  논문의 목표는 detector의 computation과 proposal의 computation을 공유하는 것이기 때문에 위와 같은 convolution layers를 공유한다고 가정하였다.</p>
+
+<ul>
+<li>ZF: 5 sharable convolutional layers</li>
+<li>VGG-16: 13 sharable convolutional layers</li>
+</ul>
+
+<p>이렇게 공유된 feature들은 두 가지 용도로 사용하게 된다.  ($n \times n$의 spatial window를 사용하여 얻은 feature)</p>
+
+<ul>
+<li>box regression: proposal</li>
+<li>box classification: detector</li>
+</ul>
+
+<p>해당 논문에서는 $n = 3$으로 feature를 생성했는데, 이는 일반적인 reception field로는 작은 숫자이다. 이렇게 작게 설정한 이유는 sliding window가 모든 spatial location을 탐색할 수 있게끔 설계한 것이다.</p>
+
+<h3 id="anchors">Anchors</h3>
+
+<p>sliding window의 위치가 변할 때 마다, multiple region proposals이 이루어진다.</p>
+
+<p>한 위치에서 나올수 있는 region proposal의 최대 개수를 $k$라고 한다면,</p>
+
+<ul>
+<li>regression box: $4k$의 outputs, $k$박스의 각 좌표(꼭지점)</li>
+<li>classfier: $2k$의 outputs, object or not</li>
+</ul>
+
+<p><img src="https://www.researchgate.net/profile/Max_Ferguson/publication/327392506/figure/fig8/AS:666613162450944@1535944371721/Anchor-Boxes-at-a-certain-position-in-the-feature-map.png" style="width: 70%;"></p>
+
+<p>위의 그림은 anchor의 scale과 ratio에 변화이다. 해당 논문에서는 위의 그림과 같이 9 종류의 anchor를 사용하였다.  따라서 해당 이미지의 크기가 $W \times H$라면 $W \times H \times k$개의 anchor가 존재한다.</p>
+
+<h4 id="translation-invariant-anchors">Translation-Invariant Anchors</h4>
+
+<blockquote>
+<p>translation-invariant의 특성이란</p>
+
+<p><img src="https://i.stack.imgur.com/iY5n5.png" style="width: 70%;"></p>
+
+<p>물체가 특정 위치에 존재할 때만 탐지되거나 혹은 특정 위치에서는 탐지가 잘 안되는 현상을 줄이는 것</p>
+
+<ul>
+<li>reference: <a href="https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8">https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8</a></li>
+</ul>
+</blockquote>
+
+<p>이를 확인하기 위해서 MultiBox method와 비교하게 되는데, 이는 k-means 방법론을 사용하며 800개의 anchor를 생성한다. 하지만 이는 translation invariant가 아니다.</p>
+
+<p>translation invariant의 특성은 model size를 작게 사용할 수 있게 해준다. MultiBox의 경우 $(4 + 1) * 800$-dimensional fully-connected network를 사용하는 반면에, Faster-RCNN은 $(4 + 2) * 9$-dimensional convolutional output layer만 있으면 가능하다. 즉,  $512 * (4 + 2) * 9 \approx 2.8 * 10^4$의 파라미터만으로 해결 할 수 있다. (box: 4, cls: 2) 반면에, MultiBox는 약 $ 1536 * (4 + 1) * 800 \approx 6.1 * 10^6 $의 파라미터가 필요하다. 따라서, overfitting 문제에 있어서 Faster-RCNN이 더 우수할 것으로 기대된다. ($1536=512 * 3$)</p>
+
+<h4 id="multi-scale-anchors-as-regression-references">Multi-Scale Anchors as Regression References</h4>
+
+<p><img src="https://lh4.googleusercontent.com/k2MADd4a8MolgZiH6j6Zj7nDfoSz3MrHaLmtt2VZuzE4Du8O2w85pJDxz4GhAvGt8piSEATGfUa1Ur7JWBufkigp3s2ZivDZ8HRfSaepVDZK4vjCpgZlPy9AfmNgN4QFmgnzCvW1"></p>
+
+<p>multi-scale prediction에는 두 가지 방법이 있다. 그리고 이 두가지 방법은 종종 혼합하여 사용된다. 해당 논문에서는 cost-efficient한 두 번째 방법을 사용하였다.</p>
+
+<ul>
+<li>image/feature pyramids -Figure 1 (a)
+
+<ul>
+<li>이미지를 다양한 크기로 resize한 후 feature map은 각 resize된 이미지에서 뽑아낸다.</li>
+<li>효과적이긴 하나, computation 시간이 오래 걸린다.</li>
+</ul></li>
+<li>multiple scale sliding window
+
+<ul>
+<li>다양한 크기의 window를 sliding하여 feature을 얻는다.</li>
+<li>pyramid of filters</li>
+<li>image/feature pyramids을 사용하지 않게 하기 때문에 scale을 다루는데 추가적인 cost가 발생하지 않는다.(rescale and feature)</li>
+</ul></li>
+</ul>
+
+<h4 id="loss-function">Loss Function</h4>
+
+<p>RPN을 학습할 때는 각 anchor에 대해서 binary class label로 학습이 진행된다. (object or not)
+positive label이 부여되는 경우는 두 가지이다.</p>
+
+<ol>
+<li>anchor/ anchors with the highest IOU score with ground-truth boxes</li>
+<li>union anchor: ground-truth box와의 IOU 점수가 0.7이상인 경우</li>
+</ol>
+
+<p>보통은 2번째 조건으로만 postive sample을 만들 수 있지만, 희귀한 경우에 2번째 조건만으로 찾지 못하는 경우가 있다. 그래서 1번째 조건도 추가한다.</p>
+
+<p>negative label의 경우 IOU점수가 0.3보다 낮은 anchor에 부여된다.(ground-truth) positive 혹은 negative에 속하지 못하는 anchor는 train objective에 영향을 주지 않는다.</p>
+
+<p>아래는 objective이다.</p>
+
+<p><code>$$
+L(\{p_i\}, \{t_i\}) = \frac{1}{N_{cls}}\sum_iL_{cls}(p_i, p_i^*) + \lambda\frac{1}{N_{reg}}\sum_i p_i^*L_{reg}(t_i, t_i^*)
+$$</code></p>
+
+<ul>
+<li>$i$는 anchor의 index를 의미한다.</li>
+<li>$p_i^*$는 ground-truth label을 의미하며 1이 postive이다.</li>
+<li>$t_i^*$는 4차원의 vector로 bounding box를 의미한다. (ground-truth)</li>
+<li><code>$p_i^*L_{reg}(t_i, t_i^*)$</code>은 positive sample일때만 적용된다는 뜻이다.</li>
+</ul>
+
+<p>Bounding box regression은 어떻게 적용되는가? $L_1$ loss가 적용되며 vector가 다음과 같이 변환된다.
+<code>$$
+t_x = (x-x_a)/w_a, t_y=(y-y_a)/h_a\\
+t_w = \log(w/w_a), t_h=\log(h/h_a) \\
+t_x^* =(x^* - x_a)/w_a, t_y^*=(y^*-y_a)/h_a \\
+t_w^*= \log(w^*/w_a), t_h^*=\log(h^*/h_a)
+$$</code></p>
+
+<ul>
+<li>$x$: predicted box</li>
+<li>$x_a$: anchor box</li>
+<li>$x^*$: ground truth box</li>
+</ul>
+
+<p>위의 방법은 기존에 사용되던 Region of Interest methods와 다르다. ROI method에서는 bounding-box regression이 arbitrarily sized ROI에서 뽑힌 feature를 바탕으로 진행되며, 모든 region size에 대해서 weight를 공유한다. 반면에 위의 방법론은 feature map의 spatial size가 3 * 3으로 고정되어 있으며 변하는 size에 다루기 위해서는 다양한 anchor를 사용한다. 이 때, 각 anchor끼리는 weight를 공유하지 않는다.</p>
+
+<p>하지만, 위에서 언급했듯이 이전의 region proposal 방법론은 효율적이지 못하다는 단점이 있다.</p>
+
+<h4 id="training-rpns">Training RPNs</h4>
+
+<p>image-centric sampling 방법론을 사용한다.</p>
+
+<p>각 mini-batch에서 image상에는 많은 positives와 negatives가 존재한다. 이를 그대로 학습시킨다면 일반적으로 negative sample의 수가 많기 때문에 편향될 위험이 있다. 따라서, positive sample과 negative sample을 random하게 1:1로 추출한다음 학습을 진행한다. (p: 128, n:128)</p>
+
+<h2 id="sharing-features-for-rpn-and-fast-r-cnn">Sharing Features for RPN and Fast R-CNN</h2>
+
+<p>이제 detection network를 고려해보자. detection network와 regioin proposal network를 독립적으로 학습시킨다면 이는 서로 다른 방법으로 학습이 될 것으로 기대된다. 따라서 convolution layer를 공유하기 위해서는 새로운 방법이 필요하다.</p>
+
+<ul>
+<li>Alternating training</li>
+</ul>
+
+<p>먼저 RPN을 학습시킨다 다음, RPN에서 나오는 Proposal을 바탕으로 Fast-RCNN을 학습시킨다. 해당 논문에서는 이 방법론을 사용한다.</p>
+
+<ul>
+<li>Apporximate joint training:</li>
+</ul>
+
+<p>Fast-RCNN과 RPN을 하나의 network로 만든다. SGD interations동안 forward pass에서 region proposal을 생성하고 이는 Fast-RCNN detector를 학습시키는 동안 미리 계산되고 고정되어 있다.(not differential) backward pass에서는 RPN loss와 Fast_RCNN loss가 더해져서 total loss로 정의된다. 이는 쉽게 적용될 수 있으나, 이는 proposal box에 대한 gradient값을 무시하게 된다. (approximate한다)</p>
+
+<p>해당 실험에서는 학습시간을 줄이면서 결과는 유사하게 나오는 것을 확인할 수 있었다. (reduce 25% ~ 50% train time)</p>
+
+<ul>
+<li>Non-approximate joint training</li>
+</ul>
+
+<p>Apporximate joint training과 다르게 box coordinates에 대해서 미분가능하다.</p>
+
+<p>bbox에 미분가능한 ROI pooling layer가 필요하다.</p>
+
+<h5 id="4-step-alternating-training">4-Step Alternating Training</h5>
+
+<ol>
+<li>RPN 학습, (initialized with an ImageNet-pre-trained model )</li>
+<li>1에서 학습학 RPN을 바탕으로 regioin proposal 생성 후 Fast-RCNN detector 학습(initialized with an ImageNet-pre-trained model) 이 step에서는 layer를 공유하지 않는다.</li>
+<li>detector network를 RPN initialization에 사용한다. 공유되는 layer는 고정시키고 RPN에만 적용되는  layer만 학습시킨다. 이 step에서 layer를 공유한다.</li>
+<li>공유되는 layer는 고정시키고 Fast-RCNN에만 적용되는 layer를 학습시킨다.</li>
+</ol>
+
+<h2 id="implementation-detatils">Implementation Detatils</h2>
+
+<p>image/feature pyramids -Figure 1 (a)과 multi scale sliding window 두 가지 방법 모두 실험해보았다. 하지만 첫번째 방법론은 speed-accuracy trade-off가 좋지 않음을 확인할 수 있었다.</p>
+
+<h4 id="recall-to-iou">Recall to IOU</h4>
+
+<p>일반적으로 전반적인 detection accuracy와 관련있는 metric이다.</p>
+
+<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure4.png"></p>
+
+<p>위의 이미지를 보면 알 수 있듯이, SS, EB가 더 빠르게 감소하는 recall을 확인할 수 있다.</p>
+
+<blockquote>
+<p>recall이란</p>
+
+<p>TP / total ground-truth</p>
+</blockquote>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="https://rroundtable.github.io/tags/deeplearning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deeplearning</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
+    &copy; 2019 RoundTable
+  </a>
+    <div>
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+    <div><script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script></div>
+    <div>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="https://rroundtable.github.io/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

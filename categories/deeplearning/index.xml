@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>�� This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License��please give source if you wish to quote or reproduce.</copyright>
-    <lastBuildDate>Sun, 21 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://rroundtable.github.io/categories/deeplearning/index.xml" rel="self" type="application/rss+xml" />
     
@@ -46,6 +46,18 @@ https://ifm.mathematik.uni-wuerzburg.de/~schmidt/publications.php
 아래 이미지는 로그 함수 그래프이다. 이 그래프에서 알 수 있듯이 $x$의 값이 0에 가까워질수록 $\log_2(x)$의 값은 음의 무한대의 값을 가지게 되며, 컴퓨터 연산과정에서 이는 연산이 불가능하다. (overflow)  
 이러한 현상을 방지하기 위해서 사용하는 것이 LogSumExp trick이다.
  LogSumExp (LSE) function is a smooth maximum – a smooth approximation to the maximum function, mainly used by machine learning algorithms.</description>
+    </item>
+    
+    <item>
+      <title>Faster-RCNN 정리글</title>
+      <link>https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/</link>
+      <pubDate>Thu, 25 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/</guid>
+      <description>Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.</description>
     </item>
     
   </channel>

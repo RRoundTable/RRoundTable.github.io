@@ -27,22 +27,22 @@
     
 
     
-      <link href="https://rroundtable.github.io/tags/safety/index.xml" rel="alternate" type="application/rss+xml" title="RoundTable" />
-      <link href="https://rroundtable.github.io/tags/safety/index.xml" rel="feed" type="application/rss+xml" title="RoundTable" />
+      <link href="https://rroundtable.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="RoundTable" />
+      <link href="https://rroundtable.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="RoundTable" />
     
 
-    <meta property="og:title" content="safety" />
+    <meta property="og:title" content="Posts" />
 <meta property="og:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://rroundtable.github.io/tags/safety/" />
+<meta property="og:url" content="https://rroundtable.github.io/post/" />
 
 <meta property="og:updated_time" content="2019-07-25T00:00:00&#43;00:00"/>
 
-<meta itemprop="name" content="safety">
+<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="safety"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."/>
 
   </head>
@@ -142,7 +142,7 @@
 
       <div class="tc-l pv3 ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
-          safety
+          Posts
         </h1>
         
       </div>
@@ -180,55 +180,85 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf pa3 pa4-m pa4-l">
-    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “safety”</p>
-    </div>
-  </article>
-  <div class="mw8 center">    
-    <section class="flex-ns flex-wrap justify-around mt5">
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/" class="link black dim">
-        What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)
-  aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다.  regression task에서 각각의 uncertainty에 대해서 알아보도록 하겠습니다.
-Epistemic uncertainty  Fig.1 - Gaussian Process
-    </div>
-  </div>
-</div>
 
-        </div>
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/" class="link black dim">
-        Mixture density Network: Uncertainty estimation
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Problem 기존의 방법론들은 uncetrainty를 estimate하는데 sampling을 해야하는 한계가 있다. 이 논문에서는 gaussian mixure model을 활용한 sampling-free uncertainty estimation방법론을 제안한다.
-Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
- $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
- $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$
-    </div>
-  </div>
-</div>
-
-        </div>
+  <article class="pa3 pa4-ns nested-copy-line-height nested-img">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
       
     </section>
+    <aside class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 5, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/rkhs/" class="link black dim">
+        RKHS에 대하여
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Hibert space  A Hilbert space($\mathbf{H}$) is a complete inner product linear space.
+  Linear space  선형공간이라는 것은 임의의 두 원소 $x$,$ y$의 선형결합 또한 원소로 가지고 있어야 하는 조건이다. $$ \alpha x + \beta y \in \mathbf{H}(\alpha, \beta: scalar) $$ 2. Inner product
+힐버트 공간에서는 내적으로 metric을 정의한다.
+내적 $$는 $H \times H$에서 $\mathbb{R}$로의 bilinear positive definite kernel이다.
+ bilinear: $x, y$ 둘 중 하나를 고정하면 다른 하나에 대한 linear 함수   positive definite    Complete  힐버트 공간 $\mathcal{H}$내의 어떠한 Cauchy sequence도 $\mathcal{H}$내의 원소로 수렴한다.
+    </div>
   </div>
+
+        </div>
+      
+    </aside>
+    
+
+<ul class="pagination">
+    
+    <li class="page-item">
+        <a href="https://rroundtable.github.io/post/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+    <a href="https://rroundtable.github.io/post/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="https://rroundtable.github.io/post/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item active"><a class="page-link" href="https://rroundtable.github.io/post/page/2/">2</a></li>
+    
+    
+    <li class="page-item disabled">
+    <a href="" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+        <a href="https://rroundtable.github.io/post/page/2/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
+  </article>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
