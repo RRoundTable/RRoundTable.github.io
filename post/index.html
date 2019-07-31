@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-07-25T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-07-30T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -326,6 +326,28 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
+        July 30, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-30-mesh-tensorflow-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        mesh tensorflow 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      요약 batch-spliting이란, data-paralleism 방법론으로 분산화된 딥러닝 네트워크에서 많이 사용하며, Single-Program-Multiple-Data programing의 일종이다. 즉, 데이터가 클 때 분산시켜서 대처하는 방법론이라고 할 수 있다.
+하지만, 모델이 한번에 RAM에 올리기 클 경우에는 어떻게 해야할까? 혹은 모델의 크기 때문에 작은 batch size를 사용할 때 발생하는 high latency와 비효율성이 발생한다면 어떻게 해야할까? 이를 해결하기 위해서는 Model-parallenism을 사용해야한다.
+하지만, 효과적인 model-parallelism은 일반적으로 복잡한 편이다. 이런 문제를 간단하게 해결하기 위해서 Mesh-tensorflow를 제안한다. data-parallelism은 tensor와 operations를 batch dimension으로 나누는 것으로 치환한다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
         July 25, 2019
       </div>
     
@@ -387,27 +409,6 @@ ex) sigmoid
 not-saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값도 무한대로 가는 것을 의미
 ex) Relu
  sigmoid activation에 대해서 생각해보면, 위의 문제가 왜 심각한지 알 수 있다.
-    </div>
-  </div>
-
-        </div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          
-            <div class="mb3 pa4 mid-gray overflow-hidden">
-    
-      <div class="f6">
-        July 7, 2019
-      </div>
-    
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/mle-maximum-likelihood-estimation/" class="link black dim">
-        MLE 와 MAP에 대하여
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
-동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.
     </div>
   </div>
 

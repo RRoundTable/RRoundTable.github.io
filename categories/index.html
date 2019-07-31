@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/categories/" />
 
-<meta property="og:updated_time" content="2019-07-25T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-07-30T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Categories">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -244,6 +244,23 @@ https://ifm.mathematik.uni-wuerzburg.de/~schmidt/publications.php
 아래 이미지는 로그 함수 그래프이다. 이 그래프에서 알 수 있듯이 $x$의 값이 0에 가까워질수록 $\log_2(x)$의 값은 음의 무한대의 값을 가지게 되며, 컴퓨터 연산과정에서 이는 연산이 불가능하다. (overflow)  
 이러한 현상을 방지하기 위해서 사용하는 것이 LogSumExp trick이다.
  LogSumExp (LSE) function is a smooth maximum – a smooth approximation to the maximum function, mainly used by machine learning algorithms.
+    </div>
+  </div>
+</div>
+
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Post</span>
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-30-mesh-tensorflow-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        mesh tensorflow 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      요약 batch-spliting이란, data-paralleism 방법론으로 분산화된 딥러닝 네트워크에서 많이 사용하며, Single-Program-Multiple-Data programing의 일종이다. 즉, 데이터가 클 때 분산시켜서 대처하는 방법론이라고 할 수 있다.
+하지만, 모델이 한번에 RAM에 올리기 클 경우에는 어떻게 해야할까? 혹은 모델의 크기 때문에 작은 batch size를 사용할 때 발생하는 high latency와 비효율성이 발생한다면 어떻게 해야할까? 이를 해결하기 위해서는 Model-parallenism을 사용해야한다.
+하지만, 효과적인 model-parallelism은 일반적으로 복잡한 편이다. 이런 문제를 간단하게 해결하기 위해서 Mesh-tensorflow를 제안한다. data-parallelism은 tensor와 operations를 batch dimension으로 나누는 것으로 치환한다.
     </div>
   </div>
 </div>
