@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>RoundTable  | Dropout as Bayesian Approximation 정리글</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.5" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="https://rroundtable.github.io/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Dropout as Bayesian Approximation 정리글" />
+<meta property="og:description" content="Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
+Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
+추가적으로 finite-wide neural network상에서 연구되었다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-08-01-dropout-as-bayesian-approximation-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
+<meta property="article:published_time" content="2019-08-01T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-08-01T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Dropout as Bayesian Approximation 정리글">
+<meta itemprop="description" content="Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
+Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
+추가적으로 finite-wide neural network상에서 연구되었다.">
+
+
+<meta itemprop="datePublished" content="2019-08-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-08-01T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1084">
+
+
+
+<meta itemprop="keywords" content="deeplearning," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dropout as Bayesian Approximation 정리글"/>
+<meta name="twitter:description" content="Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
+Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
+추가적으로 finite-wide neural network상에서 연구되었다."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      RoundTable
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/RRoundTable" title="Works page">
+              Works
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/post/aboutme" title="About me page">
+              About me
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/categories/index.html" title="Categories page">
+              Categories
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/index.html" title="Tags page">
+              Tags
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Dropout as Bayesian Approximation 정리글</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-08-01T00:00:00Z">August 1, 2019</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h2 id="problem">Problem</h2>
+
+<p>일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.</p>
+
+<h2 id="related-research">Related Research</h2>
+
+<ul>
+<li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.446.9306&amp;rep=rep1&amp;type=pdf">Bayesian learning for neural networks</a></li>
+</ul>
+
+<p>infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.</p>
+
+<p>추가적으로 finite-wide neural network상에서 연구되었다. BNN 조건에서 overfitting문제에 견고했지만, computation cost 높다는 문제가 있었다.</p>
+
+<ul>
+<li><a href="http://www.cs.toronto.edu/~fritz/absps/colt93.pdf">variational inference</a></li>
+</ul>
+
+<p>BNN에서 variational inference가 적용되었다. 하지만, 부분적인 성과만 있었다.</p>
+
+<ul>
+<li><a href="http://www.columbia.edu/~jwp2128/Papers/HoffmanBleiWangPaisley2013.pdf">sampling-based variational inference</a></li>
+</ul>
+
+<p>위의 VI를 개선하기 위해서 sampling 기반의 방법론이 등장하였다. 이 방법론은 dropout만큼 성공적이였으나 computation cost가 매우 높았다. uncertainty를 측정하기 위해서 parameter가 기존의 방법론 대비 두 배가 필요했다. 이는 분포를 정의하기 위해서 평균값과 분산값을 정의해야 되기 때문이다. 게다가 수렴하는 시간도 오래걸렸으며, 기존의 방법론 대비 효과적이지도 않았다.</p>
+
+<h2 id="dropout-as-a-bayesian-approximation">Dropout as a Bayesian Approximation</h2>
+
+<p>이 section에서는 Dropout이 결국에는 Deep gaussian process를 근사한다는 것을 수학적으로 증명할 것이다. 특히, 어떠한 가정도 없이 증명할 수 있으며, 어떤 network에도 적용가능하다는 장점을 가지고 있다.</p>
+
+<h4 id="dropout-objective는-approximation-distribution과-deep-gaussian-process의-posterior간의-kl-divergence를-감소시킨다">Dropout objective는 approximation distribution과 deep gaussian process의 posterior간의 Kl-divergence를 감소시킨다.</h4>
+
+<p>우선 Dropout objective를 확인해보자. ( add regularization)
+$$
+\mathcal{L}<em>{dropout} = \frac{1}{N}\sum</em>{i=1}^N E(y_i, \hat{y}<em>i) + \lambda\sum</em>{i=1}^N (\rVert W_i \rVert_2 ^ 2+ \rVert b \rVert_2 ^ 2)
+$$
+dropout은 결국 모든 input point와 각 layer의 모든 network에 binary distribution을 적용한 것으로 해석할 수있다. 참고로 output에는 적용하지 않는다. 이는 아래의 이미지 처럼 적용될 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/62261081-13da4b00-b44f-11e9-8293-c022acbd574f.png" style="width: 50%"></p>
+
+<p>GP 모델에서 predictive probability는 아래와 같이 전개된다. ($x^*$ is unseen)
+<code>$$
+p(y|x^*, X, Y) = \int p(y|x^*, w) p(w|X, Y) dw
+$$</code></p>
+
+<p><code>$$
+p(y|x, w) = \mathcal{N}(y; \hat{y}(x, w), \tau^{-1}I_D)
+$$</code></p>
+
+<p><code>$$
+\hat{y}(x, w= \{ W_1, \cdots, W_L\}) = \sqrt\frac{1}{K_L}W_L\sigma( \cdots \sqrt\frac{1}{K_1}W_2 \sigma(W_1x + m_1) \cdots)
+$$</code></p>
+
+<p><code>여기서 posterior $p(w|X, Y)$가 untractable한데 이를 해결하기 위해서 variational inference를 사용하며, simple distribution으로 $q(w)$를 가정한다. 이때 $q(w)$는 matrix형태를 가지고 있으며 random하게 0으로 값이 지정된다. (여기서 $K$ 는 matrix dimension을 의미한다. $W_i$ 의 dim은 $K_i * K_{i-1}$)</code></p>
+
+<p><code>$$
+W_i = M_i \cdot diag([z_{i, j}]_{j=1}^{K_i})
+$$</code></p>
+
+<p><code>$$
+Z_{i, j} = Bernoulli(p_i)  \ for \ i = 1, \cdots, L, \ j= 1, \cdots, K_{i-1}
+$$</code></p>
+
+<p>여기서 <code>$z_{i, j}$</code>가 0이라면, layer $i - 1$ 의 unit $j$가 drop된다는 것을 의미한다. 위의 이미지에서는 layer에 dropout을 설정한 것을 시각화 한것이라면 위의 수식은 parameter자체에 dropout을 걸었다는 차이가 있다. (그리고 BNN을 적용하기 위해서는 위의 수식처럼 parameter 자체에 dropout을 설정하는 것이 타당하다고 생각한다.)</p>
+
+<p>variational distribution $q(w)$는 highly multi modal한 특징을 가지고 있다. 왜냐하면, 각 layer에 대한 Bernoulli distribution의 output값이 layer의 크기 만큼 나와야 하기 때문이다.</p>
+
+<p>$q(w)$를 바탕으로 objective를 도출하면 아래와 같다. (lower bound: <a href="https://en.wikipedia.org/wiki/Variational_Bayesian_methods">variational inference</a> 참고)
+$$
+- \int q(w) \log p(Y|X, w) dw +KL(q(w) \rVert p(w)).
+$$</p>
+
+<ul>
+<li>$p(w)$ 는 prior distribution을 의미한다.
+
+<br /></li>
+</ul>
+
+<p>첫번째 term <code>$- \int q(w) \log p(Y|X, w) dw$</code>은 아래처럼 바꿀 수 있다.
+<code>$$
+- \int q(w) \log p(Y|X, w) dw \approx- \sum_{n=1} ^N \int q(w) \log p(y_n|x_n, w) dw
+$$</code>
+두번째 term $ KL(q(w) \rVert p(w))$에서는 아래와 같은 식을 얻을 수 있다.
+<code>$$
+\sum_{i=1}^ L(\frac{p_il^2}{2}\rVert M_i\rVert_2^2 + \frac{l^2}{2}\rVert m_i \rVert_2^2)
+$$</code></p>
+
+<ul>
+<li>$p_i$ bernoulli 분포의 확률값</li>
+<li>$l$ 은 prior length scale 값: appendix section 4.2
+
+<ul>
+<li>prior distribution에 대한 가정</li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>appendix section 4.2
+$$
+KL(q(w) \rVert p(w)) \approx \sum_{i=1}^L \frac{p_i}{2}(u_i^Tu_i + tr(\Sigma_i) - K(1 + \log2\pi) - \log\rvert\Sigma_i \rvert - C)
+$$</p>
+</blockquote>
+
+<p>model precision $\tau$를 고려하면, 아래와 같이 scale한 값이 도출된다.
+<code>$$
+\mathcal{L}_{GP-MC} \propto \frac {1}{N}\sum_{i=1}^N\frac{- \log p (y_n | x_n, \hat{w_n})}{\tau} + \sum_{i=1}^{L}(\frac{p_i l^2}{2\tau N}\rVert M_i\rVert_2^2 + \frac{l^2}{2\tau N}\rVert m_i \rVert_2^2)
+$$</code>
+여기서 $\tau$와 length-scale $l$은 hyperparameter이다. lengh-scale은 function frequency를 가정하는 것으로 만약 $l$을 강하게 준다면, regularization 효과는 더 강해진다.</p>
+
+<p>$$
+\lambda_1 = \frac{l^2 p_1}{2N\tau}
+$$</p>
+
+<p>$$
+\tau = \frac{l^2 p_1}{2N \lambda_1}
+$$</p>
+
+<ul>
+<li>short length scale $l$ (high frequency data) + high precision $\tau$(small observation noise) result in small weight-decay $\lambda$ : 모델이 데이터에 더 잘 적합하게 된다.</li>
+<li>long length scale $l$ (low frequency data) + low precision $\tau$ (large observation noise) result in large weight-decay</li>
+</ul>
+
+<h2 id="obtaining-model-uncertainty">Obtaining Model Uncertainty</h2>
+
+<p>predictive distributioin은 아래와 같이 주어진다.
+<code>$$
+q(y^*|x^*) = \int p(y^*|x^*, w) q(w) dw
+$$</code></p>
+
+<ul>
+<li><code>$w = \{  W_i\}_{i=1} ^ L$</code></li>
+<li>unseen input data: $x^*$</li>
+<li>prediction from unseen input data: $y^*$</li>
+</ul>
+
+<p>dropout을 이용하여, uncertainty를 estimate를 하기 위해서는 bernoulli distribution<code>$\{z_1^t, \cdots, z_L^t\}_{t=1}^T$</code>를  sampling해주면 된다. 이 식에서는 T번의 sampling을 진행한 것이다.</p>
+
+<p>sampling한 분포를 바탕으로 predictive mean값을 근사할 수 있다. 이를 MC-dropout이라고 부른다.
+<code>$$
+E_{q(y^*|x^*)}(y^*) = \frac{1}{T}\sum_{i=1}^T \hat{y}^*(x^*, W_1^t, \cdots, W_L^t)
+$$
+다음은</code> raw moment를 근사하는 과정이다.
+<code>$$
+E_{q(y^*|x^*)}((y^*) ^T y^*) \approx \tau^{-1}I_D +\frac{1}{T}\sum_{i=1}^T \hat{y}^*(x^*, W_1^t, \cdots, W_L^t) ^ T \hat{y}^*(x^*, W_1^t, \cdots, W_L^t)
+$$</code></p>
+
+<p>predictive variance는 다음과 같이 도출된다.</p>
+
+<p><code>$$
+Var_{q(y^*|x^*)}(y^*) \approx  \tau^{-1}I_D + \frac{1}{T}\sum_{i=1}^T \hat{y}^*(x^*, W_1^t, \cdots, W_L^t) ^ T \hat{y}^*(x^*, W_1^t, \cdots, W_L^t) -E_{q(y^*|x^*)}(y^*) ^T E_{q(y^*|x^*)}(y^*)
+$$</code></p>
+
+<p>참고로 $y^*$는 row vector를 의미하며<code>$ \hat{y}^*(x^*, W_1^t, \cdots, W_L^t) ^ T \hat{y}^*(x^*, W_1^t, \cdots, W_L^t)$</code>연산은 outer product이다.</p>
+
+<p>weight-decay 값 $\lambda$와 length scale $l$이 주어지면 아래의 식으로 <strong>model precision $\tau$</strong> 를 도출할 수 있다.</p>
+
+<p><code>$$
+\tau = \frac{l^2 p_1}{2N \lambda_1}
+$$</code></p>
+
+<p>regression task에서 다음과 같이 predictive log-likelihood를 monte-carlo integration을 통해서 근사할 수 있다. 이를 통해서 model이 mean과 얼마나 일치하는지 uncertainty가 어떤지 알 수 있다.</p>
+
+<p>with $w_t \sim q(w)$
+<code>$$
+\begin{align}
+\log p(y^* |x^*, X, Y) &amp;= \log \int p(y^*|x^*, w) p(w|X, Y) dw\\
+&amp; \approx \log \int p(y^*|x^*, w) q(w) dw \\
+&amp;\approx \log\frac{1}{T} \sum_{t=1}^{T}  p(y^*|x^*, w_t)
+\end{align}
+$$</code></p>
+
+<p>At regression task,</p>
+
+<p><code>$$
+\log p(y^*|x^*, X, Y) \approx \mathrm{logsumexp} ( -\frac{1}{2}\tau\rVert y - \hat{y}\rVert^2) -\log T - \frac{1}{2}2\pi - \frac{1}{2}\log \tau ^{-1}
+$$</code></p>
+
+<ul>
+<li>$y$  : predictive mean</li>
+<li>$\hat{y}$ : sample</li>
+</ul>
+
+<p>predictive distribution<code>$q(y^*|x^*)$</code>은 highly multi modal이기 때문에 그 특성을 정확히 알 수 없다. 이는 weight element에 bi-modal한 distribution을 설정하였고 이들의 joint distribution은 multi modal이기 때문이다.</p>
+
+<p>하지만, 구현하기 매우 싶다.  dropout을 수정하지 않고 사용하며, samples을 모아서 uncertainty를 측정할 수 있다. 또한 forward pass는 기존의 standard 한 모델과 차이가 나지 않는다.</p>
+
+<h2 id="example-code-image-segmentaton">Example code: image segmentaton</h2>
+
+<p>아래는 test과정에서 predictive mean를 구하는 method의 예시이다. 주목할 점은 dropout을 낀채로 sampling을 진행해야 한다는 것이다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_epistemic</span>(model, test_loader, criterion, test_trials<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>, epoch<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;Epistemic model Test
+</span><span style="color:#e6db74">    Please turn on Dropout!
+</span><span style="color:#e6db74">    model: pytorch model
+</span><span style="color:#e6db74">    test_loader: test data loader
+</span><span style="color:#e6db74">    crieterion: loss_fucntion
+</span><span style="color:#e6db74">    Return
+</span><span style="color:#e6db74">        test_loss, test_error
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    model<span style="color:#f92672">.</span>train()  <span style="color:#75715e"># train mode: turn on dropout</span>
+    test_loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    test_error <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> data, target <span style="color:#f92672">in</span> test_loader:
+        <span style="color:#66d9ef">if</span> list(data<span style="color:#f92672">.</span>size())[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">!=</span> batch_size:
+            <span style="color:#66d9ef">break</span>
+        data <span style="color:#f92672">=</span> Variable(data<span style="color:#f92672">.</span>cuda(), volatile<span style="color:#f92672">=</span>True)
+        target <span style="color:#f92672">=</span> Variable(target<span style="color:#f92672">.</span>cuda())
+        outputs <span style="color:#f92672">=</span> model(data)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>data
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(test_trials <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>): <span style="color:#75715e"># sampling</span>
+            outputs <span style="color:#f92672">+=</span> model(data)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>data
+        output <span style="color:#f92672">=</span> outputs <span style="color:#f92672">/</span> test_trials  <span style="color:#75715e"># predictive mean</span>
+        pred <span style="color:#f92672">=</span> get_predictions(output)
+        test_loss <span style="color:#f92672">+=</span> criterion(output, target)<span style="color:#f92672">.</span>data
+        test_error <span style="color:#f92672">+=</span> error(pred, target<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>cpu())
+        torch<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>empty_cache()
+    test_loss <span style="color:#f92672">/=</span> len(test_loader)
+    test_error <span style="color:#f92672">/=</span> len(test_loader)
+    torch<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>empty_cache()
+    <span style="color:#66d9ef">return</span> test_loss, test_error</code></pre></div>
+<p>다음은 predictive variance를 구하는 과정이다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_epistemic</span>(outputs, predictive_mean, test_trials<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>):
+    result <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(
+        np<span style="color:#f92672">.</span>zeros((batch_size, img_shape[<span style="color:#ae81ff">0</span>], img_shape[<span style="color:#ae81ff">1</span>]), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+    )<span style="color:#f92672">.</span>cuda()
+    target_sq <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>einsum(<span style="color:#e6db74">&#34;bchw,bchw-&gt;bhw&#34;</span>, [predictive_mean, predictive_mean])<span style="color:#f92672">.</span>data
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(test_trials):
+        output_sq <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>einsum(
+            <span style="color:#e6db74">&#34;bchw,bchw-&gt;bhw&#34;</span>, [outputs[i], outputs[i]]
+        )<span style="color:#f92672">.</span>data
+        result <span style="color:#f92672">+=</span> output_sq <span style="color:#f92672">-</span> target_sq
+    result <span style="color:#f92672">/=</span> test_trials
+    <span style="color:#66d9ef">return</span> result</code></pre></div>
+<h4 id="reference">Reference</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/1506.02142">https://arxiv.org/abs/1506.02142</a></li>
+</ul>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="https://rroundtable.github.io/tags/deeplearning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deeplearning</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
+    &copy; 2019 RoundTable
+  </a>
+    <div>
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+    <div><script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script></div>
+    <div>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="https://rroundtable.github.io/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-07-30T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-08-01T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -326,6 +326,28 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
+        August 1, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-08-01-dropout-as-bayesian-approximation-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        Dropout as Bayesian Approximation 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
+Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
+추가적으로 finite-wide neural network상에서 연구되었다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
         July 30, 2019
       </div>
     
@@ -384,31 +406,6 @@ selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
 Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
  $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
  $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$
-    </div>
-  </div>
-
-        </div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          
-            <div class="mb3 pa4 mid-gray overflow-hidden">
-    
-      <div class="f6">
-        July 8, 2019
-      </div>
-    
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/" class="link black dim">
-        Batch Normalization에 대하여
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Problem Define 학습하는 과정에서 이전 layer의 parameter가 변하면서, 각 layer의 input들의 distribution이 training과정마다 변하게 된다. 이런 문제는 학습이 불안정하게 하며, 낮은 learning rate를 사용해야 학습이 진행된다. 결론적으로는 saturating non-linearity의 모델을 학습하기 어려워진다. 이런 현상을 internal covariate shift 라고 부른다.
- saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값이 어떤 범위내에서만 움직이는 것
-ex) sigmoid
-not-saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값도 무한대로 가는 것을 의미
-ex) Relu
- sigmoid activation에 대해서 생각해보면, 위의 문제가 왜 심각한지 알 수 있다.
     </div>
   </div>
 

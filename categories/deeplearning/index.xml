@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>�� This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License��please give source if you wish to quote or reproduce.</copyright>
-    <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://rroundtable.github.io/categories/deeplearning/index.xml" rel="self" type="application/rss+xml" />
     
@@ -46,6 +46,17 @@ https://ifm.mathematik.uni-wuerzburg.de/~schmidt/publications.php
 아래 이미지는 로그 함수 그래프이다. 이 그래프에서 알 수 있듯이 $x$의 값이 0에 가까워질수록 $\log_2(x)$의 값은 음의 무한대의 값을 가지게 되며, 컴퓨터 연산과정에서 이는 연산이 불가능하다. (overflow)  
 이러한 현상을 방지하기 위해서 사용하는 것이 LogSumExp trick이다.
  LogSumExp (LSE) function is a smooth maximum – a smooth approximation to the maximum function, mainly used by machine learning algorithms.</description>
+    </item>
+    
+    <item>
+      <title>Dropout as Bayesian Approximation 정리글</title>
+      <link>https://rroundtable.github.io/post/2019-08-01-dropout-as-bayesian-approximation-%EC%A0%95%EB%A6%AC%EA%B8%80/</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/2019-08-01-dropout-as-bayesian-approximation-%EC%A0%95%EB%A6%AC%EA%B8%80/</guid>
+      <description>Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
+Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
+추가적으로 finite-wide neural network상에서 연구되었다.</description>
     </item>
     
     <item>
