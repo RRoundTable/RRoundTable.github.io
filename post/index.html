@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-08-01T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-08-26T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -326,6 +326,78 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
+        August 26, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/activation-atlas/" class="link black dim">
+        Activation atlas 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Introduction What have these networks learned that allows them to classify images so well?
+네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.
+기본적으로 네트워크를 시각적으로 분석할려고 노력했다.
+ individual neurons  뉴런들을 독립적으로 시각화
+ Interaction between Neurons  뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.
+예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?
+ spatial activation  위의 질문에 대한 답은 activation을 시각화하는 것에 있다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        August 23, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/mixconv/" class="link black dim">
+        MixConv: Mixed Depthwise Convolutional Kernels
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Abstract  다양한 kernel size의 효과  다양한 kernel size의 조합은 모델의 accuracy 및 efficient를 향상 시킬 수 있다.  위를 바탕으로 depth-wise convolution(MixConv)제안 MixConv의 효과를 증명하기 위해서 AutoML을 결합  Introduction Figure 1에서 볼 수 있듯이, kernel size가 클수록 모델의 성능이 올라간다고 할 수 없다. 올라가는 추세를 보이다가 k9*9를 넘어서면 accuracy가 떨어지는 것을 확인할 수 있다.
+ConvNets 연구에서는 하나의 kernel size의 한계를 말한다. 결국 high-resolustion pattern을 위해서는 큰 kernel size가 필요하고 local-resolution pattern을 위해서는 작은 kernel-size가 필요하다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        August 3, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-08-03-python-%EB%B3%80%EC%88%98%ED%95%A0%EB%8B%B9%EC%9D%98-%EA%B0%9C%EB%85%90/" class="link black dim">
+        Python 변수할당의 개념
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Python은 C언어와 다르게 Pointer가 존재하지 않는다.  Pointer란
+프로그래밍 언어에서 다른 변수, 혹은 그 변수의 메모리 공간주소를 가리키는 변수를 말한다. 포인터가 가리키는 값을 가져오는 것을 역참조라고 한다.
+https://ko.wikipedia.org/wiki/%ED%8F%AC%EC%9D%B8%ED%84%B0_(%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D)
+ python에서는 메모리 주소를 변수를 구별하는 용도로 사용한다.
+참고로 변수의 메모리 주소는 id()를 이용하여 구할 수 있다.
+a = &#34;String&#34; id(a) python에서는 변수에 값을 할당하면 object를 생성해서 값을 저장한 후 변수는 해당 object의 메모리 주소를 의미하는 id값을 가지게 된다. 여기서 변수는 object의 label정도로 생각하면 된다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
         August 1, 2019
       </div>
     
@@ -338,74 +410,6 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
       Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
 Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
 추가적으로 finite-wide neural network상에서 연구되었다.
-    </div>
-  </div>
-
-        </div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          
-            <div class="mb3 pa4 mid-gray overflow-hidden">
-    
-      <div class="f6">
-        July 30, 2019
-      </div>
-    
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-07-30-mesh-tensorflow-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
-        mesh tensorflow 정리글
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      요약 batch-spliting이란, data-paralleism 방법론으로 분산화된 딥러닝 네트워크에서 많이 사용하며, Single-Program-Multiple-Data programing의 일종이다. 즉, 데이터가 클 때 분산시켜서 대처하는 방법론이라고 할 수 있다.
-하지만, 모델이 한번에 RAM에 올리기 클 경우에는 어떻게 해야할까? 혹은 모델의 크기 때문에 작은 batch size를 사용할 때 발생하는 high latency와 비효율성이 발생한다면 어떻게 해야할까? 이를 해결하기 위해서는 Model-parallenism을 사용해야한다.
-하지만, 효과적인 model-parallelism은 일반적으로 복잡한 편이다. 이런 문제를 간단하게 해결하기 위해서 Mesh-tensorflow를 제안한다. data-parallelism은 tensor와 operations를 batch dimension으로 나누는 것으로 치환한다.
-    </div>
-  </div>
-
-        </div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          
-            <div class="mb3 pa4 mid-gray overflow-hidden">
-    
-      <div class="f6">
-        July 25, 2019
-      </div>
-    
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
-        Faster-RCNN 정리글
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
-    </div>
-  </div>
-
-        </div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          
-            <div class="mb3 pa4 mid-gray overflow-hidden">
-    
-      <div class="f6">
-        July 25, 2019
-      </div>
-    
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/" class="link black dim">
-        Mixture density Network: Uncertainty estimation
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Problem 기존의 방법론들은 uncetrainty를 estimate하는데 sampling을 해야하는 한계가 있다. 이 논문에서는 gaussian mixure model을 활용한 sampling-free uncertainty estimation방법론을 제안한다.
-Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
- $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
- $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$
     </div>
   </div>
 
@@ -538,6 +542,25 @@ Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가
 
 
 
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/">Batch Normalization에 대하여</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/">Neural Networks, Manifolds, and Topology 번역글</a>
+        </li>
+	    
+    </ul>
+</div>
 
 </div>
   </div>

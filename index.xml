@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>�� This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License��please give source if you wish to quote or reproduce.</copyright>
-    <lastBuildDate>Thu, 01 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://rroundtable.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -82,6 +82,45 @@ Error encoding network implementation Visualized that the distance of different 
 topology를 언급하는 이유는 representation space상에서 공간의 변화가 일어나도 같은 성질을 가지고 있음을 증명하기 위해서입니다.
  Fig.1 - same topology  
 도넛과 물컵은 같은 topology를 가진다.</description>
+    </item>
+    
+    <item>
+      <title>Activation atlas 정리글</title>
+      <link>https://rroundtable.github.io/post/activation-atlas/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/activation-atlas/</guid>
+      <description>Introduction What have these networks learned that allows them to classify images so well?
+네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.
+기본적으로 네트워크를 시각적으로 분석할려고 노력했다.
+ individual neurons  뉴런들을 독립적으로 시각화
+ Interaction between Neurons  뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.
+예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?
+ spatial activation  위의 질문에 대한 답은 activation을 시각화하는 것에 있다.</description>
+    </item>
+    
+    <item>
+      <title>MixConv: Mixed Depthwise Convolutional Kernels</title>
+      <link>https://rroundtable.github.io/post/mixconv/</link>
+      <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/mixconv/</guid>
+      <description>Abstract  다양한 kernel size의 효과  다양한 kernel size의 조합은 모델의 accuracy 및 efficient를 향상 시킬 수 있다.  위를 바탕으로 depth-wise convolution(MixConv)제안 MixConv의 효과를 증명하기 위해서 AutoML을 결합  Introduction Figure 1에서 볼 수 있듯이, kernel size가 클수록 모델의 성능이 올라간다고 할 수 없다. 올라가는 추세를 보이다가 k9*9를 넘어서면 accuracy가 떨어지는 것을 확인할 수 있다.
+ConvNets 연구에서는 하나의 kernel size의 한계를 말한다. 결국 high-resolustion pattern을 위해서는 큰 kernel size가 필요하고 local-resolution pattern을 위해서는 작은 kernel-size가 필요하다.</description>
+    </item>
+    
+    <item>
+      <title>Python 변수할당의 개념</title>
+      <link>https://rroundtable.github.io/post/2019-08-03-python-%EB%B3%80%EC%88%98%ED%95%A0%EB%8B%B9%EC%9D%98-%EA%B0%9C%EB%85%90/</link>
+      <pubDate>Sat, 03 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/2019-08-03-python-%EB%B3%80%EC%88%98%ED%95%A0%EB%8B%B9%EC%9D%98-%EA%B0%9C%EB%85%90/</guid>
+      <description>Python은 C언어와 다르게 Pointer가 존재하지 않는다.  Pointer란
+프로그래밍 언어에서 다른 변수, 혹은 그 변수의 메모리 공간주소를 가리키는 변수를 말한다. 포인터가 가리키는 값을 가져오는 것을 역참조라고 한다.
+https://ko.wikipedia.org/wiki/%ED%8F%AC%EC%9D%B8%ED%84%B0_(%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D)
+ python에서는 메모리 주소를 변수를 구별하는 용도로 사용한다.
+참고로 변수의 메모리 주소는 id()를 이용하여 구할 수 있다.
+a = &amp;#34;String&amp;#34; id(a) python에서는 변수에 값을 할당하면 object를 생성해서 값을 저장한 후 변수는 해당 object의 메모리 주소를 의미하는 id값을 가지게 된다. 여기서 변수는 object의 label정도로 생각하면 된다.</description>
     </item>
     
     <item>
@@ -165,6 +204,17 @@ ex) Relu
 힐버트 공간에서는 내적으로 metric을 정의한다.
 내적 $$는 $H \times H$에서 $\mathbb{R}$로의 bilinear positive definite kernel이다.
  bilinear: $x, y$ 둘 중 하나를 고정하면 다른 하나에 대한 linear 함수   positive definite    Complete  힐버트 공간 $\mathcal{H}$내의 어떠한 Cauchy sequence도 $\mathcal{H}$내의 원소로 수렴한다.</description>
+    </item>
+    
+    <item>
+      <title>Image segmentation에서 사용되는 loss</title>
+      <link>https://rroundtable.github.io/post/image-segmentation-loss/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://rroundtable.github.io/post/image-segmentation-loss/</guid>
+      <description>Basic: Cross Entropy 일반적으로 classification문제에서 사용되는 term이다. $$ CE(p, \hat{p}) = -(p \log(\hat{p}) + (1- p)\log(1-\hat{p})) $$
+Weighted cross entropy $$ WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) + (1- p)\log(1-\hat{p})) $$
+위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는 positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다.</description>
     </item>
     
   </channel>

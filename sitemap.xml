@@ -32,6 +32,33 @@
   </url>
   
   <url>
+    <loc>https://rroundtable.github.io/post/activation-atlas/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/mixconv/</loc>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-08-03-python-%EB%B3%80%EC%88%98%ED%95%A0%EB%8B%B9%EC%9D%98-%EA%B0%9C%EB%85%90/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rroundtable.github.io/categories/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -40,18 +67,6 @@
   <url>
     <loc>https://rroundtable.github.io/post/2019-08-01-dropout-as-bayesian-approximation-%EC%A0%95%EB%A6%AC%EA%B8%80/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rroundtable.github.io/post/</loc>
-    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://rroundtable.github.io/</loc>
-    <lastmod>2019-08-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -154,6 +169,10 @@
     <loc>https://rroundtable.github.io/tags/uncertainty/</loc>
     <lastmod>2019-06-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/image-segmentation-loss/</loc>
   </url>
   
 </urlset>

@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-08-01T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2019-08-26T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -192,6 +192,74 @@
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
+        July 30, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-30-mesh-tensorflow-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        mesh tensorflow 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      요약 batch-spliting이란, data-paralleism 방법론으로 분산화된 딥러닝 네트워크에서 많이 사용하며, Single-Program-Multiple-Data programing의 일종이다. 즉, 데이터가 클 때 분산시켜서 대처하는 방법론이라고 할 수 있다.
+하지만, 모델이 한번에 RAM에 올리기 클 경우에는 어떻게 해야할까? 혹은 모델의 크기 때문에 작은 batch size를 사용할 때 발생하는 high latency와 비효율성이 발생한다면 어떻게 해야할까? 이를 해결하기 위해서는 Model-parallenism을 사용해야한다.
+하지만, 효과적인 model-parallelism은 일반적으로 복잡한 편이다. 이런 문제를 간단하게 해결하기 위해서 Mesh-tensorflow를 제안한다. data-parallelism은 tensor와 operations를 batch dimension으로 나누는 것으로 치환한다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 25, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        Faster-RCNN 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 25, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/" class="link black dim">
+        Mixture density Network: Uncertainty estimation
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem 기존의 방법론들은 uncetrainty를 estimate하는데 sampling을 해야하는 한계가 있다. 이 논문에서는 gaussian mixure model을 활용한 sampling-free uncertainty estimation방법론을 제안한다.
+Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
+ $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
+ $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
         July 8, 2019
       </div>
     
@@ -252,6 +320,24 @@ ex) Relu
 힐버트 공간에서는 내적으로 metric을 정의한다.
 내적 $$는 $H \times H$에서 $\mathbb{R}$로의 bilinear positive definite kernel이다.
  bilinear: $x, y$ 둘 중 하나를 고정하면 다른 하나에 대한 linear 함수   positive definite    Complete  힐버트 공간 $\mathcal{H}$내의 어떠한 Cauchy sequence도 $\mathcal{H}$내의 원소로 수렴한다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/image-segmentation-loss/" class="link black dim">
+        Image segmentation에서 사용되는 loss
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Basic: Cross Entropy 일반적으로 classification문제에서 사용되는 term이다. $$ CE(p, \hat{p}) = -(p \log(\hat{p}) + (1- p)\log(1-\hat{p})) $$
+Weighted cross entropy $$ WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) + (1- p)\log(1-\hat{p})) $$
+위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는 positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다.
     </div>
   </div>
 
@@ -384,6 +470,25 @@ ex) Relu
 
 
 
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/">Batch Normalization에 대하여</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/">Neural Networks, Manifolds, and Topology 번역글</a>
+        </li>
+	    
+    </ul>
+</div>
 
 </div>
   </div>

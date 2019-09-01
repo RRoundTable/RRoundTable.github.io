@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>RoundTable  | Activation atlas 정리글</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.5" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="https://rroundtable.github.io/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Activation atlas 정리글" />
+<meta property="og:description" content="Introduction What have these networks learned that allows them to classify images so well?
+네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.
+기본적으로 네트워크를 시각적으로 분석할려고 노력했다.
+ individual neurons  뉴런들을 독립적으로 시각화
+ Interaction between Neurons  뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.
+예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?
+ spatial activation  위의 질문에 대한 답은 activation을 시각화하는 것에 있다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/activation-atlas/" />
+<meta property="article:published_time" content="2019-08-26T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-08-26T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Activation atlas 정리글">
+<meta itemprop="description" content="Introduction What have these networks learned that allows them to classify images so well?
+네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.
+기본적으로 네트워크를 시각적으로 분석할려고 노력했다.
+ individual neurons  뉴런들을 독립적으로 시각화
+ Interaction between Neurons  뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.
+예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?
+ spatial activation  위의 질문에 대한 답은 activation을 시각화하는 것에 있다.">
+
+
+<meta itemprop="datePublished" content="2019-08-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-08-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1155">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Activation atlas 정리글"/>
+<meta name="twitter:description" content="Introduction What have these networks learned that allows them to classify images so well?
+네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.
+기본적으로 네트워크를 시각적으로 분석할려고 노력했다.
+ individual neurons  뉴런들을 독립적으로 시각화
+ Interaction between Neurons  뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.
+예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?
+ spatial activation  위의 질문에 대한 답은 activation을 시각화하는 것에 있다."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      RoundTable
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/RRoundTable" title="Works page">
+              Works
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/post/aboutme" title="About me page">
+              About me
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/categories/index.html" title="Categories page">
+              Categories
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/index.html" title="Tags page">
+              Tags
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Activation atlas 정리글</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-08-26T00:00:00Z">August 26, 2019</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h2 id="introduction">Introduction</h2>
+
+<p>What have these networks learned that allows them to classify images so well?</p>
+
+<p>네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.</p>
+
+<p>기본적으로 네트워크를 시각적으로 분석할려고 노력했다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63659574-0c5b5700-c7ed-11e9-9f00-d9a8b5274b1b.png" style="width: 70%"></p>
+
+<ul>
+<li><a href="https://distill.pub/2017/feature-visualization/">individual neurons</a></li>
+</ul>
+
+<p>뉴런들을 독립적으로 시각화</p>
+
+<ul>
+<li><a href="https://distill.pub/2017/feature-visualization/#interaction">Interaction between Neurons</a></li>
+</ul>
+
+<p>뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.</p>
+
+<p>예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?</p>
+
+<ul>
+<li><a href="https://distill.pub/2018/building-blocks/#ActivationGridSingle">spatial activation</a></li>
+</ul>
+
+<p>위의 질문에 대한 답은 activation을 시각화하는 것에 있다. 특정 input tensor에 대해서 activation되는 뉴런들의 combination을 시각화하는 것이다.</p>
+
+<p>위의 접근방법은 hidden layer를 다루는데 탁월하지만, 치명적인 결함이 있다. 하나의 input에 대해서만 시각화한다는 점이다. 이는 각 network의 전반적인 시각적 분석을 하기 힘들다는 뜻이다.</p>
+
+<p>해당 논문은 이런 문제의식을 가지고 &ldquo;Activation Atlas&rdquo;를 기획하였다.</p>
+
+<p>이런 global view를 얻기 위한 방법으로는 다음과 같은 방법이 있다.</p>
+
+<ul>
+<li><a href="https://cs.stanford.edu/people/karpathy/cnnembed/">CNN code visualization</a></li>
+</ul>
+
+<p><img src="https://cs.stanford.edu/people/karpathy/cnnembed/cnn_embed_1k_icon.jpg" style="width: 40%"></p>
+
+<p>t-SNE 기반의 시각화 방법이다. 간략히 설명하면, 각 input tensor 혹은 activation value에 대해서 t-SNE로 mapping 시킬 좌표를 구하고 해당 좌표에 위와 같이 이미지를 시각화 하는 것이다.</p>
+
+<p>activation atlas의 경우 위와 t-SNE와 유사한 방법을 이용하였으나, 주된 차이는 input tensor가 아닌 각 feature를 시각화하는 것에 있다. 각 feature를 위와 같이 시각화하면 feature간의 관계를 파악할 수 있다는 장점이 있다.</p>
+
+<p>activation atlas는</p>
+
+<ul>
+<li>각 feature의 관계를 잘 파악할 수 있다는 강점을 가지고 있으나,</li>
+<li>data distribution에 영향을 받는다는 단점 또한 가지고 있다.</li>
+</ul>
+
+<h2 id="looking-at-single-images">Looking at single images</h2>
+
+<p>activation atlas를 살펴보기전에 activation vector를 시각화하는 <a href="https://distill.pub/2018/building-blocks/">spatial activation</a>부터 살펴볼 것이다. 사용할 모델은 InceptionV1이이며, 시각화 과정은 다음과 같다.</p>
+
+<ol>
+<li><p>feed the image into InceptionV1</p></li>
+
+<li><p>collect activations</p></li>
+</ol>
+
+<p>여기서 수집한 activation은 단순한 vector이기 때문에 인간의 눈으로 해석하기 힘들다. 여기서 feature visualization이 필요하다. 단순하게 생각하면, <a href="https://distill.pub/2017/feature-visualization/">feature visualization</a>은 model이 생각하는 특정 activation vector를 생성하는 image를 시각화한 것이다. 일반적으로 image를 activation vector로 바꾸는 흐름과 다르게 activation atlas에서는 activation vector에서 image를 재현하는 흐름으로 간다고 생각하면 된다.</p>
+
+<p>InceptionV1은 convolution layers로 이루어져 있으므로, 각 layer마다 복수의 activation vector가 존재한다. (Filter의 수만큼) 또한 아래의 이미지 처럼 하나의 뉴런이 각 patch를 이동하면서 activation vector를 생성한다. (Parameter-sharing)</p>
+
+<p><img src="https://taewanmerepo.github.io/2018/01/cnn/filter.jpg" style="width: 30%"></p>
+
+<p>그러므로, network에 input image를 넣으면 하나의 뉴런은 많은 수의 evaluation을 받는다. 우리는 이를 각 뉴런이 각 patch에 대해서 얼마나 활성화됐는지 평가할 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63660761-ed5fc380-c7f2-11e9-8481-d680187ecfcf.png" style="width: 70%"></p>
+
+<p><img src="https://distill.pub/2019/activation-atlas/assets/images/dogcat-grid.jpg"></p>
+
+<h2 id="aggregating-multiple-images">Aggregating Multiple Images</h2>
+
+<p>위의 방법론은 single image에 대해서만 접근한 것이다. 하지만, global view를 얻고 싶다면 어떻게 해야할까?</p>
+
+<p>모든 이미지에 대해서 위의 방법론을 적용할 수도 있겠으나, 그러한 방법은 scale-up할 수 없으며 인간의 두뇌는 구조적인 정리없이 수많은 이미지를 모두 인지할 수 없다.</p>
+
+<p>우선, 먼저 수많은 이미지로부터 activation value를 수집해보자. 이는 위와 동일한 방법을 반복하면 된다. 수집한 activation은 위와 동일하게 feature visualization을 적용한다.</p>
+
+<p>이렇게 수집된 vector는 high-dimension(512 dim)의 성격을 가진다. 이를 dimensionality reduction방법론을 적용해서 2차원으로 mapping 하면 아래의 이미지처럼 나타나게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63661257-b8547080-c7f4-11e9-9ee5-972d32716965.png" style="width: 60%"></p>
+
+<p>Feature visualization을 적용할 때, regularization을 사용하였다.(ex: <a href="https://distill.pub/2017/feature-visualization/#regularizer-playground-robust">transformation robustness</a>)</p>
+
+<p>다른 objective를 사용하기도 하였다. activation space $v$ 를 시각화 하기 위해서, point $x, y$의 activation vector $h<em>{x,y}$ 를 dot product하였다. ( $h</em>{x, y} \cdot v$)</p>
+
+<p>해당 논문은 dot product에 cosine similarity를 곱하여 anlge을 강조하는 것이 효과적이라는 것을 발견하였다.
+$$
+\frac{(h<em>{x,y} .v)^{n+1}}{(\rVert h</em>{x,y}  \rVert  \cdot \rVert v \rVert)^{n+1}}
+$$</p>
+
+<blockquote>
+<p>We also find that whitening the activation space to unstretch it can help improve feature visualization. ???</p>
+
+<p>cosine similarity
+$$
+similarity = \cos(\theta)= \frac{A\cdot B}{\rVert A \rVert \rVert B \rVert}
+$$
+<img src="https://www.oreilly.com/library/view/statistics-for-machine/9781788295758/assets/2b4a7a82-ad4c-4b2a-b808-e423a334de6f.png" style="width: 50%"></p>
+</blockquote>
+
+<p>각 activation vector마다 attribution vector를 구할 수 있다. attribution vector란, 각 calss에 대한 항목이 있으며 각 class의 logit에 영향을 받은 activation vector의 값을 근사한다. attribution vector는 주변 contex에 영향을 받는다.
+$$
+h<em>{x, y} \cdot \nabla</em>{h_{x_y}}logit_c
+$$</p>
+
+<ul>
+<li>Class c logit: $logit_c$</li>
+<li>해당 수식은 뉴런이 logit에 미치는 영향을 측정하는 것</li>
+<li>GradCam과 유사하지만, gradient spatial averaging을 사용하지 않고 gradient의 noise를 continuous relaxtion을 통해서 감소 시켰다.</li>
+<li>Code: <a href="https://colab.research.google.com/github/tensorflow/lucid/blob/master/notebooks/building-blocks/AttrSpatial.ipynb">https://colab.research.google.com/github/tensorflow/lucid/blob/master/notebooks/building-blocks/AttrSpatial.ipynb</a></li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63746516-f7132500-c8df-11e9-9bd2-67cdc3e2892e.png" style="width: 50%"></p>
+
+<p>위에서 보이는 이미지는 오른쪽의 feature space에 상단 좌측에 위치한 average attribution을 시각화 한 것이다. 위의 이미지는 모두 조금씩 다르지만, 비슷한 류의 동물의 형상을 하고 있다. 특히, 눈, 털, 코 등의 특징을 잡아내고 있다. 주의 할 점은 앞단의 레이어에서 실행하면, 상당히 혼란스러울수 있다는 점이다. (앞단의 레이어에서는 위와 같은 특징을 못잡을 수도 있다.)</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63746563-1611b700-c8e0-11e9-9e52-3b39f3d1c07d.png" style="width: 50%"></p>
+
+<p>위의 이미지는 좌측 하단의 위치한 average attribution vector이다. 위의 이미지와 다르게 바다 해변의 형상을 가지고 있다.</p>
+
+<blockquote>
+<p>seashore class를 확인하기 위한 activation이 starfish나 sealion과 같은 class를 확인하는데도 쓰이는 것을 확인할 수 있었다.</p>
+</blockquote>
+
+<p>위의 두 사례를 보았을 때, 해당 activation atlas가 유의미한 2차원 좌표(semantic)를 가지고 있음을 확인할 수 있다.</p>
+
+<h2 id="looking-at-multiple-layers">Looking at Multiple Layers</h2>
+
+<p>위에서는 하나의 레이어에서 다른 object가 어떻게 시각화되는지 확인하였다면, 이번 세션에서는 유사한 object에 대해서 서로 다른 layer에서 어떻게 나타타는지 알아볼 것이다.</p>
+
+<p>사용할 레이어는 다음과 같다.(강조된 부분)</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63747602-7ace1100-c8e2-11e9-8783-dd9222cb1008.png" style="width: 50%"></p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63747623-87526980-c8e2-11e9-8a3d-15cbc80a8812.png" style="width: 70%"></p>
+
+<p>위의 이미지는 cabbage class를 시각화한 것이다. 왼쪽에서 오른쪽으로 갈 수록 더 cabbage처럼 구체적이고 복잡해지는 것을 확인할 수 있다. 이는 해당연구에서 기대했던 바인데 이유는 다음과 같다.</p>
+
+<ul>
+<li>뒷 단의 레이어일수록 receptive field가 크기 때문</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63747659-9a653980-c8e2-11e9-9b0b-775754cfeb6e.png" style="width: 70%"></p>
+
+<p>위의 이미지는 sand와 water 그리고 sandbar의 이미지의 activation value를 나타낸 것이다. sandbar를 보면, 앞의 두 이미지를 합친 것과 유사해 보인다.</p>
+
+<h2 id="focusing-on-a-single-classification">Focusing on a Single Classification</h2>
+
+<p>이제부터는 network가 classification하는 것에 대해서 살펴볼 차례이다.</p>
+
+<p>예를 들어서, network가 어떤 과정을 거쳐서 &lsquo;fireboat&rsquo;라는 class로 결정하는지 살펴볼 것이다.</p>
+
+<p><img src="https://distill.pub/2019/activation-atlas/assets/images/fireboat-01.jpg" style="width: 30%"></p>
+
+<p>먼저 last layer(mixed5b)를 살펴볼 것이다. 뚜렷하게 보이는 부분일수록 &lsquo;fireboat&rsquo;로 결정하는데 큰 기여를 한 activation이다. classification 전의 layer이기 때문에 &lsquo;fireboat&rsquo;와 매우 유사한 이미지들이 진하게 보인다는 것을 확인 할 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63762216-6b0ff600-c8fd-11e9-9b99-958d99722393.png" style="width: 70%"></p>
+
+<p>아래의 이미지는 mixed4d의 이미지로 여러가지 부분의 조합으로 &lsquo;fireboat&rsquo;로 인식하고 있음을 확인할 수 있다. 각 부분들은 fireboat와 유사해 보이지 않지만, 위의 fireboat사진을 보면 이렇게 인식하는 이유를 이해할 수 있다.</p>
+
+<p>fireboat를 보면 창문 + 기중기 + 물로 이루어져 있음을 알 수 있다. 해당 부분도 물, 기중기, 창문들로 이루어져 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63762688-38b2c880-c8fe-11e9-814c-cefa31eff0bb.png" style="width: 70%"></p>
+
+<p>이러한 특성은 &lsquo;fireboat&rsquo;와 &lsquo;streetcar&rsquo;와 비교해보면 잘 알 수 있다. (조금 유사하지만 다른 object)</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63763195-31d88580-c8ff-11e9-8325-5e1aa3b42f1d.png" style="width: 70%"></p>
+
+<p>해당 이미지를 보면 streetcar는 기중기나 물에서는 약한 activation을 가지고 있으나 창문과 집에 대한 activation에서는 매우 강한 activation을 가진다. 반대로 fireboat는 물과 기중기, 창문에서는 강한 activation을 가지지만 집에 대한 activation에서는 약한 activation을 가지고 있음을 확인할 수 있다.</p>
+
+<h2 id="further-isolating-classes">Further Isolating Classes</h2>
+
+<p>특정 class에 기여하는 activation만을 확인하고 싶다면, 다른 activation을 완전히 제외할 수 있다. 이를 class-specific activation이라고 한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63764502-ebd0f100-c901-11e9-8f8e-780a55ac0f1d.png" style="width: 50%"></p>
+
+<ul>
+<li><p>스노쿨링 이미지</p></li>
+
+<li><p>Code: <a href="https://colab.research.google.com/github/tensorflow/lucid/blob/master/notebooks/activation-atlas/class-activation-atlas.ipynb">https://colab.research.google.com/github/tensorflow/lucid/blob/master/notebooks/activation-atlas/class-activation-atlas.ipynb</a></p></li>
+</ul>
+
+<p>class activation atlas는 특정 class에 대해서 어떤 detector가 더 많은 기여를 했는지 명확하게 보여준다. 위의 스노쿨링 예시에서 강한 attribution만 보여주는 것이 아니라, strength가 약하더라도 해당 class에 전반적인 영향을 끼친 attribution도 보여준다. 특정 경우 우리가 보고 싶어하는 object와 매우 강하게 상관관계가 있는 object가 있다. (스노쿨러 - 물고기) 물고기는 우리가 보고 싶어하는 부분과 다른 부분이다. 따라서 적절한 filtering 방법이 필요하다</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63765574-4c612d80-c904-11e9-924f-e68fd1c39712.png" style="width: 100%"></p>
+
+<p>위의 이미지 다른 필터링을 적용한 것이다. 위의 설명을 참고 바란다.</p>
+
+<p>이제는 유사한 두 클레스를 비교해볼 것이다. (magnitude 기준으로)</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63766039-4e77bc00-c905-11e9-8e8b-21c7a8e4a172.png"></p>
+
+<p>위의 이미지를 보면 두 클레스를 구분하기 힘들것이다. 아래의 이미지를 보면 도움이 될 것이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63766282-d067e500-c905-11e9-89f8-8bb8a300ee0c.png" style="width: 70%"></p>
+
+<blockquote>
+<p>To help make the comparison easier, we can combine the two views into one. We’ll plot the difference between the attributions of the “snorkel” and “scuba diver” horizontally, and use t-SNE  to cluster similar activations vertically.</p>
+</blockquote>
+
+<p>위에 주목할 점은 locomotive(기관차)가 스쿠버 다이버와 연관이 깊게 나온다는 것이다. 이를 바탕으로 다음과 같은 실험을 진행하였다.</p>
+
+<p>스노쿨링 이미지에 조금씩 기관차 이미지를 사이즈 업하여 더한 것이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63766479-318fb880-c906-11e9-9562-d3bac82703a8.png" style="width: 70%"></p>
+
+<p>해당 이미지를 보면 조금 더 하면 스쿠버 다이버의 softmax값이 올라가나 일정수준이 넘으면 기관차로 인식함을 알 수 있다. 아마도 기관차의 스팀이 그런역할을 한 것으로 보이며 이와 같은 feature를 multi-use feature라고 칭한다.(시각적으로 유사해 보여도 서로 다른 시각적으로 다른 class에 반응)</p>
+
+<p>위와 같은 실험을 attack의 개념으로 1000여번을 진행했다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63767051-7bc56980-c907-11e9-96f4-8c7b2f55a2cc.png" style="width: 60%"></p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63767073-867ffe80-c907-11e9-8592-8e2e0f1cf29f.png" style="width: 60%"></p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/63767088-9861a180-c907-11e9-84a2-ff25db136abd.png" style="width: 60%"></p>
+
+<p>위의 공격은 모든 클레스에 대해서 효과적인것은 아니었으나, 다섯개의 이미지에서 2개 정도로 target image로 인식하게 만들 수 있었다.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+<li><h3 id="surfacing-inner-properties-of-models">Surfacing Inner Properties of Models</h3></li>
+
+<li><h3 id="new-interfaces">New interfaces</h3>
+
+<ul>
+<li>using AI to augment Human intelligence: 인간지능 보조</li>
+<li>이미지의 알파벳처럼 activation을 조합할 수 있다.</li>
+<li>classification 모델을 generative model처럼 &hellip;</li>
+<li>Style transfer</li>
+<li>Query large image datasets</li>
+<li>Histogram</li>
+<li>새로운 데이터 셋 탐색</li>
+</ul></li>
+</ul>
+
+<h4 id="reference">reference</h4>
+
+<ul>
+<li><a href="https://distill.pub/2019/activation-atlas/">https://distill.pub/2019/activation-atlas/</a></li>
+</ul>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
+    &copy; 2019 RoundTable
+  </a>
+    <div>
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+    <div><script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script></div>
+    <div>
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/">Batch Normalization에 대하여</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/">Neural Networks, Manifolds, and Topology 번역글</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="https://rroundtable.github.io/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

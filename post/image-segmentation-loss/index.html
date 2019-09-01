@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>RoundTable </title>
+    <title>RoundTable  | Image segmentation에서 사용되는 loss</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -28,24 +28,39 @@
 
     
 
-    <meta property="og:title" content="404 Page not found" />
-<meta property="og:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://rroundtable.github.io/404.html" />
+    <meta property="og:title" content="Image segmentation에서 사용되는 loss" />
+<meta property="og:description" content="Basic: Cross Entropy 일반적으로 classification문제에서 사용되는 term이다. $$ CE(p, \hat{p}) = -(p \log(\hat{p}) &#43; (1- p)\log(1-\hat{p})) $$
+Weighted cross entropy $$ WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) &#43; (1- p)\log(1-\hat{p})) $$
+위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는 positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/image-segmentation-loss/" />
 
 
-<meta itemprop="name" content="404 Page not found">
-<meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
+<meta itemprop="name" content="Image segmentation에서 사용되는 loss">
+<meta itemprop="description" content="Basic: Cross Entropy 일반적으로 classification문제에서 사용되는 term이다. $$ CE(p, \hat{p}) = -(p \log(\hat{p}) &#43; (1- p)\log(1-\hat{p})) $$
+Weighted cross entropy $$ WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) &#43; (1- p)\log(1-\hat{p})) $$
+위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는 positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다.">
 
+
+
+<meta itemprop="wordCount" content="426">
+
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="404 Page not found"/>
-<meta name="twitter:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."/>
+<meta name="twitter:title" content="Image segmentation에서 사용되는 loss"/>
+<meta name="twitter:description" content="Basic: Cross Entropy 일반적으로 classification문제에서 사용되는 term이다. $$ CE(p, \hat{p}) = -(p \log(\hat{p}) &#43; (1- p)\log(1-\hat{p})) $$
+Weighted cross entropy $$ WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) &#43; (1- p)\log(1-\hat{p})) $$
+위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는 positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다."/>
 
   </head>
 
   <body class="ma0 avenir bg-near-white">
 
     
+   
+  
 
   <header>
     <div class="bg-black">
@@ -140,13 +155,158 @@
   </header>
 
 
+
     <main class="pb7" role="main">
       
-    <article class="center cf pv5 measure-wide-l">
-      <h1>
-        This is not the page you were looking for
-      </h1>
-    </article>
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Image segmentation에서 사용되는 loss</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="0001-01-01T00:00:00Z">January 1, 0001</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h2 id="basic-cross-entropy">Basic: Cross Entropy</h2>
+
+<p>일반적으로 classification문제에서 사용되는 term이다.
+$$
+CE(p, \hat{p}) = -(p \log(\hat{p}) + (1- p)\log(1-\hat{p}))
+$$</p>
+
+<h2 id="weighted-cross-entropy">Weighted cross entropy</h2>
+
+<p>$$
+WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) + (1- p)\log(1-\hat{p}))
+$$</p>
+
+<p>위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는  positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다.</p>
+
+<h2 id="balanced-cross-entropy">Balanced cross entropy</h2>
+
+<p>위의 WCE와 유사한 방법론이다. 차이점은 negative sample에도 특정 가중치를 곱하는데에 있다.
+$$
+BCE(p, \hat{p}) = -(\beta p \log(\hat{p}) + (1-\beta)(1- p)\log(1-\hat{p}))
+$$
+주의할 점은 만약 $\beta$가 1의 값을 가진다면 negative sample을 전혀 고려하지 못하게 된다. 이는 $\beta$ 가 fixed value가 아닐때 발생하는데, 예시는 다음과 같다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">beta <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>reduce_sum(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> y_true) <span style="color:#f92672">/</span> (BATCH_SIZE <span style="color:#f92672">*</span> HEIGHT <span style="color:#f92672">*</span> WIDTH)</code></pre></div>
+<p>이러한 문제는 small value $\epsilon$ 을 임의로 더해주거나 tf.clip_by_value를 이용하여 해결한다.</p>
+
+<h2 id="focal-loss">Focal loss</h2>
+
+<p>주된 목적은 쉬운 example에 대해서는 down-weight를 부여하여 모델이 조금 더 어려운 example에 집중하는 것이다.
+$$
+FL(p, \hat{p}) = -(\alpha(1-\hat{p}) ^ \gamma p \log(\hat{p}) + (1-\alpha)\hat{p}^\gamma(1- p)\log(1-\hat{p}))
+$$</p>
+
+<ul>
+<li>만약 $\gamma$ 가 0이라면, BCE를 얻게 된다.</li>
+</ul>
+
+<p>여기서 어려운 exapmle이란, 모델이 예측하기 어려운 class를 의미한다.</p>
+
+<p>&lt;수식 전개 및 코드 구현 작성할까&gt;</p>
+
+<h2 id="distance-to-the-nearest-cell">Distance to the nearest cell</h2>
+
+<p>cross entropy 개념에 거리 개념을 더하여 모델이 붙어있는 object에 대해서 더 잘 구별하도록 하는 것이 목적이다.
+$$
+BCE(p, \hat{p}) + w_0 \cdot \exp(- \frac{(d_1(x) + d_2(x))^2}{2 \sigma^2})
+$$</p>
+
+<ul>
+<li><p>$d_1(x), d_2(x)$ 는 가장 가까운 cell과의 거리, 두 번째로 가까운 cell과의 거리를 나타낸다. 거리가 멀어질 수록 total loss는 줄어들고, 거리가 가까울 수록 total loss가 증가하게 된다.</p></li>
+
+<li><p>여기서 cell은 다른 class를 의미한다.</p></li>
+</ul>
+
+<h1 id="overlap-measures">Overlap measures</h1>
+
+<h2 id="dice-loss-f1-score">Dice Loss /F1 score</h2>
+
+<p>dice coefficient는 IOU와 유사한 term이다.
+$$
+DC = \frac{2TP}{2TP + FP + FN} = \frac{2 \rvert X \cap Y \rvert}{|X| + |Y|}
+$$</p>
+
+<p>$$
+IOU = \frac{TP}{TP + FP +FN} = \frac{\rvert X \cap Y \rvert}{|X| + |Y| - \rvert X \cap Y \rvert}
+$$</p>
+
+<p>​   여기서 $DC \ge IOU$ 라는 것을 알 수 있다.</p>
+
+<p>Dice coefficient는 loss function으로 정의될 수 있다.
+$$
+DL(p, \hat{p}) = \frac{2<p, \hat{p}>}{\rVert p \rVert_2^2 + \rVert \hat{p} \rVert_2^2}
+$$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dice_loss</span>(y_true, y_pred):
+  numerator <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>reduce_sum(y_true <span style="color:#f92672">*</span> y_pred)
+  <span style="color:#75715e"># some implementations don&#39;t square y_pred</span>
+  denominator <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>reduce_sum(y_true <span style="color:#f92672">+</span> tf<span style="color:#f92672">.</span>square(y_pred))
+
+  <span style="color:#66d9ef">return</span> numerator <span style="color:#f92672">/</span> (denominator <span style="color:#f92672">+</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>backend<span style="color:#f92672">.</span>epsilon()</code></pre></div>
+<h2 id="tversky-loss">Tversky loss</h2>
+
+<p>dice loss의 generalization이다. FP와 FN에 weight를 곱하는 것이다.</p>
+
+<p>$$
+DL(p, \hat{p}) = \frac{2 <p, \hat{p}>}{2<p, \hat{p}> + <1-p, \hat{p}> + <p, 1 - \hat{p}>}
+$$</p>
+
+<p>$$
+TL(p, \hat{p}) = \frac{2 <p, \hat{p}>}{2<p, \hat{p}> + \beta<1-p, \hat{p}> + (1-\beta)<p, 1 - \hat{p}>}
+$$</p>
+
+<h2 id="lovasz-softmax">Lovasz-softmax</h2>
+
+<p>DL과 TL은 $\hat{p} \in { 0, 1} ^n$ 이라는 강한 제한을 둔다. 하지만 Lovasz-softmax에서는 surrogate loss function을 사용한다.</p>
+
+<blockquote>
+<p><a href="https://github.com/bermanmaxim/LovaszSoftmax/blob/master/tensorflow/lovasz_losses_tf.py">https://github.com/bermanmaxim/LovaszSoftmax/blob/master/tensorflow/lovasz_losses_tf.py</a></p>
+</blockquote>
+
+<h4 id="reference">Reference</h4>
+
+<ul>
+<li><a href="https://lars76.github.io/neural-networks/object-detection/losses-for-segmentation/#references">https://lars76.github.io/neural-networks/object-detection/losses-for-segmentation/#references</a></li>
+</ul>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+  </article>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
