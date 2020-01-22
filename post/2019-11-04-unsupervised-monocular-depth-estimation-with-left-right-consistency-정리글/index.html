@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>RoundTable  | Faster-RCNN 정리글</title>
+    <title>RoundTable  | Unsupervised Monocular Depth Estimation with Left-Right Consistency 정리글</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -28,36 +28,33 @@
 
     
 
-    <meta property="og:title" content="Faster-RCNN 정리글" />
-<meta property="og:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다." />
+    <meta property="og:title" content="Unsupervised Monocular Depth Estimation with Left-Right Consistency 정리글" />
+<meta property="og:description" content="Abstract 많은 방법론들이 depth estimation부분에서 성과를 보여주었다. 하지만, 대부분 지도학습이라는 한계를 가지고 있으며, 이는 결국 많은 수의 ground-truth data가 필요하다는 것을 의미한다. 하지만, depth를 기록하는 것은 매우 어려운 문제이다. 따라서 이 연구에서는 얻기 쉬운 binocular stereo footage를 이용하여 문제를 해결한다.
+epipolar geometry constraints를 활용해서 reconstruction loss로 학습을 시킬 수 있다. 하지만 이 결과물은 depth image의 질이 낮아진다. 이러한 문제를 해결하기 위해서, consistency를 유지할 수 있게하는 loss를 제안한다.
+ Epipolar geometry" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
-<meta property="article:published_time" content="2019-07-25T00:00:00&#43;00:00"/>
-<meta property="article:modified_time" content="2019-07-25T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-11-04-unsupervised-monocular-depth-estimation-with-left-right-consistency-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
+<meta property="article:published_time" content="2019-11-04T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-11-04T00:00:00&#43;00:00"/>
 
-<meta itemprop="name" content="Faster-RCNN 정리글">
-<meta itemprop="description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.">
-
-
-<meta itemprop="datePublished" content="2019-07-25T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-07-25T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="951">
+<meta itemprop="name" content="Unsupervised Monocular Depth Estimation with Left-Right Consistency 정리글">
+<meta itemprop="description" content="Abstract 많은 방법론들이 depth estimation부분에서 성과를 보여주었다. 하지만, 대부분 지도학습이라는 한계를 가지고 있으며, 이는 결국 많은 수의 ground-truth data가 필요하다는 것을 의미한다. 하지만, depth를 기록하는 것은 매우 어려운 문제이다. 따라서 이 연구에서는 얻기 쉬운 binocular stereo footage를 이용하여 문제를 해결한다.
+epipolar geometry constraints를 활용해서 reconstruction loss로 학습을 시킬 수 있다. 하지만 이 결과물은 depth image의 질이 낮아진다. 이러한 문제를 해결하기 위해서, consistency를 유지할 수 있게하는 loss를 제안한다.
+ Epipolar geometry">
 
 
+<meta itemprop="datePublished" content="2019-11-04T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-04T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="996">
 
-<meta itemprop="keywords" content="deeplearning," />
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Faster-RCNN 정리글"/>
-<meta name="twitter:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
+<meta name="twitter:title" content="Unsupervised Monocular Depth Estimation with Left-Right Consistency 정리글"/>
+<meta name="twitter:description" content="Abstract 많은 방법론들이 depth estimation부분에서 성과를 보여주었다. 하지만, 대부분 지도학습이라는 한계를 가지고 있으며, 이는 결국 많은 수의 ground-truth data가 필요하다는 것을 의미한다. 하지만, depth를 기록하는 것은 매우 어려운 문제이다. 따라서 이 연구에서는 얻기 쉬운 binocular stereo footage를 이용하여 문제를 해결한다.
+epipolar geometry constraints를 활용해서 reconstruction loss로 학습을 시킬 수 있다. 하지만 이 결과물은 depth image의 질이 낮아진다. 이러한 문제를 해결하기 위해서, consistency를 유지할 수 있게하는 loss를 제안한다.
+ Epipolar geometry"/>
 
   </head>
 
@@ -171,235 +168,193 @@ selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
           
         POSTS
       </p>
-      <h1 class="f1 athelas mb1">Faster-RCNN 정리글</h1>
+      <h1 class="f1 athelas mb1">Unsupervised Monocular Depth Estimation with Left-Right Consistency 정리글</h1>
       
-      <time class="f6 mv4 dib tracked" datetime="2019-07-25T00:00:00Z">July 25, 2019</time>
+      <time class="f6 mv4 dib tracked" datetime="2019-11-04T00:00:00Z">November 4, 2019</time>
       
       
     </header>
     <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
 
-<h1 id="problem-bottleneck">Problem: bottleneck</h1>
+<h2 id="abstract">Abstract</h2>
 
-<p>기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.</p>
+<p>많은 방법론들이 depth estimation부분에서 성과를 보여주었다. 하지만,  대부분 지도학습이라는 한계를 가지고 있으며, 이는 결국 많은 수의 ground-truth data가 필요하다는 것을 의미한다. 하지만, depth를 기록하는 것은 매우 어려운 문제이다. 따라서 이 연구에서는 얻기 쉬운 binocular stereo footage를 이용하여 문제를 해결한다.</p>
 
-<p>이러한 문제를 해결하기 위해서 <strong>Region Proposal Network</strong>를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.</p>
+<p>epipolar geometry constraints를 활용해서 reconstruction loss로 학습을 시킬 수 있다. 하지만 이 결과물은 depth image의 질이 낮아진다. 이러한 문제를 해결하기 위해서,  consistency를 유지할 수 있게하는 loss를 제안한다.</p>
 
 <blockquote>
-<p>Fast-RCNN: region proposal algorithm</p>
+<p><strong>Epipolar geometry</strong></p>
 
-<h3 id="selective-search">selective search</h3>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Aufnahme_mit_zwei_Kameras.svg/250px-Aufnahme_mit_zwei_Kameras.svg.png"></p>
 
-<p>한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
-<img src="https://i.imgur.com/DPEJcwI.png" style="width:50%;"></p>
+<p>stereo vision의 geometry,</p>
+
+<p>2개의 각기 다른 위치에서 3D 이미지의 정보를 얻을 때. 3D points와 2D points간의 많은 기하학적 관계가 있다.</p>
+</blockquote>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>이전의 많은 연구들이 multiple observation이 가능하다는 가정아래에서 진행되었다. multiple viewpoint와 다른 조명조건에서의 data도 필요하다. 이러한 한계를 극복하기 위해서, supervised learning방식으로 mono depth estimation 방법론들이 연구되었다. 이러한 방법론들은 많은 수의 data를 기반으로 depth를 직접적으로 추정하고자 하였다. 많은 성과를 이루었지만, 데이터의 수가 많아야된다는 한계를 가지고 있다.(depth 관련 데이터를 수집하기는 힘들다)</p>
+
+<p>image의 외관과 관계없이 장면의 모양을 이해할 수 있는 것은 machine perception분야에서 매우 중요한 이슈이다.</p>
+
+<p>사람은 monocular depth estimation을 잘하는데 이를 위해서 다음과 같은 힌트를 사용한다.</p>
 
 <ul>
-<li>reference: <a href="https://donghwa-kim.github.io/SelectiveSearch.html">https://donghwa-kim.github.io/SelectiveSearch.html</a></li>
+<li>원근법</li>
+<li>이미 알려진 물체크기로 상대적인 추정</li>
+<li>조명 혹은 그림자 가려진 상태에서의 모양</li>
+<li>etc</li>
+</ul>
+
+<p>위와 같은 top-down, bottom-up 힌트들을 조합해서 정확하게 depth를 추정할 수 있다. 이 연구에서는 depth data가 필요하지 않다. 학습과정에서는 synthesize depth를 이용한다.  두 이미지(left view, right view) 사이에서 해당 모델은 pixel level의 예측을 한다. (regression) 다른 연구에서도 이와 같은 방법론을 사용했지만 아래와 같은 한계가 존재한다.</p>
+
+<ul>
+<li>memory issue</li>
+<li>not fully diferentiable</li>
+</ul>
+
+<h2 id="related-work">Related Work</h2>
+
+<h3 id="learning-based-stereo-between-two-images">Learning-Based Stereo: between two images</h3>
+
+<p>대게 stereo estimation은 첫번째 이미지의 특정 픽셀과 두번째 이미지의 모든 pixel간의 similarity를 계산하는 알고리즘이다. 대부분의 stereo pairs는 정제되어 있으며, disparity estimation은 각 pixel의 1D search 문제이다.</p>
+
+<p>하지만, 최근 연구에 따르면,  head defined similarity measure방법론보다 matching function을 일종의 supervised learning problem으로 두고 문제를 해결하는 것이 더 좋은 성능을 보였다. 특히 Mayer et al.fully convolutional deep network를 활용하여 DispNet을 고안하였다.  이 방법론은 매우 많은 수의 ground-truth data가 필요했다.</p>
+
+<h3 id="supervised-single-image-depth-estimation">Supervised Single Image Depth Estimation</h3>
+
+<p>Saxena et al. patch based model(<a href="http://make3d.cs.cornell.edu/">Make3D</a>)을 제안하였다. 이는 laser scan data를 이용하여 학습되었으며 prediction은 MRF를 활용하여 결합하였다. 이 방법론의 단점은 얇은 구조물을 modeling하는데 적절하지 않았다. 이는 현실적인 이미지를 만드는데 적절치 않다는 것을 의미한다.</p>
+
+<p>위의 방법론은 hand tuning이 필요하다. 이런 방법론과 다르게, Liu et al은 CNN을 이용하여 이를 학습하고자 했다.</p>
+
+<p>Karsch et al. consistent한 image output을 가질려고 노력했다. 이는 training set으로부터 depth image를 복사하여 이루어졌다. 따라서 이 방법론은 test할 때, 모든 training set이 필요하다는 한계를 가진다.</p>
+
+<p>Eigen et al.은 두개의 scale deep network를 활용해서 depth estimation이 가능하다는 것을 보였다. 이들은 hand craft feature를 사용하지 않았고, initial over segmentation을 이용하지 않았다. 대신에 raw pixel value를 활용하여, representation을 하였다.</p>
+
+<p>많은 연구들이 CRF기반으로 accuracy향상을 이루었다.</p>
+
+<h3 id="unsupervised-depth-estimation">Unsupervised Depth Estimation</h3>
+
+<p>Flynne et al.의 DeepStereo는 새로운 view의 이미지를 만들어낸다. 학습하는동안,  다양한 카메라의 상대적인 pose가 근처 이미지의 모습을 만들어내는데 사용된다. test할 때, image synthesis는 겹치는 작은 patch에서 작동한다. 이 모델은 근처의 다른 posed image의 view가 필요하므로,  monocular depth estimation에 부적절하다.</p>
+
+<p>Xie et al의 Deep3D의 목표는 left image 기반으로 right view이미지를 만들어내는 것이다. reconstruction loss를 활용하며,  각 픽셀에 대해서 가능한 disparities에 대해서 분포를 만들어낸다. 이 방법론의 단점은 scalable하지 않다는 것이다. 가능한 disparities가 많아질수록 많은 memory가 필요하다.</p>
+
+<p>해당연구와 비슷한 연구는 Garg et al이 제안하였다. 이 nework는 monocular depth estimation방법론이긴 하지만, fully differentiable하지 않다는 한계를 가진다. 이런 점을 극복하기 위해서 taylor approximation을 사용하였다.</p>
+
+<h2 id="method">Method</h2>
+
+<h3 id="1-depth-estimation-as-image-reconstruction">1. Depth Estimation as Image Reconstruction</h3>
+
+<p>해당 연구에서는 직접 depth를 추정하는 것이 아니라 image reconstruction을 이용하여 추정한다. 기존의 연구에서는 depth estimation문제를 supervised task로 인식해서 해결했지만, 앞서 설명했듯이 depth ground truth data를 구하는 것은 매우 힘든 일이다. 비싼 하드웨어를 사용하더라고 실제환경에서는 정확하지 않을 수 있다.</p>
+
+<p>이 연구에서는 training과정에서 image reconstruction을 활용하여 해결한다. 메인 아이디어는 left-view image에서 right-view image를 만들 수 있는function을 구할 수 있다면, 3D shape에 대한 지식을 알고 있는 것이라고 볼 수 있다.(right view -&gt; left-view도 마찬가지)</p>
+
+<p>left-view image로부터 right-view image를 만든다음에 각 픽셀이 가지는 depth value를 추정한다.</p>
+
+<blockquote>
+<p>Image disparity</p>
+
+<p><a href="https://www.quora.com/What-are-disparity-maps-and-How-are-they-created">https://www.quora.com/What-are-disparity-maps-and-How-are-they-created</a></p>
+
+<ul>
+<li>baseline distance between the camera and the camera focal length $f$: $b$</li>
+<li>image disparity: $d$</li>
+<li>depth $\hat{d} = bf/d$</li>
 </ul>
 </blockquote>
 
-<h1 id="faster-rcnn">Faster-RCNN</h1>
-
-<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure2.png"></p>
-
-<p>Faster-RCNN은 두 가지 모듈로 구성된다.</p>
-
-<ol>
-<li>Deep fully convolutional network  that proposes regions</li>
-<li>Fast R-CNN detector(classfier): 1에서 추출된 regioin을 사용한다.</li>
-</ol>
-
-<p>중요한 점은 1, 2가 진행되는 동안 feature를 공유한다는 것이다. (cost-free)</p>
-
-<h2 id="region-proposal-networks">Region Proposal Networks</h2>
-
-<p>어떤 사이즈의 이미지가 들어와도 직사각형의 object proposal을 output으로 가진다.</p>
+<h3 id="2-depth-estimation-network">2.  Depth Estimation Network</h3>
 
 <blockquote>
-<p>fully convolutioinal network</p>
+<p>Disparity map</p>
 
-<p><img src="https://miro.medium.com/max/770/1*BYAi0HtzaJzqAHhAareTNg.png" style="width: 50%;"></p>
+<p><img src="https://i.stack.imgur.com/tECoA.png"></p>
 </blockquote>
 
-<p>이  논문의 목표는 detector의 computation과 proposal의 computation을 공유하는 것이기 때문에 위와 같은 convolution layers를 공유한다고 가정하였다.</p>
+<p>이 연구에서는 left-to-right , right-to-left disparities를 모두 구할 수 있으며, 서로 consistency를 유지하게 함으로써 더 좋은 성능을 가져온다.  아래는 기존의 연구의 architecture와 해당 연구의 architecture를 보여주고 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/68211370-c6a3e180-001a-11ea-944e-c70cf85c7cad.png"></p>
+
+<p>오른쪽 이미지를 보면, left image를 가지고 right image를 생성해낸다. 하지만, 우리는 right-view image에서 sampling된 left-view image가 필요하다.  No LR을 보면 right-view image에서 left view image를 생성한다. 하지만 이는 texture-copy artifact라는 현상을 보이며, detph가 연속적이지 않은 부분에서 error가 많이 발생한다. 아래의 이미지를 보면 알 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/68212304-9bba8d00-001c-11ea-8cb0-9753fca7f09a.png"></p>
+
+<p>이 연구에서는 이 문제를 model이 두가지 disparity map를 생성해내도록 만들어서 해결하였다. (sampling from the opposite input images) 이 방법은 여전히 left-view image하나만 필요하며, right image는 training과정에서만 사용된다. left-right consistency loss를 이용하여, 더 정확한 정확도를 가질 수 있다.</p>
+
+<h3 id="3-training-loss">3. Training Loss</h3>
+
+<p>$$
+C = \Sigma_{s=1}^4C_s
+$$</p>
+
+<p>$$
+C<em>{s} = \alpha</em>{ap}(C<em>{ap}^l + C</em>{ap}^r) + \alpha<em>{ds}(C</em>{ds}^l + C<em>{ds}^r) + \alpha</em>{lr}(C<em>{lr}^l + C</em>{lr}^r)
+$$</p>
 
 <ul>
-<li>ZF: 5 sharable convolutional layers</li>
-<li>VGG-16: 13 sharable convolutional layers</li>
+<li>Apperance Matching Loss: $C_{ap}$</li>
+<li>Disparity Smoothness Loss: $C_{ds}$</li>
+<li>Left-Right Disparity Consistency: $C_{lr}$</li>
 </ul>
 
-<p>이렇게 공유된 feature들은 두 가지 용도로 사용하게 된다.  ($n \times n$의 spatial window를 사용하여 얻은 feature)</p>
+<p><img src="https://user-images.githubusercontent.com/27891090/68212839-b6413600-001d-11ea-89cf-2e89ac8071a2.png"></p>
 
-<ul>
-<li>box regression: proposal</li>
-<li>box classification: detector</li>
-</ul>
+<p><strong>Apperance Matching Loss</strong>는 oposite setero이미지로부터 image를 생성하도록 학습시킨다. 여기서는 spatial transformer network를 사용하여 disparity map을 만든다. 여기서 bilinear sampler를 사용하는데 locally fully differentiable하며 fully convolutional architecture를 가진다.</p>
 
-<p>해당 논문에서는 $n = 3$으로 feature를 생성했는데, 이는 일반적인 reception field로는 작은 숫자이다. 이렇게 작게 설정한 이유는 sliding window가 모든 spatial location을 탐색할 수 있게끔 설계한 것이다.</p>
-
-<h3 id="anchors">Anchors</h3>
-
-<p>sliding window의 위치가 변할 때 마다, multiple region proposals이 이루어진다.</p>
-
-<p>한 위치에서 나올수 있는 region proposal의 최대 개수를 $k$라고 한다면,</p>
-
-<ul>
-<li>regression box: $4k$의 outputs, $k$박스의 각 좌표(꼭지점)</li>
-<li>classfier: $2k$의 outputs, object or not</li>
-</ul>
-
-<p><img src="https://www.researchgate.net/profile/Max_Ferguson/publication/327392506/figure/fig8/AS:666613162450944@1535944371721/Anchor-Boxes-at-a-certain-position-in-the-feature-map.png" style="width: 70%;"></p>
-
-<p>위의 그림은 anchor의 scale과 ratio에 변화이다. 해당 논문에서는 위의 그림과 같이 9 종류의 anchor를 사용하였다.  따라서 해당 이미지의 크기가 $W \times H$라면 $W \times H \times k$개의 anchor가 존재한다.</p>
-
-<h4 id="translation-invariant-anchors">Translation-Invariant Anchors</h4>
+<p>$$
+C<em>{ap}^l = \frac{1}{N}\Sigma</em>{i, j}\alpha\frac{1 -SSIM(I<em>{ij}^l, \hat{I}</em>{i,j}^l)}{2} + (1 - \alpha)\rVert I<em>{ij}^l - \hat{I}</em>{i,j}^l \rVert
+$$
+이 연구에서는 $\alpha$ 는 0.85 SSIMd에서는 3 x 3 block filter를 사용했다.</p>
 
 <blockquote>
-<p>translation-invariant의 특성이란</p>
+<p>SSIM: structural similarity</p>
 
-<p><img src="https://i.stack.imgur.com/iY5n5.png" style="width: 70%;"></p>
-
-<p>물체가 특정 위치에 존재할 때만 탐지되거나 혹은 특정 위치에서는 탐지가 잘 안되는 현상을 줄이는 것</p>
+<p>사람의 시각 시스템은 이미지에서 구조 정보를 도출하는데 특화되어 있기 때문에 구조 정보의 왜곡정도가 지각 품질에 가장 큰 영향을 미친다. 이것이 SSIM의 기본이 되는 핵심가설이다. 구체적으로는 원본 이미지 x와 왜곡 이미지 y의 brightness, contrast, structure를 비교한다.</p>
 
 <ul>
-<li>reference: <a href="https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8">https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8</a></li>
+<li>brightness</li>
 </ul>
+
+<p>$u_x$: x 이미지의 평균밝기</p>
+
+<p>$u_y$: y 이미지의 평균 밝기</p>
+
+<p>$I(x, y) = \frac{2u_xu_y + C_1}{u_x^2 + u_y^2 + C_2}$</p>
+
+<ul>
+<li>contrast</li>
+</ul>
+
+<p>$C(x, y) = \frac{2\sigma_x\sigma_y+C_2}{\sigma_x^2 + \sigma_y^2 + C_2}$</p>
+
+<ul>
+<li>structure</li>
+</ul>
+
+<p>structure = $\frac{x-u_x}{\sigma_x}$</p>
+
+<p>$S(x, y) = \frac{\sigma_{xy} + C_3}{\sigma_x\sigma_y + C_3}$</p>
+
+<ul>
+<li>SSIM</li>
+</ul>
+
+<p>$SSIM(x,y) = I(x,y)C(c,y)S(x,y)$</p>
+
+<p>$SSIM(x, y)= \frac{(2u_xu_y + C<em>1) (2\sigma</em>{xy} +C_2)}{(u_x^2 + u_y^2 + C_1)(\sigma_x^2 + \sigma_y^2 +C_2)}$</p>
 </blockquote>
 
-<p>이를 확인하기 위해서 MultiBox method와 비교하게 되는데, 이는 k-means 방법론을 사용하며 800개의 anchor를 생성한다. 하지만 이는 translation invariant가 아니다.</p>
+<p><strong>Disparity Smoothness Loss</strong>의 경우에는 아래와 같이 수식으로 표현된다. 이는 disparities가 locally smooth하게 하는 효과를 가져온다.
+$$
+D<em>{ds}^l = \frac{1}{N}\Sigma</em>{i,j}\rvert \partial<em>{x}d</em>{i,j}^l\rvert e ^{\rVert \partial<em>{x}I</em>{i,j}\rVert} + \rvert \partial<em>y d</em>{i,j}^l \rvert e ^{\rVert\partial<em>y I</em>{i,j}\rVert}
+$$</p>
 
-<p>translation invariant의 특성은 model size를 작게 사용할 수 있게 해준다. MultiBox의 경우 $(4 + 1) * 800$-dimensional fully-connected network를 사용하는 반면에, Faster-RCNN은 $(4 + 2) * 9$-dimensional convolutional output layer만 있으면 가능하다. 즉,  $512 * (4 + 2) * 9 \approx 2.8 * 10^4$의 파라미터만으로 해결 할 수 있다. (box: 4, cls: 2) 반면에, MultiBox는 약 $ 1536 * (4 + 1) * 800 \approx 6.1 * 10^6 $의 파라미터가 필요하다. 따라서, overfitting 문제에 있어서 Faster-RCNN이 더 우수할 것으로 기대된다. ($1536=512 * 3$)</p>
-
-<h4 id="multi-scale-anchors-as-regression-references">Multi-Scale Anchors as Regression References</h4>
-
-<p><img src="https://lh4.googleusercontent.com/k2MADd4a8MolgZiH6j6Zj7nDfoSz3MrHaLmtt2VZuzE4Du8O2w85pJDxz4GhAvGt8piSEATGfUa1Ur7JWBufkigp3s2ZivDZ8HRfSaepVDZK4vjCpgZlPy9AfmNgN4QFmgnzCvW1"></p>
-
-<p>multi-scale prediction에는 두 가지 방법이 있다. 그리고 이 두가지 방법은 종종 혼합하여 사용된다. 해당 논문에서는 cost-efficient한 두 번째 방법을 사용하였다.</p>
-
-<ul>
-<li>image/feature pyramids -Figure 1 (a)
-
-<ul>
-<li>이미지를 다양한 크기로 resize한 후 feature map은 각 resize된 이미지에서 뽑아낸다.</li>
-<li>효과적이긴 하나, computation 시간이 오래 걸린다.</li>
-</ul></li>
-<li>multiple scale sliding window
-
-<ul>
-<li>다양한 크기의 window를 sliding하여 feature을 얻는다.</li>
-<li>pyramid of filters</li>
-<li>image/feature pyramids을 사용하지 않게 하기 때문에 scale을 다루는데 추가적인 cost가 발생하지 않는다.(rescale and feature)</li>
-</ul></li>
-</ul>
-
-<h4 id="loss-function">Loss Function</h4>
-
-<p>RPN을 학습할 때는 각 anchor에 대해서 binary class label로 학습이 진행된다. (object or not)
-positive label이 부여되는 경우는 두 가지이다.</p>
-
-<ol>
-<li>anchor/ anchors with the highest IOU score with ground-truth boxes</li>
-<li>union anchor: ground-truth box와의 IOU 점수가 0.7이상인 경우</li>
-</ol>
-
-<p>보통은 2번째 조건으로만 postive sample을 만들 수 있지만, 희귀한 경우에 2번째 조건만으로 찾지 못하는 경우가 있다. 그래서 1번째 조건도 추가한다.</p>
-
-<p>negative label의 경우 IOU점수가 0.3보다 낮은 anchor에 부여된다.(ground-truth) positive 혹은 negative에 속하지 못하는 anchor는 train objective에 영향을 주지 않는다.</p>
-
-<p>아래는 objective이다.</p>
-
-<p><code>$$
-L(\{p_i\}, \{t_i\}) = \frac{1}{N_{cls}}\sum_iL_{cls}(p_i, p_i^*) + \lambda\frac{1}{N_{reg}}\sum_i p_i^*L_{reg}(t_i, t_i^*)
-$$</code></p>
-
-<ul>
-<li>$i$는 anchor의 index를 의미한다.</li>
-<li>$p_i^*$는 ground-truth label을 의미하며 1이 postive이다.</li>
-<li>$t_i^*$는 4차원의 vector로 bounding box를 의미한다. (ground-truth)</li>
-<li><code>$p_i^*L_{reg}(t_i, t_i^*)$</code>은 positive sample일때만 적용된다는 뜻이다.</li>
-</ul>
-
-<p>Bounding box regression은 어떻게 적용되는가? $L_1$ loss가 적용되며 vector가 다음과 같이 변환된다.
-<code>$$
-t_x = (x-x_a)/w_a, t_y=(y-y_a)/h_a\\
-t_w = \log(w/w_a), t_h=\log(h/h_a) \\
-t_x^* =(x^* - x_a)/w_a, t_y^*=(y^*-y_a)/h_a \\
-t_w^*= \log(w^*/w_a), t_h^*=\log(h^*/h_a)
-$$</code></p>
-
-<ul>
-<li>$x$: predicted box</li>
-<li>$x_a$: anchor box</li>
-<li>$x^*$: ground truth box</li>
-</ul>
-
-<p>위의 방법은 기존에 사용되던 Region of Interest methods와 다르다. ROI method에서는 bounding-box regression이 arbitrarily sized ROI에서 뽑힌 feature를 바탕으로 진행되며, 모든 region size에 대해서 weight를 공유한다. 반면에 위의 방법론은 feature map의 spatial size가 3 * 3으로 고정되어 있으며 변하는 size에 다루기 위해서는 다양한 anchor를 사용한다. 이 때, 각 anchor끼리는 weight를 공유하지 않는다.</p>
-
-<p>하지만, 위에서 언급했듯이 이전의 region proposal 방법론은 효율적이지 못하다는 단점이 있다.</p>
-
-<h4 id="training-rpns">Training RPNs</h4>
-
-<p>image-centric sampling 방법론을 사용한다.</p>
-
-<p>각 mini-batch에서 image상에는 많은 positives와 negatives가 존재한다. 이를 그대로 학습시킨다면 일반적으로 negative sample의 수가 많기 때문에 편향될 위험이 있다. 따라서, positive sample과 negative sample을 random하게 1:1로 추출한다음 학습을 진행한다. (p: 128, n:128)</p>
-
-<h2 id="sharing-features-for-rpn-and-fast-r-cnn">Sharing Features for RPN and Fast R-CNN</h2>
-
-<p>이제 detection network를 고려해보자. detection network와 regioin proposal network를 독립적으로 학습시킨다면 이는 서로 다른 방법으로 학습이 될 것으로 기대된다. 따라서 convolution layer를 공유하기 위해서는 새로운 방법이 필요하다.</p>
-
-<ul>
-<li>Alternating training</li>
-</ul>
-
-<p>먼저 RPN을 학습시킨다 다음, RPN에서 나오는 Proposal을 바탕으로 Fast-RCNN을 학습시킨다. 해당 논문에서는 이 방법론을 사용한다.</p>
-
-<ul>
-<li>Apporximate joint training:</li>
-</ul>
-
-<p>Fast-RCNN과 RPN을 하나의 network로 만든다. SGD interations동안 forward pass에서 region proposal을 생성하고 이는 Fast-RCNN detector를 학습시키는 동안 미리 계산되고 고정되어 있다.(not differential) backward pass에서는 RPN loss와 Fast_RCNN loss가 더해져서 total loss로 정의된다. 이는 쉽게 적용될 수 있으나, 이는 proposal box에 대한 gradient값을 무시하게 된다. (approximate한다)</p>
-
-<p>해당 실험에서는 학습시간을 줄이면서 결과는 유사하게 나오는 것을 확인할 수 있었다. (reduce 25% ~ 50% train time)</p>
-
-<ul>
-<li>Non-approximate joint training</li>
-</ul>
-
-<p>Apporximate joint training과 다르게 box coordinates에 대해서 미분가능하다.</p>
-
-<p>bbox에 미분가능한 ROI pooling layer가 필요하다.</p>
-
-<h5 id="4-step-alternating-training">4-Step Alternating Training</h5>
-
-<ol>
-<li>RPN 학습, (initialized with an ImageNet-pre-trained model )</li>
-<li>1에서 학습학 RPN을 바탕으로 regioin proposal 생성 후 Fast-RCNN detector 학습(initialized with an ImageNet-pre-trained model) 이 step에서는 layer를 공유하지 않는다.</li>
-<li>detector network를 RPN initialization에 사용한다. 공유되는 layer는 고정시키고 RPN에만 적용되는  layer만 학습시킨다. 이 step에서 layer를 공유한다.</li>
-<li>공유되는 layer는 고정시키고 Fast-RCNN에만 적용되는 layer를 학습시킨다.</li>
-</ol>
-
-<h2 id="implementation-detatils">Implementation Detatils</h2>
-
-<p>image/feature pyramids -Figure 1 (a)과 multi scale sliding window 두 가지 방법 모두 실험해보았다. 하지만 첫번째 방법론은 speed-accuracy trade-off가 좋지 않음을 확인할 수 있었다.</p>
-
-<h4 id="recall-to-iou">Recall to IOU</h4>
-
-<p>일반적으로 전반적인 detection accuracy와 관련있는 metric이다.</p>
-
-<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure4.png"></p>
-
-<p>위의 이미지를 보면 알 수 있듯이, SS, EB가 더 빠르게 감소하는 recall을 확인할 수 있다.</p>
-
-<blockquote>
-<p>recall이란</p>
-
-<p>TP / total ground-truth</p>
-</blockquote>
+<p><strong>Left-Right Disparity Consistency Loss</strong> 는 더 정확한 disparity map을 만들기 위한 term이다.  이 term은 left-view disparity map을 projected right-view disparity map과 동일하게 만들어주는 역할을 한다.
+$$
+C<em>{lr} ^l = \frac{1}{N}\Sigma</em>{i,j}\rvert d<em>{ij}^l - d</em>{ij+d_{ij}^l} ^r \rvert
+$$</p>
 <ul class="pa0">
-  
-   <li class="list">
-     <a href="https://rroundtable.github.io/tags/deeplearning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deeplearning</a>
-   </li>
   
 </ul>
 <div class="mt6">

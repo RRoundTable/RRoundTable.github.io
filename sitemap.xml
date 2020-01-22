@@ -32,20 +32,65 @@
   </url>
   
   <url>
-    <loc>https://rroundtable.github.io/post/activation-atlas/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rroundtable.github.io/post/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://rroundtable.github.io/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2020-01-22-%EB%8A%A6%EC%9D%80-2019-%ED%9A%8C%EA%B3%A0/</loc>
+    <lastmod>2020-01-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2020-01-14-word-representation/</loc>
+    <lastmod>2020-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-12-30-bert-%EC%A0%95%EB%A6%AC%EA%B8%80/</loc>
+    <lastmod>2019-12-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-12-28-big-o-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0/</loc>
+    <lastmod>2019-12-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-12-28-sorting-algorithm/</loc>
+    <lastmod>2019-12-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-11-18-attention-is-all-you-need-%EC%A0%95%EB%A6%AC%EA%B8%80/</loc>
+    <lastmod>2019-11-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-11-04-unsupervised-monocular-depth-estimation-with-left-right-consistency-%EC%A0%95%EB%A6%AC%EA%B8%80/</loc>
+    <lastmod>2019-11-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-10-29-feature-visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/</loc>
+    <lastmod>2019-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/2019-09-08-tensorrt-%EC%A0%95%EB%A6%AC%EA%B8%80/</loc>
+    <lastmod>2019-09-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rroundtable.github.io/post/activation-atlas/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>

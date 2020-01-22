@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>RoundTable  | tensorrt 정리글</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.5" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="https://rroundtable.github.io/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="tensorrt 정리글" />
+<meta property="og:description" content="[1.3. How Does TensorRT Work?] inference 과정을 최적화 시키기 위해서, TensorRT는 network definition을 가져와서 해당 환경(GPU)에서 최적화를 하며, inference engine을 생성한다. 이 과정은 상당한 시간이 소요되며, embedded 된 platform(하드웨어)에서는 더 오래걸린다. 이런 이유 때문에, 보통 engine을 만들면 그것을 serialize화 하여, 저장하고 후에 읽어와서 사용하는 방법을 선호한다.
+Note: 위의 generated된 file은 다른 tensorRT 버전 혹은 다른 플렛폼에서 사용할 수 없다. 특정 gpu에서만 사용해야한다.
+ serialize
+직렬화(直列化) 또는 시리얼라이제이션(serialization)은 컴퓨터 과학의 데이터 스토리지 문맥에서 데이터 구조나 오브젝트 상태를 동일하거나 다른 컴퓨터 환경에 저장(이를테면 파일이나 메모리 버퍼에서, 또는 네트워크 연결 링크 간 전송)하고 나중에 재구성할 수 있는 포맷으로 변환하는 과정이다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-09-08-tensorrt-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
+<meta property="article:published_time" content="2019-09-08T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-09-08T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="tensorrt 정리글">
+<meta itemprop="description" content="[1.3. How Does TensorRT Work?] inference 과정을 최적화 시키기 위해서, TensorRT는 network definition을 가져와서 해당 환경(GPU)에서 최적화를 하며, inference engine을 생성한다. 이 과정은 상당한 시간이 소요되며, embedded 된 platform(하드웨어)에서는 더 오래걸린다. 이런 이유 때문에, 보통 engine을 만들면 그것을 serialize화 하여, 저장하고 후에 읽어와서 사용하는 방법을 선호한다.
+Note: 위의 generated된 file은 다른 tensorRT 버전 혹은 다른 플렛폼에서 사용할 수 없다. 특정 gpu에서만 사용해야한다.
+ serialize
+직렬화(直列化) 또는 시리얼라이제이션(serialization)은 컴퓨터 과학의 데이터 스토리지 문맥에서 데이터 구조나 오브젝트 상태를 동일하거나 다른 컴퓨터 환경에 저장(이를테면 파일이나 메모리 버퍼에서, 또는 네트워크 연결 링크 간 전송)하고 나중에 재구성할 수 있는 포맷으로 변환하는 과정이다.">
+
+
+<meta itemprop="datePublished" content="2019-09-08T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-09-08T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="564">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="tensorrt 정리글"/>
+<meta name="twitter:description" content="[1.3. How Does TensorRT Work?] inference 과정을 최적화 시키기 위해서, TensorRT는 network definition을 가져와서 해당 환경(GPU)에서 최적화를 하며, inference engine을 생성한다. 이 과정은 상당한 시간이 소요되며, embedded 된 platform(하드웨어)에서는 더 오래걸린다. 이런 이유 때문에, 보통 engine을 만들면 그것을 serialize화 하여, 저장하고 후에 읽어와서 사용하는 방법을 선호한다.
+Note: 위의 generated된 file은 다른 tensorRT 버전 혹은 다른 플렛폼에서 사용할 수 없다. 특정 gpu에서만 사용해야한다.
+ serialize
+직렬화(直列化) 또는 시리얼라이제이션(serialization)은 컴퓨터 과학의 데이터 스토리지 문맥에서 데이터 구조나 오브젝트 상태를 동일하거나 다른 컴퓨터 환경에 저장(이를테면 파일이나 메모리 버퍼에서, 또는 네트워크 연결 링크 간 전송)하고 나중에 재구성할 수 있는 포맷으로 변환하는 과정이다."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      RoundTable
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/RRoundTable" title="Works page">
+              Works
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/post/aboutme" title="About me page">
+              About me
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/categories/index.html" title="Categories page">
+              Categories
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/index.html" title="Tags page">
+              Tags
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">tensorrt 정리글</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-09-08T00:00:00Z">September 8, 2019</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h2 id="1-3-how-does-tensorrt-work">[1.3. How Does TensorRT Work?]</h2>
+
+<p>inference 과정을 최적화 시키기 위해서, TensorRT는 network definition을 가져와서 해당 환경(GPU)에서 최적화를 하며, inference engine을 생성한다. 이 과정은 상당한 시간이 소요되며, embedded 된 platform(하드웨어)에서는 더 오래걸린다. 이런 이유 때문에, 보통 engine을 만들면 그것을 serialize화 하여, 저장하고 후에 읽어와서 사용하는 방법을 선호한다.</p>
+
+<p><strong>Note:</strong> 위의 generated된 file은 다른 tensorRT 버전 혹은 다른 플렛폼에서 사용할 수 없다. 특정 gpu에서만 사용해야한다.</p>
+
+<blockquote>
+<p>serialize</p>
+
+<p><strong>직렬화</strong>(直列化) 또는 <strong>시리얼라이제이션</strong>(serialization)은 <a href="https://ko.wikipedia.org/wiki/컴퓨터_과학">컴퓨터 과학</a>의 데이터 스토리지 문맥에서 <a href="https://ko.wikipedia.org/wiki/데이터_구조">데이터 구조</a>나 <a href="https://ko.wikipedia.org/wiki/오브젝트">오브젝트</a> 상태를 동일하거나 다른 컴퓨터 환경에 저장(이를테면 <a href="https://ko.wikipedia.org/wiki/컴퓨터_파일">파일</a>이나 메모리 <a href="https://ko.wikipedia.org/wiki/데이터_버퍼">버퍼</a>에서, 또는 <a href="https://ko.wikipedia.org/wiki/컴퓨터_네트워크">네트워크</a> 연결 링크 간 전송)하고 나중에 재구성할 수 있는 포맷으로 변환하는 과정이다.[<a href="https://ko.wikipedia.org/wiki/직렬화#cite_note-1">1]</a></p>
+
+<p><a href="https://ko.wikipedia.org/wiki/직렬화">https://ko.wikipedia.org/wiki/%EC%A7%81%EB%A0%AC%ED%99%94</a></p>
+</blockquote>
+
+<p>다음과 같은 과정을 통해서 inference engine이 만들어진다.</p>
+
+<ul>
+<li>사용되지 않는 output을 가지는 layer를 삭제</li>
+<li>convolution, bias, Relu operations를 결합하여 연산</li>
+<li>비슷한 parameter 혹은 같은 source tensor를 사용하는 연산을 묶기</li>
+<li>layer output을 correct eventual destination에 지정하여 concatenation layer 합치기</li>
+</ul>
+
+<p>또한 precision of weights를 변경하여 최적화하기도 한다. (half-precision)</p>
+
+<h2 id="1-4-what-capabilities-does-tensorrt-provide">[1.4. What Capabilities Does TensorRT Provide?]</h2>
+
+<p>import, calibrate, generate, deploy optimized networks</p>
+
+<p>Network는 Caffe 혹은 다른 framework를 통해서 import할 수 있다. (UFF or ONNX formax)</p>
+
+<p>다음은 tensorRT의 대표적인 라이브러리이다.</p>
+
+<ul>
+<li><strong>Network Definition</strong></li>
+</ul>
+
+<p>input, output tensor를 정의하거나, 특정 layer를 정의할 때 사용할 수 있다.</p>
+
+<ul>
+<li><strong>Builder</strong></li>
+</ul>
+
+<p>engine을 만들 때 사용</p>
+
+<ul>
+<li><strong>Engine</strong></li>
+</ul>
+
+<p>inference를 실행할 때 사용한다.</p>
+
+<ul>
+<li><strong>Caffe</strong> <strong>Parser</strong></li>
+</ul>
+
+<p>caffe로 저장된 모델을 불러들일때 사용</p>
+
+<ul>
+<li><strong>UFF Parser</strong></li>
+</ul>
+
+<p>UFF로 저장된 모델을 불러들일때 사용</p>
+
+<ul>
+<li><strong>ONNX</strong> <strong>Parser</strong></li>
+</ul>
+
+<p>ONNX로 저장된 모델을 불러들일</p>
+
+<h2 id="지원하지-않는-노드-레이어">지원하지 않는 노드/레이어</h2>
+
+<p>object detection 혹은 다른 모델을 tensorRT에 적용할 때, 지원하지 않는 노드가 있을 수도 있다. 이럴때는  GraphSurgeon을 이용하여 따로 정의해주어야 한다.</p>
+
+<p>아래는 SSD에 tensorRT를 적용할 때의 예시이다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Model download and UFF convertion utils</span>
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> sys
+<span style="color:#f92672">import</span> tarfile
+
+<span style="color:#f92672">import</span> requests
+<span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf
+<span style="color:#f92672">import</span> tensorrt <span style="color:#f92672">as</span> trt
+<span style="color:#f92672">import</span> graphsurgeon <span style="color:#f92672">as</span> gs
+<span style="color:#f92672">import</span> uff
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ModelData</span>(object):
+    <span style="color:#75715e"># Name of input node</span>
+    INPUT_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Input&#34;</span>
+    <span style="color:#75715e"># CHW format of model input</span>
+    INPUT_SHAPE <span style="color:#f92672">=</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">300</span>)
+    <span style="color:#75715e"># Name of output node</span>
+    OUTPUT_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NMS&#34;</span>
+
+    <span style="color:#a6e22e">@staticmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_input_channels</span>():
+        <span style="color:#66d9ef">return</span> ModelData<span style="color:#f92672">.</span>INPUT_SHAPE[<span style="color:#ae81ff">0</span>]
+
+    <span style="color:#a6e22e">@staticmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_input_height</span>():
+        <span style="color:#66d9ef">return</span> ModelData<span style="color:#f92672">.</span>INPUT_SHAPE[<span style="color:#ae81ff">1</span>]
+
+    <span style="color:#a6e22e">@staticmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_input_width</span>():
+        <span style="color:#66d9ef">return</span> ModelData<span style="color:#f92672">.</span>INPUT_SHAPE[<span style="color:#ae81ff">2</span>]
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ssd_unsupported_nodes_to_plugin_nodes</span>(ssd_graph):
+    <span style="color:#e6db74">&#34;&#34;&#34;Makes ssd_graph TensorRT comparible using graphsurgeon.
+</span><span style="color:#e6db74">    This function takes ssd_graph, which contains graphsurgeon
+</span><span style="color:#e6db74">    DynamicGraph data structure. This structure describes frozen Tensorflow
+</span><span style="color:#e6db74">    graph, that can be modified using graphsurgeon (by deleting, adding,
+</span><span style="color:#e6db74">    replacing certain nodes). The graph is modified by removing
+</span><span style="color:#e6db74">    Tensorflow operations that are not supported by TensorRT&#39;s UffParser
+</span><span style="color:#e6db74">    and replacing them with custom layer plugin nodes.
+</span><span style="color:#e6db74">    Note: This specific implementation works only for
+</span><span style="color:#e6db74">    ssd_inception_v2_coco_2017_11_17 network.
+</span><span style="color:#e6db74">    Args:
+</span><span style="color:#e6db74">        ssd_graph (gs.DynamicGraph): graph to convert
+</span><span style="color:#e6db74">    Returns:
+</span><span style="color:#e6db74">        gs.DynamicGraph: UffParser compatible SSD graph
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e"># Create TRT plugin nodes to replace unsupported ops in Tensorflow graph</span>
+    channels <span style="color:#f92672">=</span> ModelData<span style="color:#f92672">.</span>get_input_channels()
+    height <span style="color:#f92672">=</span> ModelData<span style="color:#f92672">.</span>get_input_height()
+    width <span style="color:#f92672">=</span> ModelData<span style="color:#f92672">.</span>get_input_width()
+
+    Input <span style="color:#f92672">=</span> gs<span style="color:#f92672">.</span>create_plugin_node(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Input&#34;</span>,
+        op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Placeholder&#34;</span>,
+        dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32,
+        shape<span style="color:#f92672">=</span>[<span style="color:#ae81ff">1</span>, channels, height, width])
+    PriorBox <span style="color:#f92672">=</span> gs<span style="color:#f92672">.</span>create_plugin_node(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GridAnchor&#34;</span>, op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GridAnchor_TRT&#34;</span>,
+        minSize<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>,
+        maxSize<span style="color:#f92672">=</span><span style="color:#ae81ff">0.95</span>,
+        aspectRatios<span style="color:#f92672">=</span>[<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">3.0</span>, <span style="color:#ae81ff">0.33</span>],
+        variance<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0.1</span>,<span style="color:#ae81ff">0.1</span>,<span style="color:#ae81ff">0.2</span>,<span style="color:#ae81ff">0.2</span>],
+        featureMapShapes<span style="color:#f92672">=</span>[<span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>],
+        numLayers<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>
+    )
+    NMS <span style="color:#f92672">=</span> gs<span style="color:#f92672">.</span>create_plugin_node(
+        name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;NMS&#34;</span>,
+        op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;NMS_TRT&#34;</span>,
+        shareLocation<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+        varianceEncodedInTarget<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
+        backgroundLabelId<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
+        confidenceThreshold<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-8</span>,
+        nmsThreshold<span style="color:#f92672">=</span><span style="color:#ae81ff">0.6</span>,
+        topK<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,
+        keepTopK<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,
+        numClasses<span style="color:#f92672">=</span><span style="color:#ae81ff">91</span>,
+        inputOrder<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>],
+        confSigmoid<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+        isNormalized<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+    )
+    concat_priorbox <span style="color:#f92672">=</span> gs<span style="color:#f92672">.</span>create_node(
+        <span style="color:#e6db74">&#34;concat_priorbox&#34;</span>,
+        op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ConcatV2&#34;</span>,
+        dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32,
+        axis<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+    )
+    concat_box_loc <span style="color:#f92672">=</span> gs<span style="color:#f92672">.</span>create_plugin_node(
+        <span style="color:#e6db74">&#34;concat_box_loc&#34;</span>,
+        op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FlattenConcat_TRT&#34;</span>,
+        dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32,
+        axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+        ignoreBatch<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+    )
+    concat_box_conf <span style="color:#f92672">=</span> gs<span style="color:#f92672">.</span>create_plugin_node(
+        <span style="color:#e6db74">&#34;concat_box_conf&#34;</span>,
+        op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FlattenConcat_TRT&#34;</span>,
+        dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32,
+        axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+        ignoreBatch<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+    )
+
+    <span style="color:#75715e"># Create a mapping of namespace names -&gt; plugin nodes.</span>
+    namespace_plugin_map <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#34;MultipleGridAnchorGenerator&#34;</span>: PriorBox,
+        <span style="color:#e6db74">&#34;Postprocessor&#34;</span>: NMS,
+        <span style="color:#e6db74">&#34;Preprocessor&#34;</span>: Input,
+        <span style="color:#e6db74">&#34;ToFloat&#34;</span>: Input,
+        <span style="color:#e6db74">&#34;image_tensor&#34;</span>: Input,
+        <span style="color:#e6db74">&#34;MultipleGridAnchorGenerator/Concatenate&#34;</span>: concat_priorbox,
+        <span style="color:#e6db74">&#34;MultipleGridAnchorGenerator/Identity&#34;</span>: concat_priorbox,
+        <span style="color:#e6db74">&#34;concat&#34;</span>: concat_box_loc,
+        <span style="color:#e6db74">&#34;concat_1&#34;</span>: concat_box_conf
+    }
+
+    <span style="color:#75715e"># Create a new graph by collapsing namespaces</span>
+    ssd_graph<span style="color:#f92672">.</span>collapse_namespaces(namespace_plugin_map)
+    <span style="color:#75715e"># Remove the outputs, so we just have a single output node (NMS).</span>
+    <span style="color:#75715e"># If remove_exclusive_dependencies is True, the whole graph will be removed!</span>
+    ssd_graph<span style="color:#f92672">.</span>remove(ssd_graph<span style="color:#f92672">.</span>graph_outputs, remove_exclusive_dependencies<span style="color:#f92672">=</span>False)
+    <span style="color:#66d9ef">return</span> ssd_graph</code></pre></div>
+<ul>
+<li><a href="https://github.com/NVIDIA/object-detection-tensorrt-example/tree/master/SSD_Model/utils">https://github.com/NVIDIA/object-detection-tensorrt-example/tree/master/SSD_Model/utils</a></li>
+</ul>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#fit__fit2">https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#fit__fit2</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
+    &copy; 2020 RoundTable
+  </a>
+    <div>
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+    <div><script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script></div>
+    <div>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="https://rroundtable.github.io/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>RoundTable </title>
+    <title>RoundTable  | attention is all you need 정리글</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -27,32 +27,48 @@
     
 
     
-      <link href="https://rroundtable.github.io/tags/machine-learning/index.xml" rel="alternate" type="application/rss+xml" title="RoundTable" />
-      <link href="https://rroundtable.github.io/tags/machine-learning/index.xml" rel="feed" type="application/rss+xml" title="RoundTable" />
-    
 
-    <meta property="og:title" content="machine learning" />
-<meta property="og:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://rroundtable.github.io/tags/machine-learning/" />
+    <meta property="og:title" content="attention is all you need 정리글" />
+<meta property="og:description" content="Transformer 구조 위의 이미지는 Transformer의 구조이다. encoder와 decoder 구조로 이루어져 있다. 마지막 encoder layer의 output이 각 decoder stack에 input으로 들어가게 된다. (residual connection) 각 encoder layer와 decoder layer는 모두 동일한 구조를 가지나 서로 parameter를 공유하지 않는다. 아래의 그림처럼 논문에서는 각 6개의 layer를 가지고 있다.
+아래의 이미지는 encoder와 decoder의 세부 구조이다.
+각 세부 layer사이에는 Normalization 및 bias를 더하는 과정이 추가된다.
+ Matrix Calculation of Self-Attention 이제 복수의 embeddinb vector를 matrix 연산으로 대체하는 과정을 살펴보자." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-11-18-attention-is-all-you-need-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
+<meta property="article:published_time" content="2019-11-18T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-11-18T00:00:00&#43;00:00"/>
 
-<meta property="og:updated_time" content="2019-07-07T00:00:00&#43;00:00"/>
+<meta itemprop="name" content="attention is all you need 정리글">
+<meta itemprop="description" content="Transformer 구조 위의 이미지는 Transformer의 구조이다. encoder와 decoder 구조로 이루어져 있다. 마지막 encoder layer의 output이 각 decoder stack에 input으로 들어가게 된다. (residual connection) 각 encoder layer와 decoder layer는 모두 동일한 구조를 가지나 서로 parameter를 공유하지 않는다. 아래의 그림처럼 논문에서는 각 6개의 layer를 가지고 있다.
+아래의 이미지는 encoder와 decoder의 세부 구조이다.
+각 세부 layer사이에는 Normalization 및 bias를 더하는 과정이 추가된다.
+ Matrix Calculation of Self-Attention 이제 복수의 embeddinb vector를 matrix 연산으로 대체하는 과정을 살펴보자.">
 
-<meta itemprop="name" content="machine learning">
-<meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
 
+<meta itemprop="datePublished" content="2019-11-18T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-18T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="433">
+
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="machine learning"/>
-<meta name="twitter:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."/>
+<meta name="twitter:title" content="attention is all you need 정리글"/>
+<meta name="twitter:description" content="Transformer 구조 위의 이미지는 Transformer의 구조이다. encoder와 decoder 구조로 이루어져 있다. 마지막 encoder layer의 output이 각 decoder stack에 input으로 들어가게 된다. (residual connection) 각 encoder layer와 decoder layer는 모두 동일한 구조를 가지나 서로 parameter를 공유하지 않는다. 아래의 그림처럼 논문에서는 각 6개의 layer를 가지고 있다.
+아래의 이미지는 encoder와 decoder의 세부 구조이다.
+각 세부 layer사이에는 Normalization 및 bias를 더하는 과정이 추가된다.
+ Matrix Calculation of Self-Attention 이제 복수의 embeddinb vector를 matrix 연산으로 대체하는 과정을 살펴보자."/>
 
   </head>
 
   <body class="ma0 avenir bg-near-white">
 
     
+   
+  
 
   <header>
-    <div class="pb3-m pb6-l bg-black">
+    <div class="bg-black">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
     <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
@@ -140,74 +156,170 @@
   </div>
 </nav>
 
-      <div class="tc-l pv3 ph3 ph4-ns">
-        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
-          machine learning
-        </h1>
-        
-      </div>
     </div>
-    <script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
-</script>
   </header>
+
 
 
     <main class="pb7" role="main">
       
-  <article class="cf pa3 pa4-m pa4-l">
-    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “machine learning”</p>
-    </div>
-  </article>
-  <div class="mw8 center">    
-    <section class="flex-ns flex-wrap justify-around mt5">
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
-    <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/mle-maximum-likelihood-estimation/" class="link black dim">
-        MLE 와 MAP에 대하여
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      MLE: Maximum Likelihood Estimation *liklihood*란, 이미 주어진 표본적 증거로 비추어보았을 때, 모집단에 관해 어떠한 통계적 추정이 그럴듯한 정도를 의미합니다. 수식으로 나타내면, $P(D|W)$ 처럼 나타낼 수 있다. (D = observation, W = parameters) .
-동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.
-    </div>
-  </div>
-</div>
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
 
-        </div>
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">attention is all you need 정리글</h1>
       
+      <time class="f6 mv4 dib tracked" datetime="2019-11-18T00:00:00Z">November 18, 2019</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h2 id="transformer-구조">Transformer 구조</h2>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/69061756-2196f900-0a5d-11ea-9249-2401a60830d6.png" style="width:50%"></p>
+
+<p>위의 이미지는 Transformer의 구조이다. encoder와 decoder 구조로 이루어져 있다. 마지막 encoder layer의 output이 각 decoder stack에 input으로 들어가게 된다. (<strong>residual connection</strong>) 각 encoder layer와 decoder layer는 모두 동일한 구조를 가지나 서로 parameter를 공유하지 않는다.  아래의 그림처럼 논문에서는 각 6개의 layer를 가지고 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/69062040-aaae3000-0a5d-11ea-9d43-e5162aa70eb6.png" style="width:50%"></p>
+
+<p>아래의 이미지는 encoder와  decoder의 세부 구조이다.</p>
+
+<p><img src="http://jalammar.github.io/images/t/Transformer_decoder.png" style="width: 80%"></p>
+
+<p>각 세부 layer사이에는  Normalization 및  bias를 더하는 과정이 추가된다.</p>
+
+<blockquote>
+<h2 id="matrix-calculation-of-self-attention">Matrix Calculation of Self-Attention</h2>
+
+<p>이제  복수의 embeddinb vector를 matrix 연산으로 대체하는 과정을 살펴보자. 위의 그림과는 다르게 embedding vector가 matrix형태로 제공되어서 병렬 연산이 가능해졌다. 아래의 이미지 참고.</p>
+
+<p><img src="http://jalammar.github.io/images/t/self-attention-matrix-calculation.png" style="width: 50%"></p>
+
+<p><img src="http://jalammar.github.io/images/t/self-attention-matrix-calculation-2.png" style="width: 50%"></p>
+</blockquote>
+
+<h2 id="attention">Attention</h2>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/69063207-72a7ec80-0a5f-11ea-8e62-d4acc8bb5044.png"></p>
+
+<h3 id="1-scaled-dot-product-attention">1. Scaled Dot-Product Attention</h3>
+
+<p>$$
+Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}}) V
+$$</p>
+
+<blockquote>
+<p>Query, Key -  Value의 역할</p>
+
+<ul>
+<li>Query: , matrix</li>
+<li>Key: 각 embedding vector의 key, matrix</li>
+<li>Value: 각 key가 가지고 있는 value, matrix</li>
+</ul>
+
+<p><strong>추가적인 설명</strong> 우선 query와 key, value에 대해서 설명하면 query가 어떤 단어와 관련되어 있는지 찾기 위해서 모든 key들과 연산한다. 여기서 실제 연산을 보면 query와 key를 dot-product한뒤 softmax를 취하는데, 의미하는 것은 하나의 query가 모든 key들과 연관성을 계산한뒤 그 값들을 확률 값으로 만들어 주는 것이다. 따라서 query가 어떤 key와 높은 확률로 연관성을 가지는지 알게 되는 것이다. 이제 구한 확률값을 value에 곱해서 value에 대해 scaling한다고 생각하면된다.</p>
+
+<p><strong>추가적인 설명</strong> key와 value는 사실상 같은 단어를 의미한다. 하지만 두개로 나눈 이유는 key값을 위한 vector와 value를 위한 vector를 따로 만들어서 사용한다. key를 통해서는 각 단어와 연관성의 확률을 계산하고 value는 그 확률을 사용해서 attention 값을 계산하는 용도이다.</p>
+
+<p>reference:  <a href="https://reniew.github.io/43/">https://reniew.github.io/43/</a></p>
+</blockquote>
+
+<p>아래의 이미지는 scaled dot product attention과정의 일부이다. query, key 그리고 value는 각 $W^Q, W^K, W^V$matrix와 dot product를 진행한 결과이다.</p>
+
+<p><img src="http://jalammar.github.io/images/t/transformer_self_attention_vectors.png"></p>
+
+<p>그리고  query와 key의 dot product의 결과를 $\sqrt{d_k}$만큼 scaling 해준다.</p>
+
+<p><img src="http://jalammar.github.io/images/t/self-attention-output.png"></p>
+
+<h3 id="2-multi-head-attention">2. Multi-Head Attention</h3>
+
+<p>$$
+MultiHead(Q, K, V) = Concat(head_1, \cdots, head_h) W^O \ \\ where \ head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)
+$$</p>
+
+<ul>
+<li>$W<em>i^Q \in R</em>{d_{model} \times d_k}$</li>
+<li>$W<em>i^K \in R</em>{d_{model} \times d_k}$</li>
+<li>$W<em>i^V \in R</em>{d_{model} \times d_k}$</li>
+</ul>
+
+<p>해당 연구에서는 multi head attention을 적용하였다. 이는 두 가지 방식으로 성능향상에 기여하였다.</p>
+
+<ul>
+<li>model이 다른 위치에 집중할 수 있는 능력을 향상시켰다.  “The animal didn’t cross the street because it was too tired” 과 같은 문장을 번역하는데 효과적인데 그 이유는 it이 가르키는 것이 무엇인지 중요하기 때문이다.</li>
+<li>layer multiple representation subspace를 제공한다. 복수의 Q, K, V matrix를 가지게 되고 이는 random하게 초기화된다.</li>
+</ul>
+
+<p>아래의 그림은 두 개의 embedding vector(Thinking, Machines)의 복수의 head를 가지게 되는 과정을 시각화 한 것이다.</p>
+
+<p><img src="http://jalammar.github.io/images/t/transformer_self-attention_visualization_3.png"></p>
+
+<h2 id="representing-the-order-of-the-sequence-using-positional-encoding">Representing The Order of The Sequence Using Positional Encoding</h2>
+
+<p>위에서의 attention 과정에서 word의 위치정보를 잃어버리게 된다. 이를 어떻게 복구할 것인가?</p>
+
+<p>이런 문제를 극복하기 위해서 Transformer에서는 input embedding vector에 특별한 vector를 더한다.  이는 각 word의 위치를 파악하는데 도움을 주거나 각 word의 distance를 구하는데 도움을 줄 것이다.</p>
+
+<p><img src="http://jalammar.github.io/images/t/transformer_positional_encoding_vectors.png" style="width: 80%"></p>
+
+<p><img src="http://jalammar.github.io/images/t/transformer_positional_encoding_example.png"></p>
+
+<p>아래의 이미지는 실제 20개의 word의 positional encoding의 시각화 결과이다. (512 dimension)</p>
+
+<p><img src="http://jalammar.github.io/images/t/transformer_positional_encoding_large_example.png"></p>
+
+<p>$$
+PE<em>{(pos, 2i)}=sin(pos/10000^{2i/d</em>{model}})
+$$</p>
+
+<p>$$
+PE<em>{(pos, 2i+1)}=cos(pos/10000^{2i/d</em>{model}})
+$$</p>
+
+<ul>
+<li>pos는 word의 위치를 나타낸다.</li>
+<li>i 는 dimension의 index를 나타낸다.</li>
+</ul>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="http://jalammar.github.io/illustrated-transformer/">http://jalammar.github.io/illustrated-transformer/</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
     </section>
-  </div>
+  </article>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">

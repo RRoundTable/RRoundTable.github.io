@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-08-26T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2020-01-22T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
@@ -326,22 +326,18 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
-        August 26, 2019
+        January 22, 2020
       </div>
     
     <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/activation-atlas/" class="link black dim">
-        Activation atlas 정리글
+      <a href="https://rroundtable.github.io/post/2020-01-22-%EB%8A%A6%EC%9D%80-2019-%ED%9A%8C%EA%B3%A0/" class="link black dim">
+        늦은 2019 회고
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Introduction What have these networks learned that allows them to classify images so well?
-네트워크가 classification을 잘하는 이유를 찾기 위해서 다음과 같은 시도를 하였다.
-기본적으로 네트워크를 시각적으로 분석할려고 노력했다.
- individual neurons  뉴런들을 독립적으로 시각화
- Interaction between Neurons  뉴런은 독립적으로 움직이는 것이 아니기 때문에 simple feature combination을 시각화함. 이런 시도는 문제점을 가지고 있었다.
-예를 들어, 수 많은 combination중 어떤 combination을 살펴봐야하는지 어떻게 알 수 있는가?
- spatial activation  위의 질문에 대한 답은 activation을 시각화하는 것에 있다.
+      1. 2019년 계획했던 일 2019년은 학생에서 사회인으로 나아가는 경계였다. 2019년에는 특히 좋은 사람들을 많이 만났고, 개인적으로 많은 도움을 받은 해라고 생각한다.
+(1) 딥러닝 논문 구현: 목표 달성 지금도 어렵지만, 처음에 딥러닝 논문을 구현하려고 시도했을때는 정말 큰 벽처럼 느껴졌다. 이전에는 딥러닝 구현체를 주로 가져다 쓰는 식으로 공부를 지속하였고, 돌이켜보면 전혀 성장하지 못했던 시기이다.
+처음 딥러닝 논문을 구현하기로 마음먹은 것은 모두의 연구소 SafeAI랩에서 좋은 사람들을 만나서이다. 그 당시에는 구현하려는 주제가 명확했고, 누군가에게 피드백을 받을 환경이 조성되어 있어서 조금씩 성장했다.
     </div>
   </div>
 
@@ -352,17 +348,19 @@ topology를 언급하는 이유는 representation space상에서 공간의 변�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
-        August 23, 2019
+        January 14, 2020
       </div>
     
     <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/mixconv/" class="link black dim">
-        MixConv: Mixed Depthwise Convolutional Kernels
+      <a href="https://rroundtable.github.io/post/2020-01-14-word-representation/" class="link black dim">
+        word representation
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Abstract  다양한 kernel size의 효과  다양한 kernel size의 조합은 모델의 accuracy 및 efficient를 향상 시킬 수 있다.  위를 바탕으로 depth-wise convolution(MixConv)제안 MixConv의 효과를 증명하기 위해서 AutoML을 결합  Introduction Figure 1에서 볼 수 있듯이, kernel size가 클수록 모델의 성능이 올라간다고 할 수 없다. 올라가는 추세를 보이다가 k9*9를 넘어서면 accuracy가 떨어지는 것을 확인할 수 있다.
-ConvNets 연구에서는 하나의 kernel size의 한계를 말한다. 결국 high-resolustion pattern을 위해서는 큰 kernel size가 필요하고 local-resolution pattern을 위해서는 작은 kernel-size가 필요하다.
+      Word2vec: distributed representation  분산 표현(distributed representation) 방법은 기본적으로 분포 가설(distributional hypothesis)이라는 가정 하에 만들어진 표현 방법입니다. 이 가정은 &lsquo;비슷한 위치에서 등장하는 단어들은 비슷한 의미를 가진다&rsquo;라는 가정입니다.
+reference: https://wikidocs.net/22660
+ 1. CBOW(Continuous Bag of Words) 주변에 있는 단어로 중간에 있는 단어를 예측하는 방법입니다. 중심단어를 예측하기 위해서 주변단어를 보는 범위를 window라고 합니다. 예를 들어서, 아래 이미지의 첫 번째 글에서 파란색 부분이 &lsquo;fat&rsquo;, &lsquo;cat&rsquo;이므로 window는 2입니다.
+ 보통 딥 러닝이라함은, 입력층과 출력층 사이의 은닉층의 개수가 충분히 쌓인 신경망을 학습할 때를 말하는데 Word2Vec는 입력층과 출력층 사이에 하나의 은닉층만이 존재합니다.
     </div>
   </div>
 
@@ -373,21 +371,21 @@ ConvNets 연구에서는 하나의 kernel size의 한계를 말한다. 결국 hi
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
-        August 3, 2019
+        December 30, 2019
       </div>
     
     <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-08-03-python-%EB%B3%80%EC%88%98%ED%95%A0%EB%8B%B9%EC%9D%98-%EA%B0%9C%EB%85%90/" class="link black dim">
-        Python 변수할당의 개념
+      <a href="https://rroundtable.github.io/post/2019-12-30-bert-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        BERT 정리글
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Python은 C언어와 다르게 Pointer가 존재하지 않는다.  Pointer란
-프로그래밍 언어에서 다른 변수, 혹은 그 변수의 메모리 공간주소를 가리키는 변수를 말한다. 포인터가 가리키는 값을 가져오는 것을 역참조라고 한다.
-https://ko.wikipedia.org/wiki/%ED%8F%AC%EC%9D%B8%ED%84%B0_(%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D)
- python에서는 메모리 주소를 변수를 구별하는 용도로 사용한다.
-참고로 변수의 메모리 주소는 id()를 이용하여 구할 수 있다.
-a = &#34;String&#34; id(a) python에서는 변수에 값을 할당하면 object를 생성해서 값을 저장한 후 변수는 해당 object의 메모리 주소를 의미하는 id값을 가지게 된다. 여기서 변수는 object의 label정도로 생각하면 된다.
+      BERT, Bidirectional Encoder Representations from Transformers
+Abstract BERT는 unlabeled text를 기반으로 deep bidirectional representation을 pretrain하기 위해서 만들어졌다. 이는 모든 layer에서 왼쪽과 오른쪽 모두의 context정보를 바탕으로 만들어진다.
+결과적으로 pretrained된 BERT 모델은 output layer을 추가하고 fine-tuning을 함으로써 question answering 그리고 language inference분야에서 state-of-the-art 성능을 낼 수 있다. 이는 task-specific한 구조의 변화없이 가능하다.
+1. Introduction pretrained language representation을 활용하는데는 두 가지 전략이 있다.
+ Feature-based: ELMO  task-specific한 architecture를 사용한다.
+ fine-tuning: OpenAI GPT  task-specific한 parameter를 적게 사용한다.
     </div>
   </div>
 
@@ -398,18 +396,16 @@ a = &#34;String&#34; id(a) python에서는 변수에 값을 할당하면 object�
             <div class="mb3 pa4 mid-gray overflow-hidden">
     
       <div class="f6">
-        August 1, 2019
+        December 28, 2019
       </div>
     
     <h1 class="f3 near-black">
-      <a href="https://rroundtable.github.io/post/2019-08-01-dropout-as-bayesian-approximation-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
-        Dropout as Bayesian Approximation 정리글
+      <a href="https://rroundtable.github.io/post/2019-12-28-big-o-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0/" class="link black dim">
+        Big-O notation 정리하기
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      Problem 일반적으로 Bayesain model은 model의 uncertainty를 측정할 수 있다는 장점이 있지만, computation cost가 너무 커서 사용하기 힘들다는 문제를 가지고 있다. 이런 문제점을 해결하기 위해서 이 논문에서는 Dropout을 사용한 딥러닝 모델이 결국은 gaussian porcess에서의 bayesain inference를 근사한 것이라는 증명을 할 것이다.
-Related Research  Bayesian learning for neural networks  infinite-wide neural network에 distribution을 가정하면, 결국 gaussian process를 approxiation하는 것이다. 하지만 finite-wide neural network에서는 증명되지 않았다.
-추가적으로 finite-wide neural network상에서 연구되었다.
+      In computer science, big O notation is used to classify algorithms according to how their running time or space requirements grow as the input size grows.[3] In analytic number theory, big O notation is often used to express a bound on the difference between an arithmetical function and a better understood approximation; a famous example of such a difference is the remainder term in the prime number theorem.
     </div>
   </div>
 
@@ -452,12 +448,23 @@ Related Research  Bayesian learning for neural networks  infinite-wide neural ne
     <li class="page-item"><a class="page-link" href="https://rroundtable.github.io/post/page/2/">2</a></li>
     
     
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="https://rroundtable.github.io/post/page/3/">3</a></li>
+    
+    
     <li class="page-item">
     <a href="https://rroundtable.github.io/post/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
     <li class="page-item">
-        <a href="https://rroundtable.github.io/post/page/2/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="https://rroundtable.github.io/post/page/3/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
@@ -468,7 +475,7 @@ Related Research  Bayesian learning for neural networks  infinite-wide neural ne
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
-    &copy; 2019 RoundTable
+    &copy; 2020 RoundTable
   </a>
     <div>
 
@@ -542,25 +549,6 @@ Related Research  Bayesian learning for neural networks  infinite-wide neural ne
 
 
 
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/">Batch Normalization에 대하여</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="https://rroundtable.github.io/post/2019-06-29-what-uncertainties-do-we-need-in-bayesian-deep/">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="https://rroundtable.github.io/post/neural-networks-manifolds-and-topology-/">Neural Networks, Manifolds, and Topology 번역글</a>
-        </li>
-	    
-    </ul>
-</div>
 
 </div>
   </div>

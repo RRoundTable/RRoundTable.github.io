@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>RoundTable  | Faster-RCNN 정리글</title>
+    <title>RoundTable  | BERT 정리글</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -28,36 +28,42 @@
 
     
 
-    <meta property="og:title" content="Faster-RCNN 정리글" />
-<meta property="og:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다." />
+    <meta property="og:title" content="BERT 정리글" />
+<meta property="og:description" content="BERT, Bidirectional Encoder Representations from Transformers
+Abstract BERT는 unlabeled text를 기반으로 deep bidirectional representation을 pretrain하기 위해서 만들어졌다. 이는 모든 layer에서 왼쪽과 오른쪽 모두의 context정보를 바탕으로 만들어진다.
+결과적으로 pretrained된 BERT 모델은 output layer을 추가하고 fine-tuning을 함으로써 question answering 그리고 language inference분야에서 state-of-the-art 성능을 낼 수 있다. 이는 task-specific한 구조의 변화없이 가능하다.
+1. Introduction pretrained language representation을 활용하는데는 두 가지 전략이 있다.
+ Feature-based: ELMO  task-specific한 architecture를 사용한다.
+ fine-tuning: OpenAI GPT  task-specific한 parameter를 적게 사용한다." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
-<meta property="article:published_time" content="2019-07-25T00:00:00&#43;00:00"/>
-<meta property="article:modified_time" content="2019-07-25T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-12-30-bert-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
+<meta property="article:published_time" content="2019-12-30T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-12-30T00:00:00&#43;00:00"/>
 
-<meta itemprop="name" content="Faster-RCNN 정리글">
-<meta itemprop="description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.">
-
-
-<meta itemprop="datePublished" content="2019-07-25T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-07-25T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="951">
+<meta itemprop="name" content="BERT 정리글">
+<meta itemprop="description" content="BERT, Bidirectional Encoder Representations from Transformers
+Abstract BERT는 unlabeled text를 기반으로 deep bidirectional representation을 pretrain하기 위해서 만들어졌다. 이는 모든 layer에서 왼쪽과 오른쪽 모두의 context정보를 바탕으로 만들어진다.
+결과적으로 pretrained된 BERT 모델은 output layer을 추가하고 fine-tuning을 함으로써 question answering 그리고 language inference분야에서 state-of-the-art 성능을 낼 수 있다. 이는 task-specific한 구조의 변화없이 가능하다.
+1. Introduction pretrained language representation을 활용하는데는 두 가지 전략이 있다.
+ Feature-based: ELMO  task-specific한 architecture를 사용한다.
+ fine-tuning: OpenAI GPT  task-specific한 parameter를 적게 사용한다.">
 
 
+<meta itemprop="datePublished" content="2019-12-30T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-12-30T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="766">
 
-<meta itemprop="keywords" content="deeplearning," />
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Faster-RCNN 정리글"/>
-<meta name="twitter:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
+<meta name="twitter:title" content="BERT 정리글"/>
+<meta name="twitter:description" content="BERT, Bidirectional Encoder Representations from Transformers
+Abstract BERT는 unlabeled text를 기반으로 deep bidirectional representation을 pretrain하기 위해서 만들어졌다. 이는 모든 layer에서 왼쪽과 오른쪽 모두의 context정보를 바탕으로 만들어진다.
+결과적으로 pretrained된 BERT 모델은 output layer을 추가하고 fine-tuning을 함으로써 question answering 그리고 language inference분야에서 state-of-the-art 성능을 낼 수 있다. 이는 task-specific한 구조의 변화없이 가능하다.
+1. Introduction pretrained language representation을 활용하는데는 두 가지 전략이 있다.
+ Feature-based: ELMO  task-specific한 architecture를 사용한다.
+ fine-tuning: OpenAI GPT  task-specific한 parameter를 적게 사용한다."/>
 
   </head>
 
@@ -171,235 +177,218 @@ selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
           
         POSTS
       </p>
-      <h1 class="f1 athelas mb1">Faster-RCNN 정리글</h1>
+      <h1 class="f1 athelas mb1">BERT 정리글</h1>
       
-      <time class="f6 mv4 dib tracked" datetime="2019-07-25T00:00:00Z">July 25, 2019</time>
+      <time class="f6 mv4 dib tracked" datetime="2019-12-30T00:00:00Z">December 30, 2019</time>
       
       
     </header>
     <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
 
-<h1 id="problem-bottleneck">Problem: bottleneck</h1>
+<p><strong>BERT, Bidirectional Encoder Representations from Transformers</strong></p>
 
-<p>기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.</p>
+<h2 id="abstract">Abstract</h2>
 
-<p>이러한 문제를 해결하기 위해서 <strong>Region Proposal Network</strong>를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.</p>
+<p>BERT는  unlabeled text를 기반으로 deep bidirectional representation을 pretrain하기 위해서 만들어졌다. 이는 모든 layer에서 왼쪽과 오른쪽 모두의 context정보를 바탕으로 만들어진다.</p>
 
-<blockquote>
-<p>Fast-RCNN: region proposal algorithm</p>
+<p>결과적으로 pretrained된 BERT 모델은 output layer을 추가하고 fine-tuning을 함으로써 question answering 그리고 language inference분야에서 state-of-the-art 성능을 낼 수 있다. 이는 task-specific한 구조의 변화없이 가능하다.</p>
 
-<h3 id="selective-search">selective search</h3>
+<h2 id="1-introduction">1. Introduction</h2>
 
-<p>한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
-<img src="https://i.imgur.com/DPEJcwI.png" style="width:50%;"></p>
+<p>pretrained language representation을 활용하는데는 두 가지 전략이 있다.</p>
 
 <ul>
-<li>reference: <a href="https://donghwa-kim.github.io/SelectiveSearch.html">https://donghwa-kim.github.io/SelectiveSearch.html</a></li>
+<li>Feature-based: ELMO</li>
 </ul>
-</blockquote>
 
-<h1 id="faster-rcnn">Faster-RCNN</h1>
+<p>task-specific한 architecture를 사용한다.</p>
 
-<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure2.png"></p>
+<ul>
+<li>fine-tuning: OpenAI GPT</li>
+</ul>
 
-<p>Faster-RCNN은 두 가지 모듈로 구성된다.</p>
+<p>task-specific한 parameter를 적게 사용한다.</p>
+
+<p>위의 두 가지 전략은 pretraining을 하는동안 동일한 objective를 사용하게 된다. 또한 모두 unidirectional representation을 사용하고 있다.</p>
+
+<p><img src="https://mino-park7.github.io/images/2018/12/%EA%B7%B8%EB%A6%BC1-bert-openai-gpt-elmo-%EC%B6%9C%EC%B2%98-bert%EB%85%BC%EB%AC%B8.png"></p>
+
+<p>하지만, 본 논문에서는 unidirectional representation이 pretrained representation 능력을 제한한다고 주장하며,  이는 특히 fine-tuning 방법론에 영향을 많이 끼친다고 말한다. 가장 큰 한계는 standard language models가 unidirectional하며 이는 architecture를 선택할 때 많은 제한을 두게 된다. 예를 들어서, openAI GPT의 경우 left-to-right architecture를 사용한다. 모든 토큰은 self-attention layer에서 자기 자신보다 이전의 있는 토큰에만 영향을 끼친다. 이런 제한은 sentence-level task에서 sub-optimal하다.</p>
+
+<p>이 논문에서는 세 가지 contribution을 제공한다.</p>
+
+<ul>
+<li>Bidirectional pre-training for language representation</li>
+<li>pre-trained representation은  task-specific architecture의 필요성을 감소시킨다.</li>
+<li>11가지 NLP task에 대해서 SOTA의 성능을 보인다.</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pre-training general language representations에 관련된 연구들이다.</p>
+
+<h3 id="2-1-unsupervised-feature-based-approaches">2.1 Unsupervised Feature-based Approaches</h3>
+
+<ul>
+<li><p>word embedding vectors</p></li>
+
+<li><p>ELMO</p></li>
+</ul>
+
+<h3 id="2-2-unsupervised-fine-tuning-approaches">2.2  Unsupervised Fine-tuning Approaches</h3>
+
+<p>word embedding parameter를 unlabeled text로 pre-trained 하는 것으로 연구가 시작되었다.</p>
+
+<ul>
+<li>OpenAI GPT</li>
+</ul>
+
+<p>fine-tuning approach는 학습과정에서 적은 parameter를 학습시키면 된다는 장점을 가지고 있다.</p>
+
+<h3 id="2-3-transfer-learning-from-supervised-data">2.3 Transfer Learning from Supervised Data</h3>
+
+<p>NLP, vision task에서 모두 tranfer learning은 효과적임을 보여주고 있다.</p>
+
+<ul>
+<li>Imagenet pretrained</li>
+</ul>
+
+<h2 id="3-bert-unified-architecture-across-different-tasks">3. BERT: unified architecture across different tasks.</h2>
+
+<p>BERT는 두 가지 단계를 가지고 있다.</p>
+
+<ul>
+<li><p>pre-training: unlabeled data를 이용해서 학습을 진행한다.</p></li>
+
+<li><p>fine-tuning: weight값을 pre-trained된 값으로 초기화해준다. 그 후 labeled data를 이용해서 지도학습을 진행하게 된다.</p></li>
+
+<li><p><strong>Model Architecture</strong></p></li>
+</ul>
+
+<p>Transformer 기반으로 만들어졌다. Transformer 논문은 encoder decoder구조로 이루어져 있지만, BERT에서는 encoder 위주로 사용한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/1250095/49935094-73f99c80-ff13-11e8-8ba5-50a008ed4d20.png" style="width: 50%"></p>
+
+<ul>
+<li>**Input/Output Representations **</li>
+</ul>
+
+<p>down-stream task에서 잘 작동하려면, input representation이 single sentence 혹은 a pair of sentence에 모두 유연하게 반응할 수 있어야 한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/1250095/50039788-8e4e8a00-007b-11e9-9747-8e29fbbea0b3.png"></p>
+
+<p>해당 논문은 WordPiece embeddings을 사용하였다. 첫번째 token은 항상 [CLS]이다.(special classification token의 역할을 수행) 그리고 [CLS]에 반응하는 hidden state는 classification task를 위한 representation을 모으는 역할을 수행한다.</p>
+
+<p>또한 두 가지 방법으로 sentence를 구분한다.</p>
 
 <ol>
-<li>Deep fully convolutional network  that proposes regions</li>
-<li>Fast R-CNN detector(classfier): 1에서 추출된 regioin을 사용한다.</li>
+<li>special token [SEP]를 이용하여 sentence를 구분한다.</li>
+<li>각 sentence에 sentence embedding을 더하여 어떤 sentence정보를 가지고 있는지 알려준다.</li>
 </ol>
 
-<p>중요한 점은 1, 2가 진행되는 동안 feature를 공유한다는 것이다. (cost-free)</p>
-
-<h2 id="region-proposal-networks">Region Proposal Networks</h2>
-
-<p>어떤 사이즈의 이미지가 들어와도 직사각형의 object proposal을 output으로 가진다.</p>
-
-<blockquote>
-<p>fully convolutioinal network</p>
-
-<p><img src="https://miro.medium.com/max/770/1*BYAi0HtzaJzqAHhAareTNg.png" style="width: 50%;"></p>
-</blockquote>
-
-<p>이  논문의 목표는 detector의 computation과 proposal의 computation을 공유하는 것이기 때문에 위와 같은 convolution layers를 공유한다고 가정하였다.</p>
+<h3 id="3-1-pre-training-bert">3.1 Pre-training BERT</h3>
 
 <ul>
-<li>ZF: 5 sharable convolutional layers</li>
-<li>VGG-16: 13 sharable convolutional layers</li>
+<li><strong>Task #1: Masked LM</strong></li>
 </ul>
 
-<p>이렇게 공유된 feature들은 두 가지 용도로 사용하게 된다.  ($n \times n$의 spatial window를 사용하여 얻은 feature)</p>
+<p>직관적으로, bidirectional representation이 unidirectional representation보다 좋다는 것은 쉽게 알 수 있다. 하지만,  기존의 연구에서 사용하지 않은 이유는 바로 bidirectional representation을 하게 되면, 간접적으로 각 word가 자신에 대한 정보를 쉽게 얻을 수 있게 되며, 모델이 multi layerd contex에서 target word를 참조하기 힘들게 한다.</p>
 
-<ul>
-<li>box regression: proposal</li>
-<li>box classification: detector</li>
-</ul>
+<p>위의 한계점을 극복하고 deep bidirectional representation한 train을 하기 위해서 해당 연구에서는 input token중 일부를 랜덤하게 마스크하고 이렇게 mask된 단어들을 학습하도록 유도하였다. 이를 masked LM(MLM)이라고 한다. 실험적으로 약 15%의 token을 마스크하는것이 효과적이였다.</p>
 
-<p>해당 논문에서는 $n = 3$으로 feature를 생성했는데, 이는 일반적인 reception field로는 작은 숫자이다. 이렇게 작게 설정한 이유는 sliding window가 모든 spatial location을 탐색할 수 있게끔 설계한 것이다.</p>
-
-<h3 id="anchors">Anchors</h3>
-
-<p>sliding window의 위치가 변할 때 마다, multiple region proposals이 이루어진다.</p>
-
-<p>한 위치에서 나올수 있는 region proposal의 최대 개수를 $k$라고 한다면,</p>
-
-<ul>
-<li>regression box: $4k$의 outputs, $k$박스의 각 좌표(꼭지점)</li>
-<li>classfier: $2k$의 outputs, object or not</li>
-</ul>
-
-<p><img src="https://www.researchgate.net/profile/Max_Ferguson/publication/327392506/figure/fig8/AS:666613162450944@1535944371721/Anchor-Boxes-at-a-certain-position-in-the-feature-map.png" style="width: 70%;"></p>
-
-<p>위의 그림은 anchor의 scale과 ratio에 변화이다. 해당 논문에서는 위의 그림과 같이 9 종류의 anchor를 사용하였다.  따라서 해당 이미지의 크기가 $W \times H$라면 $W \times H \times k$개의 anchor가 존재한다.</p>
-
-<h4 id="translation-invariant-anchors">Translation-Invariant Anchors</h4>
-
-<blockquote>
-<p>translation-invariant의 특성이란</p>
-
-<p><img src="https://i.stack.imgur.com/iY5n5.png" style="width: 70%;"></p>
-
-<p>물체가 특정 위치에 존재할 때만 탐지되거나 혹은 특정 위치에서는 탐지가 잘 안되는 현상을 줄이는 것</p>
-
-<ul>
-<li>reference: <a href="https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8">https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8</a></li>
-</ul>
-</blockquote>
-
-<p>이를 확인하기 위해서 MultiBox method와 비교하게 되는데, 이는 k-means 방법론을 사용하며 800개의 anchor를 생성한다. 하지만 이는 translation invariant가 아니다.</p>
-
-<p>translation invariant의 특성은 model size를 작게 사용할 수 있게 해준다. MultiBox의 경우 $(4 + 1) * 800$-dimensional fully-connected network를 사용하는 반면에, Faster-RCNN은 $(4 + 2) * 9$-dimensional convolutional output layer만 있으면 가능하다. 즉,  $512 * (4 + 2) * 9 \approx 2.8 * 10^4$의 파라미터만으로 해결 할 수 있다. (box: 4, cls: 2) 반면에, MultiBox는 약 $ 1536 * (4 + 1) * 800 \approx 6.1 * 10^6 $의 파라미터가 필요하다. 따라서, overfitting 문제에 있어서 Faster-RCNN이 더 우수할 것으로 기대된다. ($1536=512 * 3$)</p>
-
-<h4 id="multi-scale-anchors-as-regression-references">Multi-Scale Anchors as Regression References</h4>
-
-<p><img src="https://lh4.googleusercontent.com/k2MADd4a8MolgZiH6j6Zj7nDfoSz3MrHaLmtt2VZuzE4Du8O2w85pJDxz4GhAvGt8piSEATGfUa1Ur7JWBufkigp3s2ZivDZ8HRfSaepVDZK4vjCpgZlPy9AfmNgN4QFmgnzCvW1"></p>
-
-<p>multi-scale prediction에는 두 가지 방법이 있다. 그리고 이 두가지 방법은 종종 혼합하여 사용된다. 해당 논문에서는 cost-efficient한 두 번째 방법을 사용하였다.</p>
-
-<ul>
-<li>image/feature pyramids -Figure 1 (a)
-
-<ul>
-<li>이미지를 다양한 크기로 resize한 후 feature map은 각 resize된 이미지에서 뽑아낸다.</li>
-<li>효과적이긴 하나, computation 시간이 오래 걸린다.</li>
-</ul></li>
-<li>multiple scale sliding window
-
-<ul>
-<li>다양한 크기의 window를 sliding하여 feature을 얻는다.</li>
-<li>pyramid of filters</li>
-<li>image/feature pyramids을 사용하지 않게 하기 때문에 scale을 다루는데 추가적인 cost가 발생하지 않는다.(rescale and feature)</li>
-</ul></li>
-</ul>
-
-<h4 id="loss-function">Loss Function</h4>
-
-<p>RPN을 학습할 때는 각 anchor에 대해서 binary class label로 학습이 진행된다. (object or not)
-positive label이 부여되는 경우는 두 가지이다.</p>
+<p>하지만, fine-tuning을 할 때, 문제가 발생한다. 바로 [Mask] 했던 token들은 fine-tuning과정에서는 발생하지 않기 때문이다. 이러한 문제점을 해결하기 위해서, 다음과 같은 조치를 취하였다.</p>
 
 <ol>
-<li>anchor/ anchors with the highest IOU score with ground-truth boxes</li>
-<li>union anchor: ground-truth box와의 IOU 점수가 0.7이상인 경우</li>
+<li><p>i-token이 mask되었다면, 80% 확률로 [Mask]로 대체한다.</p>
+
+<p>나는 학생이다. -&gt; 나는 [Mask]이다.</p></li>
+
+<li><p>i-token이 mask되었다면, 10% 확률로 random하게 다른 단어로 대체한다.</p>
+
+<p>나는 학생이다 -&gt; 나는 아파트이다.</p></li>
+
+<li><p>i-token이 mask되었다면,  10% 확률로 변화시키지 않는다.</p>
+
+<p>나는 학생이다. -&gt; 나는 학생이다.</p></li>
 </ol>
 
-<p>보통은 2번째 조건으로만 postive sample을 만들 수 있지만, 희귀한 경우에 2번째 조건만으로 찾지 못하는 경우가 있다. 그래서 1번째 조건도 추가한다.</p>
-
-<p>negative label의 경우 IOU점수가 0.3보다 낮은 anchor에 부여된다.(ground-truth) positive 혹은 negative에 속하지 못하는 anchor는 train objective에 영향을 주지 않는다.</p>
-
-<p>아래는 objective이다.</p>
-
-<p><code>$$
-L(\{p_i\}, \{t_i\}) = \frac{1}{N_{cls}}\sum_iL_{cls}(p_i, p_i^*) + \lambda\frac{1}{N_{reg}}\sum_i p_i^*L_{reg}(t_i, t_i^*)
-$$</code></p>
+<p>이런 조치를 취하게 되면, Transformer layer가  cross entropy loss로 학습을 진행하게 된다. 참고로 random하게 단어를 변화시키는 확률은 $0.15 * 0.1 = 0.015$ 로 모델의 표현력을 저하시키지 않는다.</p>
 
 <ul>
-<li>$i$는 anchor의 index를 의미한다.</li>
-<li>$p_i^*$는 ground-truth label을 의미하며 1이 postive이다.</li>
-<li>$t_i^*$는 4차원의 vector로 bounding box를 의미한다. (ground-truth)</li>
-<li><code>$p_i^*L_{reg}(t_i, t_i^*)$</code>은 positive sample일때만 적용된다는 뜻이다.</li>
+<li><strong>Task #2: Next Sentence Prediction(NSP)</strong></li>
 </ul>
 
-<p>Bounding box regression은 어떻게 적용되는가? $L_1$ loss가 적용되며 vector가 다음과 같이 변환된다.
-<code>$$
-t_x = (x-x_a)/w_a, t_y=(y-y_a)/h_a\\
-t_w = \log(w/w_a), t_h=\log(h/h_a) \\
-t_x^* =(x^* - x_a)/w_a, t_y^*=(y^*-y_a)/h_a \\
-t_w^*= \log(w^*/w_a), t_h^*=\log(h^*/h_a)
-$$</code></p>
+<p>Question Answering, Natural Language Inference와 같은 task에서 두 문장 사이의 관계를 파악하는 것은 중요하다. 이는 language modeling에서 직접적으로 관계를 파악하기 힘들다. 두 문장 사이의 관계를 파악하기 위해서 해당 논문은 next sentence prediction task로 pre-train을 하였다.</p>
 
 <ul>
-<li>$x$: predicted box</li>
-<li>$x_a$: anchor box</li>
-<li>$x^*$: ground truth box</li>
+<li>특히 A문장과 B문장을 고를때, 50%확률로 B가 실제로 뒤에 있는 문장이다.</li>
+<li>나머지 50% 확률로 random하게 배치한다.</li>
 </ul>
 
-<p>위의 방법은 기존에 사용되던 Region of Interest methods와 다르다. ROI method에서는 bounding-box regression이 arbitrarily sized ROI에서 뽑힌 feature를 바탕으로 진행되며, 모든 region size에 대해서 weight를 공유한다. 반면에 위의 방법론은 feature map의 spatial size가 3 * 3으로 고정되어 있으며 변하는 size에 다루기 위해서는 다양한 anchor를 사용한다. 이 때, 각 anchor끼리는 weight를 공유하지 않는다.</p>
+<p>하지만, 이전 연구에서는 sentence embedding만 down-task에 전이가 한다. (BERT는 모든 parameter를 전이한다.)</p>
 
-<p>하지만, 위에서 언급했듯이 이전의 region proposal 방법론은 효율적이지 못하다는 단점이 있다.</p>
-
-<h4 id="training-rpns">Training RPNs</h4>
-
-<p>image-centric sampling 방법론을 사용한다.</p>
-
-<p>각 mini-batch에서 image상에는 많은 positives와 negatives가 존재한다. 이를 그대로 학습시킨다면 일반적으로 negative sample의 수가 많기 때문에 편향될 위험이 있다. 따라서, positive sample과 negative sample을 random하게 1:1로 추출한다음 학습을 진행한다. (p: 128, n:128)</p>
-
-<h2 id="sharing-features-for-rpn-and-fast-r-cnn">Sharing Features for RPN and Fast R-CNN</h2>
-
-<p>이제 detection network를 고려해보자. detection network와 regioin proposal network를 독립적으로 학습시킨다면 이는 서로 다른 방법으로 학습이 될 것으로 기대된다. 따라서 convolution layer를 공유하기 위해서는 새로운 방법이 필요하다.</p>
+<h3 id="3-2-fine-tunning-bert">3.2 Fine-tunning BERT</h3>
 
 <ul>
-<li>Alternating training</li>
+<li>self-attention layer의 영향으로 fine-tuning은 매우 순조롭다.</li>
+<li>input sequence에 대해서 일정한 차원수의 representation 결과를 얻고 싶기 때문에, <code>[CLS]</code> token의 <strong>Transformer output</strong>값을 사용합니다.</li>
+<li><code>[CLS]</code> token의 벡터는 H차원을 가집니다. $C∈R^H$</li>
+<li>여기서 <strong>classify하고 싶은 갯수(K)에 따라 classification layer</strong>를 붙여 줍니다. classification layer : $W∈R^{K×H} W∈R^{K×H}$</li>
+<li>label probabilities는 <strong>standard softmax</strong>로 계산 됩니다.$P=softmax(CWT)P=softmax(CWT)$</li>
+
+<li><p>W matrix와 BERT의 모든 파라미터가 같이 fine-tuning 됩니다.</p></li>
+
+<li><p>hyperparmeter</p></li>
 </ul>
 
-<p>먼저 RPN을 학습시킨다 다음, RPN에서 나오는 Proposal을 바탕으로 Fast-RCNN을 학습시킨다. 해당 논문에서는 이 방법론을 사용한다.</p>
+<p><strong>Batch size</strong>: 16, 32 <strong>Learning rage (Adam)</strong>: 5e-5, 3e-5, 2e-5 Number of epochs : 3, 4</p>
 
 <ul>
-<li>Apporximate joint training:</li>
+<li><p>pretraining과 비교했을때, 상대적으로 fine-tuning은 적은 비용으로 학습시킬수 있다.</p></li>
+
+<li><p>fine-tuning시 dataset의 크기가 클수록 hyperparameter의 영향을 덜 받고 잘 training됨을 관측할 수 있었다고 합니다.</p></li>
 </ul>
 
-<p>Fast-RCNN과 RPN을 하나의 network로 만든다. SGD interations동안 forward pass에서 region proposal을 생성하고 이는 Fast-RCNN detector를 학습시키는 동안 미리 계산되고 고정되어 있다.(not differential) backward pass에서는 RPN loss와 Fast_RCNN loss가 더해져서 total loss로 정의된다. 이는 쉽게 적용될 수 있으나, 이는 proposal box에 대한 gradient값을 무시하게 된다. (approximate한다)</p>
+<h3 id="3-3-comparision-of-bert-elmo-and-openai-gpt">3.3 Comparision of BERT, ELMO and OpenAI GPT</h3>
 
-<p>해당 실험에서는 학습시간을 줄이면서 결과는 유사하게 나오는 것을 확인할 수 있었다. (reduce 25% ~ 50% train time)</p>
+<p><img src="https://mino-park7.github.io/images/2018/12/%EA%B7%B8%EB%A6%BC1-bert-openai-gpt-elmo-%EC%B6%9C%EC%B2%98-bert%EB%85%BC%EB%AC%B8.png"></p>
 
 <ul>
-<li>Non-approximate joint training</li>
+<li>BERT와 OpenAI GPT는 fine-tuning approach인 반면에, ELMo는 feature-based approach이다.</li>
+<li>BERT와 OpenAI GPT는 유사한 pre-training방법론을 사용하였다.</li>
+<li>BERT와 ELMo는 bidirectional representation을 얻는다. OpenAI GPT는 unidirectional representation을 사용한다.</li>
 </ul>
 
-<p>Apporximate joint training과 다르게 box coordinates에 대해서 미분가능하다.</p>
+<h2 id="4-experiments">4.Experiments</h2>
 
-<p>bbox에 미분가능한 ROI pooling layer가 필요하다.</p>
+<ul>
+<li><strong>Fine-tunning on Different Tasks</strong></li>
+</ul>
 
-<h5 id="4-step-alternating-training">4-Step Alternating Training</h5>
+<p><img src="https://mino-park7.github.io/images/2019/02/%EA%B7%B8%EB%A6%BC4-bert-experiment-result.png" style="width: 80%"></p>
 
-<ol>
-<li>RPN 학습, (initialized with an ImageNet-pre-trained model )</li>
-<li>1에서 학습학 RPN을 바탕으로 regioin proposal 생성 후 Fast-RCNN detector 학습(initialized with an ImageNet-pre-trained model) 이 step에서는 layer를 공유하지 않는다.</li>
-<li>detector network를 RPN initialization에 사용한다. 공유되는 layer는 고정시키고 RPN에만 적용되는  layer만 학습시킨다. 이 step에서 layer를 공유한다.</li>
-<li>공유되는 layer는 고정시키고 Fast-RCNN에만 적용되는 layer를 학습시킨다.</li>
-</ol>
+<p>위의 그림은 각 task에 대한 fine-tuning 방법론을 시각화한 것이다. (a), (b)는 sentence level, &copy;와 (d)는 token-level task이다. 참고로 [CLS]는 classification을 위한 단어이고, [SEP]는 연속적이지 않은 token을 나누기 위한 단어이다.</p>
 
-<h2 id="implementation-detatils">Implementation Detatils</h2>
+<ul>
+<li><p>GLUE</p></li>
 
-<p>image/feature pyramids -Figure 1 (a)과 multi scale sliding window 두 가지 방법 모두 실험해보았다. 하지만 첫번째 방법론은 speed-accuracy trade-off가 좋지 않음을 확인할 수 있었다.</p>
+<li><p>SQuAD v1.1</p></li>
 
-<h4 id="recall-to-iou">Recall to IOU</h4>
+<li><p>SQuAD v2.0</p></li>
 
-<p>일반적으로 전반적인 detection accuracy와 관련있는 metric이다.</p>
+<li><p>SWAG</p></li>
+</ul>
 
-<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure4.png"></p>
+<h2 id="5-ablation-studies">5. Ablation Studies</h2>
 
-<p>위의 이미지를 보면 알 수 있듯이, SS, EB가 더 빠르게 감소하는 recall을 확인할 수 있다.</p>
+<h3 id="5-1-effect-of-pre-training-tasks">5.1 Effect of Pre-training Tasks</h3>
 
-<blockquote>
-<p>recall이란</p>
+<h3 id="5-1-effect-of-model-size">5.1 Effect of Model Size</h3>
 
-<p>TP / total ground-truth</p>
-</blockquote>
+<h3 id="5-3-feature-based-approach-with-bert">5.3 Feature-based Approach with BERT</h3>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
 <ul class="pa0">
-  
-   <li class="list">
-     <a href="https://rroundtable.github.io/tags/deeplearning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deeplearning</a>
-   </li>
   
 </ul>
 <div class="mt6">

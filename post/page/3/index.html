@@ -27,22 +27,22 @@
     
 
     
-      <link href="https://rroundtable.github.io/tags/machine-learning/index.xml" rel="alternate" type="application/rss+xml" title="RoundTable" />
-      <link href="https://rroundtable.github.io/tags/machine-learning/index.xml" rel="feed" type="application/rss+xml" title="RoundTable" />
+      <link href="https://rroundtable.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="RoundTable" />
+      <link href="https://rroundtable.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="RoundTable" />
     
 
-    <meta property="og:title" content="machine learning" />
+    <meta property="og:title" content="Posts" />
 <meta property="og:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://rroundtable.github.io/tags/machine-learning/" />
+<meta property="og:url" content="https://rroundtable.github.io/post/" />
 
-<meta property="og:updated_time" content="2019-07-07T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2020-01-22T00:00:00&#43;00:00"/>
 
-<meta itemprop="name" content="machine learning">
+<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.">
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="machine learning"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content="Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."/>
 
   </head>
@@ -142,7 +142,7 @@
 
       <div class="tc-l pv3 ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
-          machine learning
+          Posts
         </h1>
         
       </div>
@@ -180,18 +180,92 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf pa3 pa4-m pa4-l">
-    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “machine learning”</p>
-    </div>
-  </article>
-  <div class="mw8 center">    
-    <section class="flex-ns flex-wrap justify-around mt5">
+
+  <article class="pa3 pa4-ns nested-copy-line-height nested-img">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
       
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Post</span>
+    </section>
+    <aside class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 25, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" class="link black dim">
+        Faster-RCNN 정리글
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
+이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
+ Fast-RCNN: region proposal algorithm
+selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 25, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-26-mixture-density-network-uncertainty-estimation/" class="link black dim">
+        Mixture density Network: Uncertainty estimation
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem 기존의 방법론들은 uncetrainty를 estimate하는데 sampling을 해야하는 한계가 있다. 이 논문에서는 gaussian mixure model을 활용한 sampling-free uncertainty estimation방법론을 제안한다.
+Mixture Density Network   위의 이미지처럼 MDN은 output이 fixed value가 아닌 distribution의 형태를 가진다. 이런 특성 때문에 multi modal한 상황에서도 학습이 잘 진행된다.   MDN을 수식으로 나타내면 아래와 같다. $$ p(y|\theta) = \sum_{j=1}^K\pi_j\mathcal{N}(y|u_j, \Sigma_j) $$ where
+ $\theta=\{\pi_j, u_j ,\Sigma_j \}_{j=1}^K$
+ $\pi_j$: 가중치, 0 ~ 1사이의 값,$\sum_{j=1}^K\pi_j = 1$
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 8, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/2019-07-08-batch-normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC/" class="link black dim">
+        Batch Normalization에 대하여
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Problem Define 학습하는 과정에서 이전 layer의 parameter가 변하면서, 각 layer의 input들의 distribution이 training과정마다 변하게 된다. 이런 문제는 학습이 불안정하게 하며, 낮은 learning rate를 사용해야 학습이 진행된다. 결론적으로는 saturating non-linearity의 모델을 학습하기 어려워진다. 이런 현상을 internal covariate shift 라고 부른다.
+ saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값이 어떤 범위내에서만 움직이는 것
+ex) sigmoid
+not-saturating non-linearity: 어떤 입력이 무한대로 갈 때 함수값도 무한대로 가는 것을 의미
+ex) Relu
+ sigmoid activation에 대해서 생각해보면, 위의 문제가 왜 심각한지 알 수 있다.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 7, 2019
+      </div>
+    
     <h1 class="f3 near-black">
       <a href="https://rroundtable.github.io/post/mle-maximum-likelihood-estimation/" class="link black dim">
         MLE 와 MAP에 대하여
@@ -202,12 +276,110 @@
 동전던지기 예시를 생각해보면, 쉽게 이해할 수 있다. 일반적으로 동전 던지기를 해서 앞면이 나올 확률은 0.5라고 생각합니다. 하지만, 이는 우리가 가정한 값이지 실제의 값은 아닙니다. 이런 이유로 몇 번의 수행결과로 동전의 앞면이 나올 확률 $P(H)$를 정의하고자 합니다.
     </div>
   </div>
-</div>
 
         </div>
       
-    </section>
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        July 5, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/rkhs/" class="link black dim">
+        RKHS에 대하여
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Hibert space  A Hilbert space($\mathbf{H}$) is a complete inner product linear space.
+  Linear space  선형공간이라는 것은 임의의 두 원소 $x$,$ y$의 선형결합 또한 원소로 가지고 있어야 하는 조건이다. $$ \alpha x + \beta y \in \mathbf{H}(\alpha, \beta: scalar) $$ 2. Inner product
+힐버트 공간에서는 내적으로 metric을 정의한다.
+내적 $$는 $H \times H$에서 $\mathbb{R}$로의 bilinear positive definite kernel이다.
+ bilinear: $x, y$ 둘 중 하나를 고정하면 다른 하나에 대한 linear 함수   positive definite    Complete  힐버트 공간 $\mathcal{H}$내의 어떠한 Cauchy sequence도 $\mathcal{H}$내의 원소로 수렴한다.
+    </div>
   </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+    <h1 class="f3 near-black">
+      <a href="https://rroundtable.github.io/post/image-segmentation-loss/" class="link black dim">
+        Image segmentation에서 사용되는 loss
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Basic: Cross Entropy 일반적으로 classification문제에서 사용되는 term이다. $$ CE(p, \hat{p}) = -(p \log(\hat{p}) + (1- p)\log(1-\hat{p})) $$
+Weighted cross entropy $$ WCE(p, \hat{p}) = -(\beta p \log(\hat{p}) + (1- p)\log(1-\hat{p})) $$
+위의 cross entropy의 변형으로 모든 positive samples는 가중치를 부여 받는다. 이는 class imbalace문제를 다루기 위해서 사용한다. 만약 positive sample이 is 90%고 negative sample이 10%라면 cross entropy는 잘 작동하기 힘들다. 위와 같은 상황에서는 positive sample에 $\beta$ 를 1보다 작은 값을 부여하여 해결하고 만약 negative sample이 더 많다면 반대로 $\beta$ 에 1보다 큰 값을 부여하여 해결한다.
+    </div>
+  </div>
+
+        </div>
+      
+    </aside>
+    
+
+<ul class="pagination">
+    
+    <li class="page-item">
+        <a href="https://rroundtable.github.io/post/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+    <a href="https://rroundtable.github.io/post/page/2/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="https://rroundtable.github.io/post/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="https://rroundtable.github.io/post/page/2/">2</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item active"><a class="page-link" href="https://rroundtable.github.io/post/page/3/">3</a></li>
+    
+    
+    <li class="page-item disabled">
+    <a href="" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+        <a href="https://rroundtable.github.io/post/page/3/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
+  </article>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">

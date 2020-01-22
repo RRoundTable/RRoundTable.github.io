@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>RoundTable  | Faster-RCNN 정리글</title>
+    <title>RoundTable  | Feature Visulatization 번역글</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -28,36 +28,39 @@
 
     
 
-    <meta property="og:title" content="Faster-RCNN 정리글" />
-<meta property="og:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다." />
+    <meta property="og:title" content="Feature Visulatization 번역글" />
+<meta property="og:description" content="Introduction neural network의 해석가능성에 대한 필요성이 늘어나고 있다. Deep learning의 해석가능성은 크게 두 가지 문제로 나뉜다.
+ feature visualization  network 혹은 network의 부분이 무엇을 보고자 하는가
+ attribution  network가 다음과 같이 동작하는 이유가 무엇인가
+class activation map이 하나의 예시가 될 수 있다.
+Feature Visualization by Optimization 일반적으로 neural network는 input에 대해서 differentiable하다. 만약 당신이 어떤 종류의 input이 특정한 행동양상을 가지는지 알고 싶다면(내부적인 뉴런의 동작 혹은 마지막 결과물의 양상이 예시가 될 수 있다." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://rroundtable.github.io/post/2019-07-26-faster-rcnn-%EC%A0%95%EB%A6%AC%EA%B8%80/" />
-<meta property="article:published_time" content="2019-07-25T00:00:00&#43;00:00"/>
-<meta property="article:modified_time" content="2019-07-25T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://rroundtable.github.io/post/2019-10-29-feature-visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/" />
+<meta property="article:published_time" content="2019-10-29T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-10-29T00:00:00&#43;00:00"/>
 
-<meta itemprop="name" content="Faster-RCNN 정리글">
-<meta itemprop="description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다.">
-
-
-<meta itemprop="datePublished" content="2019-07-25T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-07-25T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="951">
+<meta itemprop="name" content="Feature Visulatization 번역글">
+<meta itemprop="description" content="Introduction neural network의 해석가능성에 대한 필요성이 늘어나고 있다. Deep learning의 해석가능성은 크게 두 가지 문제로 나뉜다.
+ feature visualization  network 혹은 network의 부분이 무엇을 보고자 하는가
+ attribution  network가 다음과 같이 동작하는 이유가 무엇인가
+class activation map이 하나의 예시가 될 수 있다.
+Feature Visualization by Optimization 일반적으로 neural network는 input에 대해서 differentiable하다. 만약 당신이 어떤 종류의 input이 특정한 행동양상을 가지는지 알고 싶다면(내부적인 뉴런의 동작 혹은 마지막 결과물의 양상이 예시가 될 수 있다.">
 
 
+<meta itemprop="datePublished" content="2019-10-29T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-10-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="700">
 
-<meta itemprop="keywords" content="deeplearning," />
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Faster-RCNN 정리글"/>
-<meta name="twitter:description" content="Problem: bottleneck 기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.
-이러한 문제를 해결하기 위해서 Region Proposal Network를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.
- Fast-RCNN: region proposal algorithm
-selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
+<meta name="twitter:title" content="Feature Visulatization 번역글"/>
+<meta name="twitter:description" content="Introduction neural network의 해석가능성에 대한 필요성이 늘어나고 있다. Deep learning의 해석가능성은 크게 두 가지 문제로 나뉜다.
+ feature visualization  network 혹은 network의 부분이 무엇을 보고자 하는가
+ attribution  network가 다음과 같이 동작하는 이유가 무엇인가
+class activation map이 하나의 예시가 될 수 있다.
+Feature Visualization by Optimization 일반적으로 neural network는 input에 대해서 differentiable하다. 만약 당신이 어떤 종류의 input이 특정한 행동양상을 가지는지 알고 싶다면(내부적인 뉴런의 동작 혹은 마지막 결과물의 양상이 예시가 될 수 있다."/>
 
   </head>
 
@@ -171,235 +174,154 @@ selective search 한 이미지 당 cpu기준 약 2초의 시간이 걸린다."/>
           
         POSTS
       </p>
-      <h1 class="f1 athelas mb1">Faster-RCNN 정리글</h1>
+      <h1 class="f1 athelas mb1">Feature Visulatization 번역글</h1>
       
-      <time class="f6 mv4 dib tracked" datetime="2019-07-25T00:00:00Z">July 25, 2019</time>
+      <time class="f6 mv4 dib tracked" datetime="2019-10-29T00:00:00Z">October 29, 2019</time>
       
       
     </header>
     <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
 
-<h1 id="problem-bottleneck">Problem: bottleneck</h1>
+<h2 id="introduction">Introduction</h2>
 
-<p>기존의 state-of-the-art object detection network는 region proposal algorithm을 사용하였다. (ex-Fast R-CNN) region proposal algorithm은 이들 network상에서 bottleneck의 역할을 하고 있었다. 즉, region proposal algorithm 때문에 학습 시간 및 알고리즘 수행시간이 지체되고 있는 것을 확인했다.</p>
-
-<p>이러한 문제를 해결하기 위해서 <strong>Region Proposal Network</strong>를 제안하는데 이는 full-image convolutional feature를 region proposal하는데도 사용하여 cost-free하게 적용될 수 있다.</p>
-
-<blockquote>
-<p>Fast-RCNN: region proposal algorithm</p>
-
-<h3 id="selective-search">selective search</h3>
-
-<p>한 이미지 당 cpu기준 약 2초의 시간이 걸린다.
-<img src="https://i.imgur.com/DPEJcwI.png" style="width:50%;"></p>
-
-<ul>
-<li>reference: <a href="https://donghwa-kim.github.io/SelectiveSearch.html">https://donghwa-kim.github.io/SelectiveSearch.html</a></li>
-</ul>
-</blockquote>
-
-<h1 id="faster-rcnn">Faster-RCNN</h1>
-
-<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure2.png"></p>
-
-<p>Faster-RCNN은 두 가지 모듈로 구성된다.</p>
+<p>neural network의 해석가능성에 대한 필요성이 늘어나고 있다. Deep learning의 해석가능성은 크게 두 가지 문제로 나뉜다.</p>
 
 <ol>
-<li>Deep fully convolutional network  that proposes regions</li>
-<li>Fast R-CNN detector(classfier): 1에서 추출된 regioin을 사용한다.</li>
+<li>feature visualization</li>
 </ol>
 
-<p>중요한 점은 1, 2가 진행되는 동안 feature를 공유한다는 것이다. (cost-free)</p>
+<p><img src="https://user-images.githubusercontent.com/27891090/67741701-62eb4880-fa5d-11e9-84d4-f92d023cab58.png"></p>
 
-<h2 id="region-proposal-networks">Region Proposal Networks</h2>
-
-<p>어떤 사이즈의 이미지가 들어와도 직사각형의 object proposal을 output으로 가진다.</p>
-
-<blockquote>
-<p>fully convolutioinal network</p>
-
-<p><img src="https://miro.medium.com/max/770/1*BYAi0HtzaJzqAHhAareTNg.png" style="width: 50%;"></p>
-</blockquote>
-
-<p>이  논문의 목표는 detector의 computation과 proposal의 computation을 공유하는 것이기 때문에 위와 같은 convolution layers를 공유한다고 가정하였다.</p>
-
-<ul>
-<li>ZF: 5 sharable convolutional layers</li>
-<li>VGG-16: 13 sharable convolutional layers</li>
-</ul>
-
-<p>이렇게 공유된 feature들은 두 가지 용도로 사용하게 된다.  ($n \times n$의 spatial window를 사용하여 얻은 feature)</p>
-
-<ul>
-<li>box regression: proposal</li>
-<li>box classification: detector</li>
-</ul>
-
-<p>해당 논문에서는 $n = 3$으로 feature를 생성했는데, 이는 일반적인 reception field로는 작은 숫자이다. 이렇게 작게 설정한 이유는 sliding window가 모든 spatial location을 탐색할 수 있게끔 설계한 것이다.</p>
-
-<h3 id="anchors">Anchors</h3>
-
-<p>sliding window의 위치가 변할 때 마다, multiple region proposals이 이루어진다.</p>
-
-<p>한 위치에서 나올수 있는 region proposal의 최대 개수를 $k$라고 한다면,</p>
-
-<ul>
-<li>regression box: $4k$의 outputs, $k$박스의 각 좌표(꼭지점)</li>
-<li>classfier: $2k$의 outputs, object or not</li>
-</ul>
-
-<p><img src="https://www.researchgate.net/profile/Max_Ferguson/publication/327392506/figure/fig8/AS:666613162450944@1535944371721/Anchor-Boxes-at-a-certain-position-in-the-feature-map.png" style="width: 70%;"></p>
-
-<p>위의 그림은 anchor의 scale과 ratio에 변화이다. 해당 논문에서는 위의 그림과 같이 9 종류의 anchor를 사용하였다.  따라서 해당 이미지의 크기가 $W \times H$라면 $W \times H \times k$개의 anchor가 존재한다.</p>
-
-<h4 id="translation-invariant-anchors">Translation-Invariant Anchors</h4>
-
-<blockquote>
-<p>translation-invariant의 특성이란</p>
-
-<p><img src="https://i.stack.imgur.com/iY5n5.png" style="width: 70%;"></p>
-
-<p>물체가 특정 위치에 존재할 때만 탐지되거나 혹은 특정 위치에서는 탐지가 잘 안되는 현상을 줄이는 것</p>
-
-<ul>
-<li>reference: <a href="https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8">https://medipixel.github.io/post/anchor-target/?fbclid=IwAR3sCN1gXjcpt0SNcBgCpVsW8Y6jo2u-2MrBkrQGQgy3CSIKkUPPHGt4YY8</a></li>
-</ul>
-</blockquote>
-
-<p>이를 확인하기 위해서 MultiBox method와 비교하게 되는데, 이는 k-means 방법론을 사용하며 800개의 anchor를 생성한다. 하지만 이는 translation invariant가 아니다.</p>
-
-<p>translation invariant의 특성은 model size를 작게 사용할 수 있게 해준다. MultiBox의 경우 $(4 + 1) * 800$-dimensional fully-connected network를 사용하는 반면에, Faster-RCNN은 $(4 + 2) * 9$-dimensional convolutional output layer만 있으면 가능하다. 즉,  $512 * (4 + 2) * 9 \approx 2.8 * 10^4$의 파라미터만으로 해결 할 수 있다. (box: 4, cls: 2) 반면에, MultiBox는 약 $ 1536 * (4 + 1) * 800 \approx 6.1 * 10^6 $의 파라미터가 필요하다. 따라서, overfitting 문제에 있어서 Faster-RCNN이 더 우수할 것으로 기대된다. ($1536=512 * 3$)</p>
-
-<h4 id="multi-scale-anchors-as-regression-references">Multi-Scale Anchors as Regression References</h4>
-
-<p><img src="https://lh4.googleusercontent.com/k2MADd4a8MolgZiH6j6Zj7nDfoSz3MrHaLmtt2VZuzE4Du8O2w85pJDxz4GhAvGt8piSEATGfUa1Ur7JWBufkigp3s2ZivDZ8HRfSaepVDZK4vjCpgZlPy9AfmNgN4QFmgnzCvW1"></p>
-
-<p>multi-scale prediction에는 두 가지 방법이 있다. 그리고 이 두가지 방법은 종종 혼합하여 사용된다. 해당 논문에서는 cost-efficient한 두 번째 방법을 사용하였다.</p>
-
-<ul>
-<li>image/feature pyramids -Figure 1 (a)
-
-<ul>
-<li>이미지를 다양한 크기로 resize한 후 feature map은 각 resize된 이미지에서 뽑아낸다.</li>
-<li>효과적이긴 하나, computation 시간이 오래 걸린다.</li>
-</ul></li>
-<li>multiple scale sliding window
-
-<ul>
-<li>다양한 크기의 window를 sliding하여 feature을 얻는다.</li>
-<li>pyramid of filters</li>
-<li>image/feature pyramids을 사용하지 않게 하기 때문에 scale을 다루는데 추가적인 cost가 발생하지 않는다.(rescale and feature)</li>
-</ul></li>
-</ul>
-
-<h4 id="loss-function">Loss Function</h4>
-
-<p>RPN을 학습할 때는 각 anchor에 대해서 binary class label로 학습이 진행된다. (object or not)
-positive label이 부여되는 경우는 두 가지이다.</p>
+<p>network 혹은 network의 부분이 무엇을 보고자 하는가</p>
 
 <ol>
-<li>anchor/ anchors with the highest IOU score with ground-truth boxes</li>
-<li>union anchor: ground-truth box와의 IOU 점수가 0.7이상인 경우</li>
+<li>attribution</li>
 </ol>
 
-<p>보통은 2번째 조건으로만 postive sample을 만들 수 있지만, 희귀한 경우에 2번째 조건만으로 찾지 못하는 경우가 있다. 그래서 1번째 조건도 추가한다.</p>
+<p>network가 다음과 같이 동작하는 이유가 무엇인가</p>
 
-<p>negative label의 경우 IOU점수가 0.3보다 낮은 anchor에 부여된다.(ground-truth) positive 혹은 negative에 속하지 못하는 anchor는 train objective에 영향을 주지 않는다.</p>
+<p>class activation map이 하나의 예시가 될 수 있다.</p>
 
-<p>아래는 objective이다.</p>
+<h2 id="feature-visualization-by-optimization">Feature Visualization by Optimization</h2>
 
-<p><code>$$
-L(\{p_i\}, \{t_i\}) = \frac{1}{N_{cls}}\sum_iL_{cls}(p_i, p_i^*) + \lambda\frac{1}{N_{reg}}\sum_i p_i^*L_{reg}(t_i, t_i^*)
-$$</code></p>
+<p>일반적으로 neural network는 input에 대해서 differentiable하다. 만약 당신이 어떤 종류의 input이 특정한 행동양상을 가지는지 알고 싶다면(내부적인 뉴런의 동작 혹은 마지막 결과물의 양상이 예시가 될 수 있다.),  iteratively 미분하면서 목표를 이룰수 있다. 이렇게 얘기하면 매우 쉬울 거 같지만, 이를 하기 위해서는 많은 문제를 해결해야 한다.</p>
 
-<ul>
-<li>$i$는 anchor의 index를 의미한다.</li>
-<li>$p_i^*$는 ground-truth label을 의미하며 1이 postive이다.</li>
-<li>$t_i^*$는 4차원의 vector로 bounding box를 의미한다. (ground-truth)</li>
-<li><code>$p_i^*L_{reg}(t_i, t_i^*)$</code>은 positive sample일때만 적용된다는 뜻이다.</li>
-</ul>
+<p><img src="https://user-images.githubusercontent.com/27891090/67742020-2704b300-fa5e-11e9-9953-6a0b01ec647d.png"></p>
 
-<p>Bounding box regression은 어떻게 적용되는가? $L_1$ loss가 적용되며 vector가 다음과 같이 변환된다.
-<code>$$
-t_x = (x-x_a)/w_a, t_y=(y-y_a)/h_a\\
-t_w = \log(w/w_a), t_h=\log(h/h_a) \\
-t_x^* =(x^* - x_a)/w_a, t_y^*=(y^*-y_a)/h_a \\
-t_w^*= \log(w^*/w_a), t_h^*=\log(h^*/h_a)
-$$</code></p>
+<p>위의 예시는 random noise를 input으로 두고 특정 뉴런을 활성화 시키기 위해서 input을 변화시켜나가는 과정으로 보인다.</p>
+
+<h3 id="optimization-objective">Optimization Objective</h3>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/67742810-53b9ca00-fa60-11e9-8c7a-e9b3b50d2952.png"></p>
 
 <ul>
-<li>$x$: predicted box</li>
-<li>$x_a$: anchor box</li>
-<li>$x^*$: ground truth box</li>
+<li>Neuron: $layer_n [x,y,z]$</li>
+<li>Channel: $layer_n[:, :, z]$</li>
+<li>Layer: $layer_n[:,:,:]$</li>
+<li>Class Logit:pre_softmax[k]</li>
+<li>Class Probability: softmax[k]</li>
 </ul>
 
-<p>위의 방법은 기존에 사용되던 Region of Interest methods와 다르다. ROI method에서는 bounding-box regression이 arbitrarily sized ROI에서 뽑힌 feature를 바탕으로 진행되며, 모든 region size에 대해서 weight를 공유한다. 반면에 위의 방법론은 feature map의 spatial size가 3 * 3으로 고정되어 있으며 변하는 size에 다루기 위해서는 다양한 anchor를 사용한다. 이 때, 각 anchor끼리는 weight를 공유하지 않는다.</p>
+<p>주목할 점은 특정 class의 softmax 값을 증가시키는 쉬운 방법은 해당 class에 가깝게 만드는 것이 아니라, 다른 class과 유사하지 않게 만드는 식으로 optimization이 진행된다는 것이다. 경험상 class logit을 objective로 삼는 것이 더 좋은 결과를 얻을 수 있었다.</p>
 
-<p>하지만, 위에서 언급했듯이 이전의 region proposal 방법론은 효율적이지 못하다는 단점이 있다.</p>
+<p>위의 방법론 말고도 여러가지 방법을 시도해 볼 수 있다.  style transfer도 좋은 예시이다. style transfer에서는 content와 style이라는 개념이 나온다. model이 optimization을 진행할 때 어떤 정보는 유지하고 어떤 정보는 버리는지에 대해서 알 수 있다.</p>
 
-<h4 id="training-rpns">Training RPNs</h4>
+<h3 id="why-visualize-by-optimization">Why visualize by optimization?</h3>
 
-<p>image-centric sampling 방법론을 사용한다.</p>
+<p>왜 dataset 그 자체로는 feature visualization을 하지 않고 optimization을 사용하는가?</p>
 
-<p>각 mini-batch에서 image상에는 많은 positives와 negatives가 존재한다. 이를 그대로 학습시킨다면 일반적으로 negative sample의 수가 많기 때문에 편향될 위험이 있다. 따라서, positive sample과 negative sample을 random하게 1:1로 추출한다음 학습을 진행한다. (p: 128, n:128)</p>
+<p>이는 optimization이 model이 실제로 보고 있는 것을 시각화 할 수 있는 효과적인 방법이기 때문이다. 실제 dataset은 neuron이 보고 있는 것과 차이가 생길 수 있다.</p>
 
-<h2 id="sharing-features-for-rpn-and-fast-r-cnn">Sharing Features for RPN and Fast R-CNN</h2>
+<p>그 이유는 optimization이 model의 행동을 유발하는 요소와 상관관계가 있는 요소를 분리할 수 있기 때문이다.  아래의 예시 이미지를 보면 쉽게 알 수 있다.</p>
 
-<p>이제 detection network를 고려해보자. detection network와 regioin proposal network를 독립적으로 학습시킨다면 이는 서로 다른 방법으로 학습이 될 것으로 기대된다. 따라서 convolution layer를 공유하기 위해서는 새로운 방법이 필요하다.</p>
+<p><img src="https://user-images.githubusercontent.com/27891090/67744171-1fe0a380-fa64-11e9-8563-4ebf5d4f44ec.png"></p>
+
+<p>또한 optimization은 유연하다는 장점을 가진다. 특정 neuron을 활성화 시키고 싶다면 그에 맞게 수식을 적용하면 된다.</p>
+
+<h2 id="diversity">Diversity</h2>
+
+<p>optimization을 사용할 때는 주의할 필요가 있다.예를 들어,  genuine을 표현하고 싶은데, facet의 특징으로 설명할 수 도 있다.</p>
+
+<p>여기서 Dataset example이 매우 큰 장점을 가진다. 이를 통해서 diverse example을 찾을 수 있었다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/67744675-887c5000-fa65-11e9-8e4e-c893331ff385.png"></p>
+
+<h3 id="achieving-diversity-with-optimization">Achieving Diversity with Optimization</h3>
+
+<p>nework는 inputs의 넓은 범위에 활성화될 수 있다. 예를 들어서 class level에서 생각해보자. 만약 classifier가 개를 인식하게 학습이 되었다면, 해당 classifier는 개의 얼굴과 전체적인 시각적인 특징을 잡아내야 한다. (비록 시각적으로 그 둘의 차이가 크더라도)</p>
 
 <ul>
-<li>Alternating training</li>
+<li>related work</li>
 </ul>
 
-<p>먼저 RPN을 학습시킨다 다음, RPN에서 나오는 Proposal을 바탕으로 Fast-RCNN을 학습시킨다. 해당 논문에서는 이 방법론을 사용한다.</p>
-
-<ul>
-<li>Apporximate joint training:</li>
-</ul>
-
-<p>Fast-RCNN과 RPN을 하나의 network로 만든다. SGD interations동안 forward pass에서 region proposal을 생성하고 이는 Fast-RCNN detector를 학습시키는 동안 미리 계산되고 고정되어 있다.(not differential) backward pass에서는 RPN loss와 Fast_RCNN loss가 더해져서 total loss로 정의된다. 이는 쉽게 적용될 수 있으나, 이는 proposal box에 대한 gradient값을 무시하게 된다. (approximate한다)</p>
-
-<p>해당 실험에서는 학습시간을 줄이면서 결과는 유사하게 나오는 것을 확인할 수 있었다. (reduce 25% ~ 50% train time)</p>
-
-<ul>
-<li>Non-approximate joint training</li>
-</ul>
-
-<p>Apporximate joint training과 다르게 box coordinates에 대해서 미분가능하다.</p>
-
-<p>bbox에 미분가능한 ROI pooling layer가 필요하다.</p>
-
-<h5 id="4-step-alternating-training">4-Step Alternating Training</h5>
-
-<ol>
-<li>RPN 학습, (initialized with an ImageNet-pre-trained model )</li>
-<li>1에서 학습학 RPN을 바탕으로 regioin proposal 생성 후 Fast-RCNN detector 학습(initialized with an ImageNet-pre-trained model) 이 step에서는 layer를 공유하지 않는다.</li>
-<li>detector network를 RPN initialization에 사용한다. 공유되는 layer는 고정시키고 RPN에만 적용되는  layer만 학습시킨다. 이 step에서 layer를 공유한다.</li>
-<li>공유되는 layer는 고정시키고 Fast-RCNN에만 적용되는 layer를 학습시킨다.</li>
-</ol>
-
-<h2 id="implementation-detatils">Implementation Detatils</h2>
-
-<p>image/feature pyramids -Figure 1 (a)과 multi scale sliding window 두 가지 방법 모두 실험해보았다. 하지만 첫번째 방법론은 speed-accuracy trade-off가 좋지 않음을 확인할 수 있었다.</p>
-
-<h4 id="recall-to-iou">Recall to IOU</h4>
-
-<p>일반적으로 전반적인 detection accuracy와 관련있는 metric이다.</p>
-
-<p><img src="https://curt-park.github.io/images/faster_rcnn/Figure4.png"></p>
-
-<p>위의 이미지를 보면 알 수 있듯이, SS, EB가 더 빠르게 감소하는 recall을 확인할 수 있다.</p>
+<p>이전의 연구에서 intra-class diversity에 대해서 밝히려는 시도가 있었다. <a href="https://arxiv.org/pdf/1507.02379.pdf">[1]</a></p>
 
 <blockquote>
-<p>recall이란</p>
-
-<p>TP / total ground-truth</p>
+<p>training set에서 나오는 모든 activation을 수집해서 clustering을 하였다.</p>
 </blockquote>
+
+<p>다른 방식으로 접근한 예도 있다. <a href="https://arxiv.org/pdf/1602.03616.pdf">[2]</a> 이 방법은 optimization process의 staring point를 가지고 intra class diversity를 증명하려고 했다.</p>
+
+<p>최근의 연구로는 generative model과 결합한 시도가 있다<a href="https://arxiv.org/pdf/1612.00005.pdf">[3]</a></p>
+
+<p>이 글에서 제시하는 방법은 간단하게 적용할 수 있다. diversity term을 objective에 추가해서 multiple example이 서로 다르다고 하게끔 학습이 진행된다. 결과가 개선되었는데 정확한 이유는 아직 알 수 없다. 다만 추측하기로는 penalize the cosine similarity 혹은 feature가 다른 style로 보일 수 있게끔 학습이 진행되어서 그런것이라고 보고 있다.(style transfer)</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/67851761-75917a80-fb4e-11e9-942c-babc277684a6.png"></p>
+
+<p>오른쪽을 보면 다양한 뷰의 강아진 사진이있다. 그리고 왼쪽의 결과물은 diversity를 고려한 optimization의 결과물이다.</p>
+
+<p><img src="https://distill.pub/2017/feature-visualization/images/diversity/mixed4a_143_optimized.png"></p>
+
+<p>위의 그림은 diversity를 고려하지 않은 결과물이다.</p>
+
+<h2 id="interaction-between-neurons">Interaction between Neurons</h2>
+
+<p>neuron은 혼자서 작용하는 것이 아니라 다른 neuron과의 상호작용을 통해서 결과물을 도출한다. 이를 이해하기 위해서 geometrically하게 생각하는 것을 추천한다.</p>
+
+<p>activation space를  activation의 모든 조합이 나올 수 있는 공간이라고 정의하자. 그렇다면 우리는 activation자체를 basis로 생각할 수 있다. 그리고 activation의 조합은 activation space에서 vector의 역할을 한다.</p>
+
+<p>위에서 언급한 activaiton space, combination of activation, vector는  basis vector가 다른 vector에 비해서 더 해석하기 쉬울까에 대해서 논의할 수 있다.</p>
+
+<p>이전의 연구에서 basis vector의 direction이 더 쉽게 이해할 수 있다고 한다. <a href="https://arxiv.org/pdf/1312.6199.pdf">[1]</a> <a href="https://arxiv.org/pdf/1704.05796.pdf">[2]</a></p>
+
+<p>그리고 이글에서의 실험도 위의 견해와 일치하게 결과가 나왔다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/67852505-dff6ea80-fb4f-11e9-8b6e-188c98c3ea79.png"></p>
+
+<p>위의 이미지는 각 이미지에 대한 optimization을 적용하였을 때의 결과물이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/67854508-cfe10a00-fb53-11e9-8c33-146c7b0a7aee.png"></p>
+
+<p>위의 결과물도 흥미롭다. direction을 정의할 수 있다는 것인데, mosaic neuron에 흑백의 neruon을 더하면 흑백의 mosaic neuron이 나오게 된다. 이는 word2vector 혹은 generative model의 latent space와 유사한 개념이다.</p>
+
+<p>(interpolation)</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/67854832-6e6d6b00-fb54-11e9-8390-05fa0ece1da9.png"></p>
+
+<p>위의 이미지는  두 뉴런의 interpolation의 결과물이다. 해당 뉴런이 어떤식으로 결합되는지 확인할 수 있다. 위의 방법으로는 아주 작은 힌트만 얻을 수 있다. 예를 들면, 몇개의 interaction이 존재하는지 하지만 실제상황에서는 수백개의 interaction이 존재한다.</p>
+
+<h2 id="the-enemy-of-feature-visualization">The Enemy of Feature Visualization</h2>
+
+<p>위에서 말한 optimization 방법론은 실제로 잘 작동하지 않는다. 아래 이미지와 같은 약간 이상하면서 자주 나타나는 패턴이 있다. 이 이미지는 실제 data상에서 잘 보이지 않는 패턴이며, 특정 뉴런을 활성화 시키기 위한 cheeting 같은 느낌이 든다. 이는 adversarial attack과 유사해보인다</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/68006959-93c9b880-fcbd-11e9-91fc-2b1f1e197832.png"></p>
+
+<p>위에서 언급한 자주 보이는 패턴이 convolution과 pooling 연산에 의존적임을 확인할 수 있었다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/27891090/68007106-f15e0500-fcbd-11e9-89d0-52a72fb2e46b.png"></p>
+
+<p>정리하자면, constraint없는 optimization은 매력적이긴 하지만, 위의 예시처럼 의미없는 결과를 불러올 수 있다. (결국 adversarial example과 유사하게 만들어진다.)</p>
+
+<h3 id="the-spectrum-of-regularization">The Spectrum of Regularization</h3>
+
+<p>위의 자주 보이는 패턴을 다루는 것은 feature visualization 연구에서 매우 중요한 영역이다. 만약 더 유용한 visualization을 원한다면, prior, regularizer, constraint를 조합하여 만들어야한다.</p>
+
+<p>연구분야에서는 regularization에 대한 관심이 많아보인다.</p>
+
+<h4 id="reference">Reference</h4>
+
+<p><a href="https://distill.pub/2017/feature-visualization/">https://distill.pub/2017/feature-visualization/</a></p>
 <ul class="pa0">
-  
-   <li class="list">
-     <a href="https://rroundtable.github.io/tags/deeplearning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deeplearning</a>
-   </li>
   
 </ul>
 <div class="mt6">

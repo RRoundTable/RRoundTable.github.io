@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>RoundTable  | word representation</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.5" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="https://rroundtable.github.io/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="word representation" />
+<meta property="og:description" content="Word2vec: distributed representation  분산 표현(distributed representation) 방법은 기본적으로 분포 가설(distributional hypothesis)이라는 가정 하에 만들어진 표현 방법입니다. 이 가정은 &lsquo;비슷한 위치에서 등장하는 단어들은 비슷한 의미를 가진다&rsquo;라는 가정입니다.
+reference: https://wikidocs.net/22660
+ 1. CBOW(Continuous Bag of Words) 주변에 있는 단어로 중간에 있는 단어를 예측하는 방법입니다. 중심단어를 예측하기 위해서 주변단어를 보는 범위를 window라고 합니다. 예를 들어서, 아래 이미지의 첫 번째 글에서 파란색 부분이 &lsquo;fat&rsquo;, &lsquo;cat&rsquo;이므로 window는 2입니다.
+ 보통 딥 러닝이라함은, 입력층과 출력층 사이의 은닉층의 개수가 충분히 쌓인 신경망을 학습할 때를 말하는데 Word2Vec는 입력층과 출력층 사이에 하나의 은닉층만이 존재합니다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rroundtable.github.io/post/2020-01-14-word-representation/" />
+<meta property="article:published_time" content="2020-01-14T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2020-01-14T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="word representation">
+<meta itemprop="description" content="Word2vec: distributed representation  분산 표현(distributed representation) 방법은 기본적으로 분포 가설(distributional hypothesis)이라는 가정 하에 만들어진 표현 방법입니다. 이 가정은 &lsquo;비슷한 위치에서 등장하는 단어들은 비슷한 의미를 가진다&rsquo;라는 가정입니다.
+reference: https://wikidocs.net/22660
+ 1. CBOW(Continuous Bag of Words) 주변에 있는 단어로 중간에 있는 단어를 예측하는 방법입니다. 중심단어를 예측하기 위해서 주변단어를 보는 범위를 window라고 합니다. 예를 들어서, 아래 이미지의 첫 번째 글에서 파란색 부분이 &lsquo;fat&rsquo;, &lsquo;cat&rsquo;이므로 window는 2입니다.
+ 보통 딥 러닝이라함은, 입력층과 출력층 사이의 은닉층의 개수가 충분히 쌓인 신경망을 학습할 때를 말하는데 Word2Vec는 입력층과 출력층 사이에 하나의 은닉층만이 존재합니다.">
+
+
+<meta itemprop="datePublished" content="2020-01-14T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-01-14T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1341">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="word representation"/>
+<meta name="twitter:description" content="Word2vec: distributed representation  분산 표현(distributed representation) 방법은 기본적으로 분포 가설(distributional hypothesis)이라는 가정 하에 만들어진 표현 방법입니다. 이 가정은 &lsquo;비슷한 위치에서 등장하는 단어들은 비슷한 의미를 가진다&rsquo;라는 가정입니다.
+reference: https://wikidocs.net/22660
+ 1. CBOW(Continuous Bag of Words) 주변에 있는 단어로 중간에 있는 단어를 예측하는 방법입니다. 중심단어를 예측하기 위해서 주변단어를 보는 범위를 window라고 합니다. 예를 들어서, 아래 이미지의 첫 번째 글에서 파란색 부분이 &lsquo;fat&rsquo;, &lsquo;cat&rsquo;이므로 window는 2입니다.
+ 보통 딥 러닝이라함은, 입력층과 출력층 사이의 은닉층의 개수가 충분히 쌓인 신경망을 학습할 때를 말하는데 Word2Vec는 입력층과 출력층 사이에 하나의 은닉층만이 존재합니다."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://rroundtable.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      RoundTable
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/" title="Home page">
+              Home
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/RRoundTable" title="Works page">
+              Works
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/post/aboutme" title="About me page">
+              About me
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/categories/index.html" title="Categories page">
+              Categories
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://rroundtable.github.io/tags/index.html" title="Tags page">
+              Tags
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">word representation</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-01-14T00:00:00Z">January 14, 2020</time>
+      
+      
+    </header>
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-three-thirds-l">
+
+<h2 id="word2vec-distributed-representation">Word2vec: distributed representation</h2>
+
+<blockquote>
+<p>분산 표현(distributed representation) 방법은 기본적으로 분포 가설(distributional hypothesis)이라는 가정 하에 만들어진 표현 방법입니다. 이 가정은 <strong>&lsquo;비슷한 위치에서 등장하는 단어들은 비슷한 의미를 가진다&rsquo;</strong>라는 가정입니다.</p>
+
+<p>reference: <a href="https://wikidocs.net/22660">https://wikidocs.net/22660</a></p>
+</blockquote>
+
+<h3 id="1-cbow-continuous-bag-of-words">1. CBOW(Continuous Bag of Words)</h3>
+
+<p>주변에 있는 단어로 중간에 있는 단어를 예측하는 방법입니다. 중심단어를 예측하기 위해서 주변단어를 보는 범위를 window라고 합니다. 예를 들어서, 아래 이미지의 첫 번째 글에서 파란색 부분이 &lsquo;fat&rsquo;, &lsquo;cat&rsquo;이므로 window는 2입니다.</p>
+
+<p><img src="https://wikidocs.net/images/page/22660/%EB%8B%A8%EC%96%B4.PNG"></p>
+
+<blockquote>
+<p>보통 딥 러닝이라함은, 입력층과 출력층 사이의 은닉층의 개수가 충분히 쌓인 신경망을 학습할 때를 말하는데 Word2Vec는 입력층과 출력층 사이에 하나의 은닉층만이 존재합니다. 이렇게 은닉층(hidden Layer)이 1개인 경우에는 일반적으로 심층신경망(Deep Neural Network)이 아니라 얕은신경망(Shallow Neural Network)이라고 부릅니다. 또한 Word2Vec의 은닉층은 일반적인 은닉층과는 달리 활성화 함수가 존재하지 않으며 룩업 테이블이라는 연산을 담당하는 층으로 일반적인 은닉층과 구분하기 위해 투사층(projection layer)이라고 부르기도 합니다.</p>
+
+<p>reference: <a href="https://wikidocs.net/22660">https://wikidocs.net/22660</a></p>
+</blockquote>
+
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_2.PNG"></p>
+
+<p>아래의 이미지를 보면 연산과정을 알 수 있다.</p>
+
+<ul>
+<li>$x_{cat}$: word one-hot vector</li>
+<li>$W_{V * M}$:  input layer와 prejection layer사이의 matrix</li>
+<li>$W&rsquo;_{M* V}$: projection layer와 output layer간의 matrix</li>
+<li>$V, M$: 단어의 개수, embedding 차원</li>
+</ul>
+
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_3.PNG"></p>
+
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_5.PNG"></p>
+
+<p>loss function으로는 cross-entropy 함수를 사용하게 됩니다.</p>
+
+<p>이제 역전파(Back Propagation)를 수행하면 W와 W&rsquo;가 학습이 되는데, 학습이 다 되었다면 M차원의 크기를 갖는 W의 행이나 W&rsquo;의 열로부터 어떤 것을 임베딩 벡터로 사용할지를 결정하면 됩니다. 때로는 W와 W&rsquo;의 평균치를 가지고 임베딩 벡터를 선택하기도 합니다.</p>
+
+<h3 id="2-skip-gram">2. Skip-Gram</h3>
+
+<p>중간에 있는 단어로 주변의 단어들을 예측하는 방법입니다.</p>
+
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_6.PNG"></p>
+
+<h3 id="3-negative-sampling">3. Negative Sampling</h3>
+
+<p>대부분 word2vec은 negative sampling을 함께 사용합니다. word2vec의 학습과정을 잘 살펴보면, 출력층에 있는 softmax 함수는 단어집합 크기의 vector내의 모든 값을 0과 1사이의 값이면서 모두 더하면 1이 되도록 바꾸는 작업을 수행합니다. 이는 그 단어가 주변단어와 전혀 상관이 없는 단어라도 똑같이 적용되는 부분입니다.</p>
+
+<p>만약 마지막 단계에서 &lsquo;강아지&rsquo;와 &lsquo;고양이&rsquo;와 같은 단어에 집중하고 있다면, Word2Vec은 사실 &lsquo;돈가스&rsquo;나 &lsquo;컴퓨터&rsquo;와 같은 연관 관계가 없는 수많은 단어의 임베딩을 조정할 필요가 없습니다. 전체 단어집합이 아니라 일부 단어집합에 대해서만 고려해도 되지 않을까요?</p>
+
+<blockquote>
+<p>&lsquo;강아지&rsquo;, &lsquo;고양이&rsquo;, &lsquo;애교&rsquo;와 같은 주변 단어들을 가져옵니다. 그리고 여기에 &lsquo;돈가스&rsquo;, &lsquo;컴퓨터&rsquo;, &lsquo;회의실&rsquo;과 같은 랜덤으로 선택된 주변 단어가 아닌 상관없는 단어들을 일부만 갖고옵니다. 이렇게 전체 단어 집합보다 훨씬 작은 단어 집합을 만들어놓고 마지막 단계를 이진 분류 문제로 바꿔버리는 겁니다. 즉, Word2Vec은 주변 단어들을 긍정(positive)으로 두고 랜덤으로 샘플링 된 단어들을 부정(negative)으로 둔 다음에 이진 분류 문제를 수행합니다.</p>
+
+<p>reference: <a href="https://wikidocs.net/22660">https://wikidocs.net/22660</a></p>
+</blockquote>
+
+<p>이는 기존의 다중 클래스 분류 문제를 이진 분류 문제로 바꾸면서도 연산량에 있어서 훨씬 효율적입니다.</p>
+
+<p><strong>negative sampling은 word2vec을 만들때 현재 문장에 없는 단어를 전체 데이터셋에서 추출하는 방법이다. 목적 단어와 연관성이 없을 것이라고 추정되는 단어를 추출한다.</strong></p>
+
+<ul>
+<li>자주 뽑히는 단어일 수록 연관성이 낮다고 본다. 흔한 단어일수록 목적 단어와의 관계는 강하지 않기 때문</li>
+</ul>
+
+<p>아래는 한 단어 $w_i$가  negative sample로 뽑힐 확률이다.</p>
+
+<ul>
+<li>$f(w_i)$ : $w_i$의 등장빈도</li>
+</ul>
+
+<p>$$
+P(w_i) =\frac{f(w<em>i)^{0.75}}{\sum</em>{j=0}^n (f(w_j)^{0.75})}
+$$</p>
+
+<h4 id="word2vec의-한계점">word2vec의 한계점</h4>
+
+<ul>
+<li>out of vocalbulary에 대해서는 word representation을 얻을 수 없다.</li>
+<li>infrequent words는 학습이 불안정하다.</li>
+</ul>
+
+<h2 id="glove">Glove</h2>
+
+<p>카운트 기반과 예측기반을 모두 사용하는 방법론입니다.</p>
+
+<blockquote>
+<ul>
+<li><p>LSA: 카운트 기반, 단어의미 유추 성능이 떨어짐.</p></li>
+
+<li><p>Word2Vec: 예측기반, 전체적인 통계정보를 반영하지 못함.</p></li>
+</ul>
+</blockquote>
+
+<p>단어의 동시 등장 행렬은 행과 열을 전체 단어 집합의 단어들로 구성하고, window size내에서 k단어가 등장한 횟수를 기록하는 행렬을 말합니다. 이 행렬은 transpose를 해도 동일합니다. (대칭행렬)</p>
+
+<blockquote>
+<p>예시</p>
+
+<p>I like deep learning</p>
+
+<p>I like NLP</p>
+
+<p>I enjoy flying</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th align="left">카운트</th>
+<th align="left">I</th>
+<th align="left">like</th>
+<th align="left">enjoy</th>
+<th align="left">deep</th>
+<th align="left">learning</th>
+<th align="left">NLP</th>
+<th align="left">flying</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">I</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+
+<tr>
+<td align="left">like</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+</tr>
+
+<tr>
+<td align="left">enjoy</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+</tr>
+
+<tr>
+<td align="left">deep</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+
+<tr>
+<td align="left">learning</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+
+<tr>
+<td align="left">NLP</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+
+<tr>
+<td align="left">flying</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="co-occurrence-probability">Co-occurrence probability</h3>
+
+<p>동시 등장 확률 $P(k | i), P(k | i)$는 동시 등장 행렬로부터 특정 단어 i의 전체 등장 횟수를 카운트하고, 특정 단어 i가 등장했을 때 어떤 단어 k가 등장한 횟수를 카운트하여 계산한 조건부 확률입니다.</p>
+
+<p>예를 들어서, 위의 동시등장행렬을 바탕으로 P(&lsquo;I&rsquo;|&lsquo;like&rsquo;)를 구해보자. &lsquo;I&rsquo; 는 총 3번 등장하였다. &lsquo;I&rsquo;와 &lsquo;like&rsquo;가 동시에 등장한 횟수는 2번이다. 따라서 P(&lsquo;I&rsquo;|&lsquo;like&rsquo;) 는 2/3이다.
+$$
+P(A|B) = \frac{P(A) \cap P(B)}{P(B)}
+$$</p>
+
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">동시 등장 확률과 크기 관계 비(ratio)</th>
+<th align="left">k=solid</th>
+<th align="left">k=gas</th>
+<th align="left">k=water</th>
+<th align="left">k=fasion</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">P(k l ice)</td>
+<td align="left">0.00019</td>
+<td align="left">0.000066</td>
+<td align="left">0.003</td>
+<td align="left">0.000017</td>
+</tr>
+
+<tr>
+<td align="left">P(k l steam)</td>
+<td align="left">0.000022</td>
+<td align="left">0.00078</td>
+<td align="left">0.0022</td>
+<td align="left">0.000018</td>
+</tr>
+
+<tr>
+<td align="left">P(k l ice) / P(k l steam)</td>
+<td align="left">8.9</td>
+<td align="left">0.085</td>
+<td align="left">1.36</td>
+<td align="left">0.96</td>
+</tr>
+</tbody>
+</table>
+
+<p>위의 표를 통해 알 수 있는 사실은 solid가 등장했을 때 ice가 등장할 확률 0.00019은 solid가 등장했을 때 steam이 등장할 확률인 0.000022보다 약 8.9배 크다는 겁니다. 그도 그럴 것이 solid는 &lsquo;단단한&rsquo;이라는 의미를 가졌으니까 &lsquo;증기&rsquo;라는 의미를 가지는 steam보다는 당연히 &lsquo;얼음&rsquo;이라는 의미를 가지는 ice라는 단어와 더 자주 등장할 겁니다.</p>
+</blockquote>
+
+<h3 id="loss-function">Loss function</h3>
+
+<p>Embedding 된 중심단어와 주변 단어 벡터의 내적이 전체 코퍼스에서 동시 등장 확률이 되도록 모델을 학습시킨다.
+$$
+\mbox{doc product}(W_i, W<em>k) \approx P(k|i) = P</em>{ik}
+$$</p>
+
+<p>실제 학습에서는 아래의 식을 활용한다.</p>
+
+<p>$$
+\mbox{doc product}(W_i, W<em>k) \approx \log P(k|i) = \log P</em>{ik}
+$$</p>
+
+<ul>
+<li>$X$ : 동시 등장 행렬(Co-occurrence Matrix)</li>
+<li>$X_{ij}$ : 중심 단어 i가 등장했을 때 윈도우 내 주변 단어 j가 등장하는 횟수</li>
+<li>$X<em>i$:$\sum</em>{j}X_{ij}$: 동시 등장 행렬에서 i행의 값을 모두 더한 값</li>
+<li>$P<em>{ik}$ :$P(k|i)$ = $\frac{X</em>{ik}}{X_i}$ : 중심 단어 i가 등장했을 때 윈도우 내 주변 단어 k가 등장할 확률
+Ex) P(solid l ice) = 단어 ice가 등장했을 때 단어 solid가 등장할 확률</li>
+<li>$\frac{P<em>{ik}}{P</em>{jk}}$ : $P<em>{ik}$를  $P</em>{jk}$로 나눠준 값
+Ex) P(solid l ice) / P(solid l steam) = 8.9</li>
+<li>$W_i$ : 중심 단어 i의 임베딩 벡터</li>
+<li>$W_k$ : 주변 단어 k의 임베딩 벡터</li>
+</ul>
+
+<p>embedding vector의 목적은 단어간의 관계를 잘 표현하는데 있습니다. 위에서 살펴본 $\frac{P<em>{ik}}{P</em>{jk}}$ 를 목적함수에 사용합니다. 먼저 함수의 input과 output을 정의해봅니다.
+$$
+F(W_i, W_j, W<em>k) =\frac{P</em>{ik}}{P_{jk}}
+$$</p>
+
+<p>input에서 output을 도출하는 방법은 많겠지만, 해당 연구에서는 두 단어간의 차이를 input으로 넣는 것을 제안합니다.</p>
+
+<p>$$
+F(W_i - W_j, W<em>k) =\frac{P</em>{ik}}{P_{jk}}
+$$</p>
+
+<p>그리고  선형 공간에서 두 vector간의 유사도를 보기 위해서 dot product를 선택했습니다.
+$$
+F((W_i -W_j) ^ T W<em>k) =\frac{P</em>{ik}}{P_{jk}}
+$$</p>
+
+<p>정리하자면 선형공간에서 단어의 의미 관계를 표현하기 위해 뺄셈과 내적(dot procut)를 활용했습니다.</p>
+
+<p>여기서 함수 F는 중심단어와 주변단어의 선택기준이 무작위이기 때문에, 이 둘의 관계는 함수 F안에서 자유롭게 교환가능해야 합니다. 이 조건을 만족하기 위해서는 Homomorphism이라는 조건을 만족해야합니다.
+$$
+F(a+b) = F(a)F(b) \ \forall a, b \in R
+$$</p>
+
+<blockquote>
+<p>In <a href="https://en.wikipedia.org/wiki/Algebra">algebra</a>, a <strong>homomorphism</strong> is a <a href="https://en.wikipedia.org/wiki/Morphism">structure-preserving</a> <a href="https://en.wikipedia.org/wiki/Map_(mathematics)">map</a> between two <a href="https://en.wikipedia.org/wiki/Algebraic_structure">algebraic structures</a> of the same type (such as two <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">groups</a>, two <a href="https://en.wikipedia.org/wiki/Ring_(mathematics)">rings</a>, or two <a href="https://en.wikipedia.org/wiki/Vector_space">vector spaces</a>).</p>
+</blockquote>
+
+<p>Homomorphism의 조건하에서 a와 b가 각각 vector라면 scalar값이 나올 수 없지만 내적값이라고 하면 scalar값이 나올 수 있습니다.</p>
+
+<p>v1, v2, v3, v4 모두 vector입니다.
+$$
+F(v1^T v2 + v3^Tv4) = F(v1^T v2) F(v3^Tv4) \ \ \forall v1, v2, v3, v4 \in V
+$$
+F는 두 vector의 차이를  받았기 때문에, 뺄셈에 대한 homomorphism으로 변경했습니다.</p>
+
+<p>(간단하게 덧셈 ~ 곱셈 관계를 뺄셈 ~ 나누기 관계로 치환하였습니다.)
+$$
+F(v1^T v2 - v3^Tv4) = \frac{F(v1^T v2)}{F(v3^Tv4)} \ \ \forall v1, v2, v3, v4 \in V
+$$
+이제 glove식에 적용해보겠습니다.
+$$
+F((w_i - w_j)^Tw_k) = \frac{F(w_i^T w_k)}{F(w_j^T w<em>k)}= \frac{P</em>{ik}}{P_{jk}}
+$$
+위의 식에서 조금 더 자세히 살펴보면,
+$$
+F(w_i^Tw<em>k) = P</em>{ik} = \frac{X_{ik}}{X_i}
+$$
+또한 좌변을 풀어쓰면,
+$$
+F((w_i - w_j)^Tw_k) = F(w_i^T w_k - w_j^T w_k) = \frac{F(w_i^T w_k)}{F(w_j^T w_k)}
+$$
+따라서 homomorphism을 형태와 일치하게 됩니다.</p>
+
+<p>그리고 이러한 조건을 만족시키는 함수는 지수 함수(Exponential function)입니다.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Exp.svg/200px-Exp.svg.png"></p>
+
+<ul>
+<li>$x^{a + b} = x ^ a * x ^ b$</li>
+<li>$x^{a - b} = x ^ a / x ^ b$</li>
+</ul>
+
+<p>이제 F를 $\exp$라고 해봅시다.
+$$
+\exp(w_i^T w_k - w_j^T w_k) = \frac{\exp(w_i^T w_k)}{\exp(w_j^T w_k)}
+$$</p>
+
+<p>학습의 안정성을 위해서, log를 사용합니다.</p>
+
+<p>$$
+w_i^T w<em>k  = \log P</em>{ik}=\log (\frac{X_{ik}}{X<em>i})=\log X</em>{ik} - \log X_i
+$$</p>
+
+<p>위의 식은 homomorphism이 성립해야하지만, $\log X_i$ 때문에 성립하지 않게 됩니다. ($a - b \ne b-  a$)그래서 glove 연구팀은 $\log X_i$항을 bias $b_i$라는 상수항으로 대체합니다. 같은 이유로 $w_k$에 대한 bias $b_k$를 추가합니다.
+$$
+w_i^T w_k + b_i + b<em>k = \log X</em>{ik}
+$$</p>
+
+<p>$$
+\mbox{loss function} = \sum_{m,n = 1}^V (w_m ^ T w_n + b_m + b<em>n - \log X</em>{mn})^2
+$$</p>
+
+<ul>
+<li>$V$ : 단어집합의 크기</li>
+<li>$X<em>{ik}$ 이 0이 될수도 있으므로 $\log(1+X</em>{ik})$로 바꾼다.</li>
+</ul>
+
+<p>또한 동시등장행렬이 희소행렬일 가능성이 높다. glove 연구진은 동시 등장 행렬에서 등장 빈도의 값 $X_{ik}$가 매우 낮은 경우에는 정보가 거의 도움이 되지 않는다고 판단합니다. 따라서 동시등장행렬을 바탕으로 가중치함수를 구상하게 됩니다.</p>
+
+<p>가중치 함수의 그래프는 아래와 같습니다. 특정 값보다 크다면 모두 같은 가중치를 주게 됩니다.</p>
+
+<p><img src="https://wikidocs.net/images/page/22885/%EA%B0%80%EC%A4%91%EC%B9%98.PNG">
+$$
+f(x) = \min(1, (\frac{x}{x<em>{\max}})^{0.75})
+$$
+최종적으로 목적함수는 아래의 식과 같습니다.
+$$
+\mbox{loss function} = \sum</em>{m,n = 1}^V f(X_{\min})(w_m ^ T w_n + b_m + b<em>n - \log X</em>{mn})^2
+$$</p>
+
+<h2 id="fasttext">FastText</h2>
+
+<p>FastText는 단어를 구성하는 Subwords(substrings)의 vector 합으로 단어 vector를 표현합니다. 이 방법은 typo(오식)가 있는 단어라 할지라도 비슷한 representation을 얻을 수 있으며, 새로운 단어에 대해서도 형태적 유사성을 고려한 적당한 word representation을 얻도록 도와줍니다.</p>
+
+<p>자연어 처리에서 자주 등장하는 문제는 (1) out of vocabulary, (2) infrequent words(모호성) 입니다. word2vec에서는 앞/뒤에 등장하는 단어로 가운데 단어를 예측하게 학습함으로서 문맥이 비슷한 단어를 유사한 vector로 표현합니다.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "disqus_shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </section>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://rroundtable.github.io/" >
+    &copy; 2020 RoundTable
+  </a>
+    <div>
+
+
+
+<a href="twitter_username" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="linkedin_username" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="RRoundTable" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+    <div><script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script></div>
+    <div>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="https://rroundtable.github.io/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
